@@ -1,0 +1,34 @@
+name: Refresh catalogue
+
+# Rebuilds data/apps.json from the upstream lists and commits it if anything changed.
+on:
+  schedule:
+    - cron: '17 4 * * 1'      # every Monday, 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Rebuild catalogue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/build_data.py
+          python scripts/build_standalone.py
+          python scripts/coverage.py
+      - name: Commit if changed
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/apps.json dist/selfhosted-compass.html
+          git diff --staged --quiet || git commit -m "data: weekly catalogue refresh"
+          git push

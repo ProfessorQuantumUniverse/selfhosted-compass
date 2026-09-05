@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Selfhosted Compass — find the self-hosted projects that fit you</title>
+<meta name="description" content="Answer a few questions and get around 20 free, self-hostable projects that match what you actually want to run — plus the must-haves that keep the stack alive. Built on awesome-selfhosted, awesome-sysadmin and selfh.st.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Selfhosted Compass">
+<meta property="og:description" content="A guided way through 2,300+ free self-hosted projects.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="logo" onclick="location.hash='#/'"><span class="mk">🧭</span> Selfhosted Compass</div>
+    <nav class="tabs" id="tabs"></nav>
+    <span class="sp"></span>
+    <label class="searchbox">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"/></svg>
+      <input id="q" type="search" placeholder="Search 2,300+ projects…" autocomplete="off" spellcheck="false">
+    </label>
+    <div class="bar" title="questionnaire progress"><i id="pbar"></i></div>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <div class="loader"><div class="spin"></div><span>Loading the catalogue…</span></div>
+</main>
+
+<div class="foot wrap">
+  Data: <a href="https://github.com/awesome-selfhosted/awesome-selfhosted" target="_blank" rel="noopener">awesome-selfhosted</a> (CC-BY-SA-3.0) ·
+  <a href="https://github.com/awesome-foss/awesome-sysadmin" target="_blank" rel="noopener">awesome-sysadmin</a> (CC-BY-SA-4.0) ·
+  <a href="https://selfh.st/apps/" target="_blank" rel="noopener">selfh.st/apps</a> ·
+  logos from <a href="https://selfh.st/icons/" target="_blank" rel="noopener">selfh.st/icons</a>, all trademarks belong to their projects.<br>
+  Free software only. Star counts and activity dates are a snapshot — check a project yourself before you deploy it.
+</div>
+
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"></div>
+
+<script src="assets/questions.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
