@@ -8,18 +8,18 @@
  */
 
 const GROUPS = [
-  { id: 'media', ic: '🎬', t: 'Media & Entertainment', s: 'Movies, music, books and photos from your own server instead of a subscription.' },
-  { id: 'files', ic: '🗂️', t: 'Files, Photos & Documents', s: 'Your own cloud, real backups and a paperless household.' },
-  { id: 'home',  ic: '🏠', t: 'Smart Home & Workshop',   s: 'Home automation, cameras, energy, 3D printing.' },
-  { id: 'net',   ic: '🛡️', t: 'Network, Access & Security', s: 'Ad blocking, reverse proxy, VPN, single sign-on, monitoring.' },
-  { id: 'prod',  ic: '✍️', t: 'Productivity & Knowledge', s: 'Notes, wikis, tasks, bookmarks, passwords.' },
-  { id: 'comm',  ic: '💬', t: 'Communication',            s: 'Chat, mail, video calls, community.' },
-  { id: 'dev',   ic: '⌨️', t: 'Development',              s: 'Git hosting, CI/CD, IDE in the browser, databases, deployment.' },
-  { id: 'ai',    ic: '🤖', t: 'AI & Automation',          s: 'Local language models, image generation, workflow automation.' },
-  { id: 'life',  ic: '🧺', t: 'Everyday Life & Hobby',    s: 'Recipes, money, inventory, sport, travel, collections.' },
-  { id: 'web',   ic: '🌐', t: 'Web, Business & Publishing', s: 'Website, shop, CRM, analytics, support.' },
-  { id: 'learn', ic: '🔬', t: 'Knowledge, Culture & Learning', s: 'Offline Wikipedia, courses, libraries, genealogy, research.' },
-  { id: 'ops',   ic: '📦', t: 'Running the Server',       s: 'What keeps the whole stack manageable and alive.' },
+  { id: 'media', ic: 'media', t: 'Media & Entertainment', s: 'Movies, music, books and photos from your own server instead of a subscription.' },
+  { id: 'files', ic: 'files', t: 'Files, Photos & Documents', s: 'Your own cloud, real backups and a paperless household.' },
+  { id: 'home',  ic: 'home', t: 'Smart Home & Workshop',   s: 'Home automation, cameras, energy, 3D printing.' },
+  { id: 'net',   ic: 'net', t: 'Network, Access & Security', s: 'Ad blocking, reverse proxy, VPN, single sign-on, monitoring.' },
+  { id: 'prod',  ic: 'prod', t: 'Productivity & Knowledge', s: 'Notes, wikis, tasks, bookmarks, passwords.' },
+  { id: 'comm',  ic: 'comm', t: 'Communication',            s: 'Chat, mail, video calls, community.' },
+  { id: 'dev',   ic: 'dev', t: 'Development',              s: 'Git hosting, CI/CD, IDE in the browser, databases, deployment.' },
+  { id: 'ai',    ic: 'ai', t: 'AI & Automation',          s: 'Local language models, image generation, workflow automation.' },
+  { id: 'life',  ic: 'life', t: 'Everyday Life & Hobby',    s: 'Recipes, money, inventory, sport, travel, collections.' },
+  { id: 'web',   ic: 'web', t: 'Web, Business & Publishing', s: 'Website, shop, CRM, analytics, support.' },
+  { id: 'learn', ic: 'learn', t: 'Knowledge, Culture & Learning', s: 'Offline Wikipedia, courses, libraries, genealogy, research.' },
+  { id: 'ops',   ic: 'ops', t: 'Running the Server',       s: 'What keeps the whole stack manageable and alive.' },
 ];
 
 const NEEDS = [

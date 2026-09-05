@@ -64,6 +64,40 @@ setInterval(() => $$('img[data-f]').forEach(el => {
   if (t >= 3) { el.dataset.t = 0; imgErr(el); }
 }), 2000);
 
+
+/* ------------------------------------------------------------------ icons
+   Small stroked line icons, drawn in currentColor - no emoji anywhere. */
+const ICONS = {
+  media:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5z"/>',
+  files:'<path d="M3 7.5A2 2 0 0 1 5 5.5h3.6l1.9 2H19a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  home:'<path d="m3.8 11 8.2-6.6 8.2 6.6"/><path d="M6.3 9.9V19h11.4V9.9"/><path d="M10.3 19v-4.4h3.4V19"/>',
+  net:'<path d="m12 3.4 7 2.6v5.6c0 3.9-2.8 7-7 8.9-4.2-1.9-7-5-7-8.9V6z"/><path d="m9.3 12 1.9 1.9 3.6-3.7"/>',
+  prod:'<path d="M4.5 19.5h4L20 8a2.1 2.1 0 0 0-3-3L5.5 16.5z"/><path d="m14.5 6.5 3 3"/>',
+  comm:'<path d="M4 6.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9.5L4.8 19.3a.5.5 0 0 1-.8-.4z"/>',
+  dev:'<path d="m9 8.5-3.6 3.6L9 15.7"/><path d="m15 8.5 3.6 3.6L15 15.7"/>',
+  ai:'<rect x="7" y="7" width="10" height="10" rx="2.2"/><path d="M10.2 3.4v3.2M13.8 3.4v3.2M10.2 17.4v3.2M13.8 17.4v3.2M3.4 10.2h3.2M3.4 13.8h3.2M17.4 10.2h3.2M17.4 13.8h3.2"/>',
+  life:'<path d="M5.6 8.5h12.8l-1.1 11a1.5 1.5 0 0 1-1.5 1.3H8.2a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9.2 8.5a2.8 2.8 0 0 1 5.6 0"/>',
+  web:'<circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8"/><path d="M12 3.6c2.4 2.5 2.4 14.3 0 16.8-2.4-2.5-2.4-14.3 0-16.8z"/>',
+  learn:'<path d="M5 5.4A1.9 1.9 0 0 1 6.9 3.5H19v14H6.9A1.9 1.9 0 0 0 5 19.4z"/><path d="M5 19.4v1.1h14"/><path d="M9 7.5h6"/>',
+  ops:'<rect x="3.6" y="4.4" width="16.8" height="6" rx="1.6"/><rect x="3.6" y="13.6" width="16.8" height="6" rx="1.6"/><path d="M7 7.4h.01M7 16.6h.01"/>',
+  compass:'<circle cx="12" cy="12" r="8.4"/><path d="M15.6 8.4 13.7 13.7 8.4 15.6 10.3 10.3z"/>',
+  folder:'<path d="M3 7.5A2 2 0 0 1 5 5.5h3.6l1.9 2H19a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  search:'<circle cx="11" cy="11" r="6.4"/><path d="m19.8 19.8-4.2-4.2"/>',
+  list:'<path d="M9 6.5h11M9 12h11M9 17.5h11"/><path d="M4.6 6.5h.01M4.6 12h.01M4.6 17.5h.01"/>',
+  sliders:'<path d="M4 8.4h8.2M16.6 8.4H20M4 15.6h3.4M11.8 15.6H20"/><circle cx="14.4" cy="8.4" r="2.2"/><circle cx="9.6" cy="15.6" r="2.2"/>',
+  star:'<path d="m12 4.6 2.3 4.7 5.2.8-3.8 3.6.9 5.2-4.6-2.5-4.6 2.5.9-5.2-3.8-3.6 5.2-.8z"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  plus:'<path d="M12 5.5v13M5.5 12h13"/>',
+  close:'<path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/>',
+  down:'<path d="M12 5v13"/><path d="m6.5 12.5 5.5 5.5 5.5-5.5"/>',
+};
+function svg(name, size) {
+  const d = ICONS[name] || ICONS.folder;
+  return `<svg class="i" viewBox="0 0 24 24" width="${size || 18}" height="${size || 18}"
+    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+}
+
 /* ------------------------------------------------------------------ lookup */
 function P(name) { return BY_NAME[nrm(name)] || null; }
 function catId(tagName) { return slug(tagName); }
@@ -177,7 +211,7 @@ function viewIntro() {
 /* ------------------------------------------------------------------ setup */
 function viewSetup() {
   render(`
-  <div class="ghead"><div class="ic">⚙️</div><div><h2>Your setup</h2>
+  <div class="ghead"><div class="ic">${svg('sliders',22)}</div><div><h2>Your setup</h2>
     <p>So the recommendations match your hardware and your patience. Defaults are already sensible.</p></div></div>
   <div class="pgrid">${PROFILE.map(q => `
     <div class="pc"><h3>${q.t}</h3><p>${q.h}</p><div class="opts">${
@@ -226,7 +260,7 @@ function viewQuestions(gid) {
   if (gi < 0) return goto('#/q/' + GROUPS[0].id);
   const g = GROUPS[gi], qs = NEEDS.filter(n => n.g === g.id);
   render(`
-  <div class="ghead"><div class="ic">${g.ic}</div><div><h2>${g.t}</h2><p>${g.s}</p></div></div>
+  <div class="ghead"><div class="ic">${svg(g.ic,22)}</div><div><h2>${g.t}</h2><p>${g.s}</p></div></div>
   <div class="steps">${GROUPS.map((x, i) =>
     `<div class="step ${i === gi ? 'cur' : i < gi ? 'done' : ''}" title="${esc(x.t)}"
       onclick="goto('#/q/${x.id}')"></div>`).join('')}</div>
@@ -337,7 +371,7 @@ function card(r, i, must) {
     <p class="desc">${esc(p.d)}</p>
     ${r.why ? `<div class="why">${esc(r.why)}</div>` : ''}
     <div class="tags">
-      ${p.st ? `<span class="tg st">★ ${kfmt(p.st)}</span>` : ''}
+      ${p.st ? `<span class="tg st">${svg('star',11)} ${kfmt(p.st)}</span>` : ''}
       ${dk ? '<span class="tg dk">Docker</span>' : ''}
       ${p.lic && p.lic[0] ? `<span class="tg li">${esc(p.lic[0])}</span>` : ''}
       ${p.up ? `<span class="tg${p.h && p.h !== 'G' ? ' h-' + p.h : ''}">active ${esc(p.up.slice(0, 7))}</span>` : ''}
@@ -347,8 +381,8 @@ function card(r, i, must) {
       <a class="btn sm ghost" href="${esc(p.u || p.s)}" target="_blank" rel="noopener">Website</a>
       ${p.s && p.s !== p.u ? `<a class="btn sm ghost" href="${esc(p.s)}" target="_blank" rel="noopener">Code</a>` : ''}
       ${alts.length ? `<button class="btn sm ghost" onclick="this.closest('.card').querySelector('.alts').classList.toggle('on')">Alternatives (${alts.length})</button>` : ''}
-      ${cat ? `<button class="btn sm ghost" onclick="goto('#/c/${cat.id}')">Dig deeper ↓</button>` : ''}
-      <button class="btn sm ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}')">${inList ? '✓ On my list' : '+ My list'}</button>
+      ${cat ? `<button class="btn sm ghost" onclick="goto('#/c/${cat.id}')">${svg('down',13)} Dig deeper</button>` : ''}
+      <button class="btn sm ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}')">${inList ? svg('check',13) + ' On my list' : svg('plus',13) + ' My list'}</button>
       ${must || r.need ? `<button class="btn sm ghost" onclick="markOwned('${p.id}')">Already got it</button>` : ''}
     </div>
     ${alts.length ? `<div class="alts">${alts.map(a =>
@@ -382,7 +416,7 @@ function viewResults() {
   ${musts.length ? `<div class="band"><h3>Must-haves for this setup</h3><div class="ln"></div><span class="cnt">${musts.length}</span></div>
     <div class="grid">${musts.map(r => card(r, 0, true)).join('')}</div>` : ''}
   <div class="rabbit" style="margin-top:38px">
-    <span class="em">🕳️</span>
+    <span class="em">${svg('compass',30)}</span>
     <div><b>Down the rabbit hole</b>
       <p>The questions only scratch the surface. ${Object.keys(CATS).length} categories are waiting —
         genealogy, library systems, XMPP servers, energy monitoring, offline Wikipedia.</p></div>
@@ -390,7 +424,7 @@ function viewResults() {
   </div>
   ${ownList.length ? `<div class="band"><h3>You already have</h3><div class="ln"></div><span class="cnt">${ownList.length}</span></div>
     <div class="chips">${ownList.map(p => `<span class="chip">${esc(p.n)}
-      <i onclick="unown('${p.id}')" title="remove" style="cursor:pointer">✕</i></span>`).join('')}</div>` : ''}`);
+      <i onclick="unown('${p.id}')" title="remove" style="cursor:pointer">${svg('close',11)}</i></span>`).join('')}</div>` : ''}`);
   S.seenResults = true; save();
 }
 
@@ -399,7 +433,7 @@ function viewExplore() {
   const byRealm = {};
   Object.values(CATS).forEach(c => (byRealm[c.realm] = byRealm[c.realm] || []).push(c));
   render(`
-  <div class="ghead"><div class="ic">🕳️</div><div><h2>Explore everything</h2>
+  <div class="ghead"><div class="ic">${svg('compass',22)}</div><div><h2>Explore everything</h2>
     <p>All ${APPS.length.toLocaleString('en-US')} free projects, grouped into ${Object.keys(CATS).length} categories.
       Pick a corner and climb down.</p></div></div>
   <div class="toolbar">
@@ -437,7 +471,7 @@ function viewCategory(id) {
     .sort((a, b) => b.n - a.n).slice(0, 12);
   render(`
   <div class="crumbs"><a onclick="goto('#/explore')">Explore</a> › <a onclick="goto('#/explore')">${esc(realm.name)}</a> › <b>${esc(c.name)}</b></div>
-  <div class="ghead"><div class="ic">📂</div><div><h2>${esc(c.name)}</h2>
+  <div class="ghead"><div class="ic">${svg('folder',22)}</div><div><h2>${esc(c.name)}</h2>
     <p>${apps.length} free projects in this category, ranked by popularity and activity.</p></div></div>
   <div class="toolbar">
     <input id="inCat" placeholder="Filter in this category…" style="flex:1;min-width:200px">
@@ -476,14 +510,14 @@ function miniCard(p) {
       <div class="t"><b>${esc(p.n)}</b><small>${esc(cat ? cat.name : '')}</small></div></div>
     <p class="desc">${esc((p.d || '').slice(0, 150))}</p>
     <div class="tags">
-      ${p.st ? `<span class="tg st">★ ${kfmt(p.st)}</span>` : ''}
+      ${p.st ? `<span class="tg st">${svg('star',11)} ${kfmt(p.st)}</span>` : ''}
       ${p.lic && p.lic[0] ? `<span class="tg li">${esc(p.lic[0])}</span>` : ''}
       ${p.up ? `<span class="tg${p.h && p.h !== 'G' ? ' h-' + p.h : ''}">${esc(p.up.slice(0, 7))}</span>` : ''}
     </div>
     <div class="acts">
       <a class="btn tiny ghost" href="${esc(p.u || p.s)}" target="_blank" rel="noopener">Website</a>
       <button class="btn tiny ghost" onclick="openApp('${p.id}')">Details</button>
-      <button class="btn tiny ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}')">${inList ? '✓' : '+'} List</button>
+      <button class="btn tiny ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}')">${inList ? svg('check',13) : svg('plus',13)} List</button>
     </div></div>`;
 }
 
@@ -491,7 +525,7 @@ function miniCard(p) {
 function viewSearch(q) {
   const res = search(q);
   render(`
-  <div class="ghead"><div class="ic">🔎</div><div><h2>“${esc(q)}”</h2>
+  <div class="ghead"><div class="ic">${svg('search',22)}</div><div><h2>“${esc(q)}”</h2>
     <p>${res.length} match${res.length === 1 ? '' : 'es'} across name, description, category and “alternative to”.</p></div></div>
   ${res.length ? `<div class="grid tight" style="margin-top:16px">${res.slice(0, 90).map(miniCard).join('')}</div>`
     : `<div class="empty"><b>Nothing found</b>Try a shorter word, or browse the categories.
@@ -531,7 +565,7 @@ function viewList() {
     (byRealm[r] = byRealm[r] || []).push(p);
   });
   render(`
-  <div class="ghead"><div class="ic">📋</div><div><h2>My list</h2>
+  <div class="ghead"><div class="ic">${svg('list',22)}</div><div><h2>My list</h2>
     <p>${items.length} projects, grouped the way you would probably deploy them.</p></div></div>
   <div class="toolbar">
     <button class="btn sm ghost" onclick="copyList('md')">Copy as Markdown</button>
@@ -571,14 +605,14 @@ function openApp(id) {
     ? (BY_CAT[cats[0].id] || []).filter(x => x.id !== p.id).sort((a, b) => score(b) - score(a)).slice(0, 6) : [];
   const inList = S.list.includes(p.id);
   $('#drawer').innerHTML = `
-    <button class="x" onclick="closeDrawer()">✕</button>
+    <button class="x" onclick="closeDrawer()" aria-label="Close">${svg('close',15)}</button>
     <div class="dh">${icon(p)}<div><h2>${esc(p.n)}</h2>
       <small>${esc(cats.map(c => c.name).join(' · '))}</small></div></div>
     <div class="sec"><p>${esc(p.d)}</p></div>
     ${p.alt && p.alt.length ? `<div class="sec"><h4>Self-hosted alternative to</h4>
       <div class="chips">${p.alt.map(a => `<span class="chip">${esc(a)}</span>`).join('')}</div></div>` : ''}
     <div class="sec"><h4>Facts</h4><div class="kv">
-      ${p.st ? `<b>Stars</b><span>★ ${p.st.toLocaleString('en-US')}</span>` : ''}
+      ${p.st ? `<b>Stars</b><span>${p.st.toLocaleString('en-US')}</span>` : ''}
       ${p.lic && p.lic.length ? `<b>Licence</b><span>${esc(p.lic.join(', '))}</span>` : ''}
       ${p.p && p.p.length ? `<b>Runs on</b><span>${esc(p.p.join(', '))}</span>` : ''}
       ${p.up ? `<b>Last activity</b><span>${esc(p.up)}${p.h === 'R' ? ' (looks stale)' : p.h === 'Y' ? ' (quiet lately)' : ''}</span>` : ''}
@@ -589,13 +623,13 @@ function openApp(id) {
       <a class="btn sm" href="${esc(p.u || p.s)}" target="_blank" rel="noopener">Website</a>
       ${p.s ? `<a class="btn sm ghost" href="${esc(p.s)}" target="_blank" rel="noopener">Source code</a>` : ''}
       ${p.demo ? `<a class="btn sm ghost" href="${esc(p.demo)}" target="_blank" rel="noopener">Live demo</a>` : ''}
-      <button class="btn sm ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}');openApp('${p.id}')">${inList ? '✓ On my list' : '+ Add to my list'}</button>
+      <button class="btn sm ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}');openApp('${p.id}')">${inList ? svg('check',14) + ' On my list' : svg('plus',14) + ' Add to my list'}</button>
     </div></div>
     ${cats.length ? `<div class="sec"><h4>Categories</h4><div class="chips">${cats.map(c =>
       `<span class="chip" onclick="closeDrawer();goto('#/c/${c.id}')">${esc(c.name)}<i>${c.n}</i></span>`).join('')}</div></div>` : ''}
     ${related.length ? `<div class="sec"><h4>Similar projects</h4>
       ${related.map(r => `<div class="alt" onclick="openApp('${r.id}')">${icon(r)}
-        <div><b>${esc(r.n)}</b> <span>★ ${kfmt(r.st)} · ${esc((r.d || '').slice(0, 70))}</span></div></div>`).join('')}</div>` : ''}`;
+        <div><b>${esc(r.n)}</b> <span>${kfmt(r.st)} stars · ${esc((r.d || '').slice(0, 70))}</span></div></div>`).join('')}</div>` : ''}`;
   $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
 }
 function closeDrawer() { $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); }
@@ -611,7 +645,7 @@ function clip(text, msg) {
 function copyMd() {
   const { res, musts } = buildResult();
   let m = '# My self-hosting shortlist\n\n## Recommendations\n';
-  res.forEach((r, i) => m += `${i + 1}. **${r.p.n}** — ${r.p.d} <${r.p.u || r.p.s}> (★${r.p.st})\n`);
+  res.forEach((r, i) => m += `${i + 1}. **${r.p.n}** — ${r.p.d} <${r.p.u || r.p.s}> (${r.p.st} stars)\n`);
   if (musts.length) {
     m += '\n## Must-haves\n';
     musts.forEach(r => m += `- **${r.p.n}** — ${r.why} <${r.p.u || r.p.s}>\n`);

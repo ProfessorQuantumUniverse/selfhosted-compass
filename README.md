@@ -1,9 +1,9 @@
-# 🧭 Selfhosted Compass
+# Selfhosted Compass
 
 **A guided way through 2,300+ free, self-hostable projects.**
 Answer a few questions about what you actually want to run and get a stack — not a list of 2,300 links.
 
-👉 **[Live version](https://<your-user>.github.io/selfhosted-compass/)** · [single-file offline build](dist/selfhosted-compass.html)
+**[Live version](https://<your-user>.github.io/selfhosted-compass/)** · [single-file offline build](dist/selfhosted-compass.html)
 
 ---
 
