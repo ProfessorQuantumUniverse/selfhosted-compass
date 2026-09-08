@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Selfhosted Compass (offline) — find the self-hosted projects that fit you</title>
-<meta name="description" content="Answer a few questions and get around 20 free, self-hostable projects that match what you actually want to run — plus the must-haves that keep the stack alive. Built on awesome-selfhosted, awesome-sysadmin and selfh.st.">
+<meta name="description" content="Pick the corners you care about, answer a short deck of questions and get a stack of free self-hostable projects — then climb down the rabbit hole into the 1,900 projects the questions never mention. Built on awesome-selfhosted, awesome-sysadmin and selfh.st.">
 <meta name="color-scheme" content="dark">
 <meta property="og:title" content="Selfhosted Compass">
 <meta property="og:description" content="A guided way through 2,300+ free self-hosted projects.">
@@ -108,6 +108,7 @@ header{position:sticky; top:0; z-index:60; backdrop-filter:blur(12px);
 .q{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:15px 17px; margin:10px 0; transition:.15s}
 .q:hover{border-color:var(--line2)}
 .q.yes{border-color:#3c556f; background:#161c24}
+.q.pri{border-color:var(--acc); background:#181f29; box-shadow:inset 2px 0 0 var(--acc)}
 .q.have{border-color:#3a5348; background:#151c19}
 .q.no{opacity:.45}
 .qh{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
@@ -121,6 +122,18 @@ header{position:sticky; top:0; z-index:60; backdrop-filter:blur(12px);
 .opt.a{background:var(--acc-d); border-color:var(--acc-d); color:#0d1219; font-weight:600}
 .opt.a.h{background:transparent; border-color:var(--good); color:var(--good)}
 .opt.a.n{background:var(--line2); border-color:var(--line2); color:var(--txt)}
+.qlogos{display:flex; gap:6px; align-items:center; margin-top:11px; flex-wrap:wrap}
+.qlogos img,.qlogos .ph{width:20px; height:20px; border-radius:5px; object-fit:contain; background:#ffffff0a}
+.qlogos .ph{display:grid; place-items:center; font-size:10px; font-weight:700; color:var(--dim); background:var(--card2)}
+.qlogos .hint{margin-left:4px}
+.opt kbd{font:inherit; font-size:10.5px; opacity:.55; margin-right:6px; border:1px solid currentColor;
+  border-radius:4px; padding:0 4px; line-height:15px; display:inline-block; vertical-align:1px}
+.opt.pri{gap:5px} .opt.pri svg{vertical-align:-2px; margin-right:2px}
+.opt.pri.a{background:var(--acc); border-color:var(--acc); color:#0d1219}
+.opts.col{flex-direction:column}
+.opt.wide{text-align:left; padding:10px 13px; width:100%}
+.opt.wide b{display:block; font-weight:600; font-size:13.5px; color:inherit}
+.opt.wide small{display:block; font-size:11.5px; opacity:.75}
 .vars{margin-top:13px; padding-top:13px; border-top:1px solid var(--line); display:none}
 .q.yes .vars.has{display:block}
 .vars .vq{font-size:13px; color:var(--dim); margin-bottom:9px}
@@ -142,7 +155,7 @@ header{position:sticky; top:0; z-index:60; backdrop-filter:blur(12px);
 .steps{display:flex; gap:4px; flex-wrap:wrap; margin:16px 0 0}
 .step{width:24px; height:4px; border-radius:99px; background:var(--line); cursor:pointer; transition:.2s}
 .step:hover{background:var(--line2)}
-.step.done{background:var(--acc-d)} .step.cur{background:var(--acc); width:36px}
+.step.done{background:var(--acc-d)} .step.part{background:#3c556f} .step.cur{background:var(--acc); width:36px}
 
 /* ---------- profile ---------- */
 .pgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:12px; margin-top:18px}
@@ -171,7 +184,8 @@ header{position:sticky; top:0; z-index:60; backdrop-filter:blur(12px);
 .desc{color:var(--dim); font-size:13.5px; margin:0; flex:1}
 .tags{display:flex; gap:6px; flex-wrap:wrap}
 .tg{font-size:11px; color:var(--dim2); background:var(--bg2); border:1px solid var(--line);
-  padding:3px 8px; border-radius:6px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px}
+  padding:3px 8px; border-radius:6px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px;
+  max-width:100%; overflow:hidden; text-overflow:ellipsis}
 .tg.st{color:var(--dim)} .tg.st svg{opacity:.7}
 .tg.dk{color:var(--acc)} .tg.li{color:var(--good)} .tg.alt{color:#a394c4}
 .tg.h-R{color:var(--bad)} .tg.h-Y{color:var(--warn)}
@@ -265,6 +279,119 @@ code{background:var(--card2); border:1px solid var(--line); border-radius:5px; p
   .desc,.why,.hint,.tg{color:#333}
 }
 
+/* ---------- areas: the gate in front of the questionnaire ---------- */
+.areas{display:grid; grid-template-columns:repeat(auto-fill,minmax(258px,1fr)); gap:10px; margin-top:18px}
+.area{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 15px;
+  text-align:left; cursor:pointer; transition:.15s; position:relative; opacity:.55}
+.area:hover{border-color:var(--line2); opacity:.8}
+.area.on{opacity:1; border-color:#3c556f; background:#161c24}
+.area .ah{display:flex; align-items:center; gap:9px}
+.area .ah .ic{color:var(--dim2); display:grid; place-items:center; flex:none}
+.area.on .ah .ic{color:var(--acc)}
+.area .ah b{flex:1; font-size:14.5px; font-weight:600; letter-spacing:-.01em}
+.area .mark{width:22px; height:22px; border-radius:6px; display:grid; place-items:center; flex:none;
+  border:1px solid var(--line2); color:var(--dim2); background:var(--bg2)}
+.area.on .mark{border-color:var(--acc-d); background:var(--acc-d); color:#0d1219}
+.area .ah b{line-height:1.3}
+.area p{margin:8px 0 10px; color:var(--dim); font-size:12.5px; line-height:1.45}
+.area .logos{display:flex; gap:5px; align-items:center; min-height:22px}
+.area .logos img,.area .logos .ph{width:21px; height:21px; border-radius:5px; object-fit:contain; background:#ffffff0a}
+.area .logos .ph{display:grid; place-items:center; font-size:10px; font-weight:700; color:var(--dim); background:var(--card2)}
+.afoot{display:flex; align-items:center; gap:10px; justify-content:space-between}
+.area .cnt{font-size:11px; color:var(--dim2); white-space:nowrap; flex:none}
+.navl{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.modeswitch{display:flex; gap:2px; background:var(--bg2); border:1px solid var(--line2); border-radius:9px; padding:2px}
+.modeswitch .opt{border:none; background:transparent; padding:5px 11px; border-radius:7px}
+.modeswitch .opt.a{background:var(--card2); color:var(--txt)}
+
+/* ---------- the deck: one card at a time ---------- */
+.stackbar{margin:16px 0 0; font-size:13px; color:var(--dim); display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.stackbar b{color:var(--txt); font-weight:650}
+.stackbar .added{color:var(--good); display:inline-flex; align-items:center; gap:5px; font-size:12.5px;
+  border:1px solid #3a5348; background:#151c19; padding:2px 9px; border-radius:99px}
+.deck{max-width:760px; margin:14px auto 0}
+.dcount{display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--dim2);
+  margin-bottom:8px; flex-wrap:wrap}
+.dcount .dsec{color:var(--dim2)}
+.dcard{background:var(--card); border:1px solid var(--line2); border-radius:14px; padding:26px 26px 20px;
+  box-shadow:var(--shadow)}
+.dcard h3{margin:0 0 8px; font-size:21px; line-height:1.25; letter-spacing:-.02em; font-weight:650}
+.dcard>p{margin:0 0 16px; color:var(--dim); font-size:14.5px}
+.dcard .opts.ans{flex-wrap:wrap; gap:7px}
+.dcard .opts.ans .opt{flex:1; min-width:126px; text-align:center; padding:11px 12px; white-space:normal}
+.dlogos{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px}
+.dl{display:inline-flex; align-items:center; gap:7px; background:var(--bg2); border:1px solid var(--line);
+  border-radius:8px; padding:5px 10px 5px 6px; cursor:pointer; transition:.15s}
+.dl:hover{border-color:var(--acc)}
+.dl img,.dl .ph{width:22px; height:22px; border-radius:5px; object-fit:contain; background:#ffffff0a}
+.dl .ph{display:grid; place-items:center; font-size:10px; font-weight:700; color:var(--dim); background:var(--card2)}
+.dl i{font-style:normal; font-size:12.5px; color:var(--dim)}
+.dnote{margin-top:14px; font-size:12.5px; color:var(--dim2)}
+.dnav{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:14px; flex-wrap:wrap}
+
+/* ---------- the decisions step ---------- */
+.tgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(272px,1fr)); gap:12px; margin-top:18px}
+.pickrow{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 15px; margin:10px 0}
+.ph2 b{display:block; font-size:14.5px; font-weight:600}
+.ph2 small{color:var(--dim2); font-size:12.5px}
+.pgrid2{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; margin-top:11px}
+.pgrid2 .v{position:relative; padding-right:14px}
+.pgrid2 .v.a{border-color:var(--acc); background:#1a222c}
+.pgrid2 .v .sg{position:absolute; top:-8px; right:8px; font-style:normal; font-size:10px; letter-spacing:.05em;
+  text-transform:uppercase; color:var(--acc); background:var(--bg2); border:1px solid var(--acc-d);
+  border-radius:99px; padding:1px 7px}
+.pgrid2 .v.auto{border-style:dashed}
+
+/* ---------- rabbit hole ---------- */
+.ghead.rh{align-items:center}
+.ghead.rh>div:nth-child(2){flex:1}
+.cover{height:4px; background:var(--line); border-radius:99px; overflow:hidden; margin-top:10px; max-width:420px}
+.cover>i{display:block; height:100%; background:var(--acc); transition:width .4s}
+.lean{margin:14px auto 0; max-width:760px; font-size:12.5px; color:var(--dim2)}
+.lean b{color:var(--dim); font-weight:600}
+.rhcard .realm{display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--dim2); margin-bottom:12px}
+.rhcard .sh{display:flex; align-items:center; gap:13px; margin-bottom:10px}
+.rhcard .sh img,.rhcard .sh .ph{width:44px; height:44px; border-radius:10px; object-fit:contain;
+  background:#ffffff0a; padding:3px; flex:none}
+.rhcard .sh .ph{display:grid; place-items:center; font-size:17px; font-weight:700; color:var(--dim); background:var(--card2); padding:0}
+.rhcard .sh h3{margin:0}
+.rhcard.surprise{border-color:var(--acc-d)}
+.rhcard .tags{margin-bottom:14px}
+.rhcard .why{margin-bottom:16px}
+.rhcard .acts{border-top:none; padding-top:0; margin-top:0}
+.crumbs.deep{background:var(--card); border:1px solid var(--line); border-radius:var(--r);
+  padding:10px 13px; margin-top:18px; gap:4px}
+.crumbs.deep a{color:var(--dim); text-decoration:none}
+.crumbs.deep a:hover{color:var(--acc)}
+.crumbs.deep b{color:var(--txt); font-weight:600}
+.crumbs.deep .depth{margin-left:auto; display:inline-flex; align-items:center; gap:6px; color:var(--acc);
+  border:1px solid var(--line2); border-radius:99px; padding:2px 10px; font-size:11.5px; white-space:nowrap}
+.burrow{padding:22px 0 2px}
+.burrow h2{margin:0 0 6px; font-size:26px; letter-spacing:-.025em; font-weight:650}
+.burrow .chips{margin-top:12px}
+.nbs{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px}
+.nb{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 15px;
+  display:flex; flex-direction:column; gap:10px; transition:.15s}
+.nb:hover{border-color:var(--line2)}
+.nb.done{opacity:.5}
+.nbh b{display:block; font-size:14px; font-weight:600; line-height:1.35}
+.nbh small{display:block; color:var(--dim); font-size:12.5px; margin-top:4px}
+.nblogos{display:flex; gap:5px}
+.nblogos img,.nblogos .ph{width:20px; height:20px; border-radius:5px; object-fit:contain; background:#ffffff0a}
+.nblogos .ph{display:grid; place-items:center; font-size:10px; font-weight:700; color:var(--dim); background:var(--card2)}
+.opts.ans.tiny{gap:5px; margin-top:auto}
+.opts.ans.tiny .opt{padding:5px 10px; font-size:12px; flex:1; text-align:center}
+.card.core::before{content:""; position:absolute; top:0; bottom:0; left:0; width:2px; background:var(--acc)}
+.card.core .rank{color:var(--acc); border-color:var(--acc-d)}
+.band h3{display:inline-flex; align-items:center; gap:7px}
+.band h3 svg{color:var(--acc)}
+
+@media(max-width:640px){
+  .dcard{padding:20px 17px 16px} .dcard h3{font-size:19px}
+  .crumbs.deep .depth{margin-left:0}
+}
+
 </style>
 </head>
 <body>
@@ -326,154 +453,174 @@ const GROUPS = [
   { id: 'ops',   ic: 'ops', t: 'Running the Server',       s: 'What keeps the whole stack manageable and alive.' },
 ];
 
+/* Three questions that pre-decide most of the "which one?" follow-ups.
+   Every alternative may carry t:'suite unix polish lean new proven' - the
+   engine scores those against the answers here and pre-selects the winner.
+   Nothing is locked in: the decisions step shows the pick and lets you
+   overrule it. */
+const TASTE = [
+  { id:'shape', t:'One box that does everything, or a specialist per job?',
+    h:'Decides between suites like Nextcloud and a stack of small tools that each do one thing.',
+    o:[['suite','All-in-one','Fewer containers, more settings pages'],
+       ['unix','A specialist per job','More containers, each better at its thing']], d:'unix' },
+  { id:'weight', t:'Polish, or frugality?',
+    h:'Decides between the option that feels like a product and the one that runs on anything.',
+    o:[['polish','Polished, with apps','Costs RAM and CPU, feels finished'],
+       ['lean','As light as it goes','Happy on a Pi, occasionally rough']], d:'polish' },
+  { id:'age', t:'Newest that works, or boring and proven?',
+    h:'Decides between the exciting fork and the thing that has been running quietly for a decade.',
+    o:[['new','Newest that works','Features sooner, breakage sooner'],
+       ['proven','Boring and proven','Stable for years, older interface']], d:'proven' },
+];
+
 const NEEDS = [
 /* ============================ MEDIA ============================ */
-{ g:'media', id:'m_video', q:'Stream your own movies and TV shows?', h:'A media server with apps for TV, phone and browser — like Jellyfin or Kodi', tag:'Media Streaming - Multimedia Streaming',
+{ g:'media', id:'m_video', fx:1, q:'Stream your own movies and TV shows?', h:'A media server with apps for TV, phone and browser — like Jellyfin or Kodi', tag:'Media Streaming - Multimedia Streaming',
   aq:'What does your living room look like?', alts:[
-  { i:'Jellyfin', l:'Jellyfin', w:'The free standard, clients for everything' },
-  { i:'Kodi', l:'Kodi', w:'Player running directly on the TV box' },
-  { i:'Streamyfin', l:'Jellyfin + Streamyfin', w:'Plus a polished mobile client' },
-  { i:'Stash', l:'Stash', w:'For a heavily tagged personal collection' }]},
+  { i:'Jellyfin', l:'Jellyfin', t:'polish proven', w:'The free standard, clients for everything' },
+  { i:'Kodi', l:'Kodi', t:'lean proven', w:'Player running directly on the TV box' },
+  { i:'Streamyfin', l:'Jellyfin + Streamyfin', t:'polish new', w:'Plus a polished mobile client' },
+  { i:'Stash', l:'Stash', t:'unix', w:'For a heavily tagged personal collection' }]},
 
-{ g:'media', id:'m_arr', q:'Automate your media library?', h:'The famous *arr stack: search, grab, rename, file away — Sonarr, Radarr, Prowlarr', tag:'Media Management',
+{ g:'media', id:'m_arr', fx:1, q:'Automate your media library?', h:'The famous *arr stack: search, grab, rename, file away — Sonarr, Radarr, Prowlarr', tag:'Media Management',
   aq:'What should arrive automatically?', alts:[
-  { i:['Sonarr','Radarr','Prowlarr','Bazarr'], l:'Shows + movies (full stack)', w:'Sonarr, Radarr, Prowlarr and Bazarr for subtitles' },
-  { i:['Sonarr','Prowlarr'], l:'TV shows only', w:'Sonarr plus the indexer manager' },
-  { i:['Radarr','Prowlarr'], l:'Movies only', w:'Radarr plus the indexer manager' },
-  { i:['Lidarr','Prowlarr'], l:'Music', w:'Lidarr plus the indexer manager' },
-  { i:['Sonarr','Radarr','Prowlarr','Huntarr','Cleanuparr'], l:'Full stack + housekeeping', w:'Adds Huntarr and Cleanuparr to fix stalled and missing items' }]},
+  { i:['Sonarr','Radarr','Prowlarr','Bazarr'], l:'Shows + movies (full stack)', t:'unix polish', w:'Sonarr, Radarr, Prowlarr and Bazarr for subtitles' },
+  { i:['Sonarr','Prowlarr'], l:'TV shows only', t:'lean', w:'Sonarr plus the indexer manager' },
+  { i:['Radarr','Prowlarr'], l:'Movies only', t:'lean', w:'Radarr plus the indexer manager' },
+  { i:['Lidarr','Prowlarr'], l:'Music', t:'lean', w:'Lidarr plus the indexer manager' },
+  { i:['Sonarr','Radarr','Prowlarr','Huntarr','Cleanuparr'], l:'Full stack + housekeeping', t:'unix new', w:'Adds Huntarr and Cleanuparr to fix stalled and missing items' }]},
 
 { g:'media', id:'m_req', q:'Let family and friends request titles themselves?', h:'A request portal in front of the *arr stack — Jellyseerr, Ombi', tag:'Media Management',
-  alts:[{ i:'Jellyseerr', l:'Jellyseerr', w:'The widely used Overseerr fork for Jellyfin' },
-        { i:'Seerr', l:'Seerr', w:'The newer successor project' },
-        { i:'Ombi', l:'Ombi', w:'Classic, supports many backends' }]},
+  alts:[{ i:'Jellyseerr', l:'Jellyseerr', t:'polish proven', w:'The widely used Overseerr fork for Jellyfin' },
+        { i:'Seerr', l:'Seerr', t:'new', w:'The newer successor project' },
+        { i:'Ombi', l:'Ombi', t:'proven', w:'Classic, supports many backends' }]},
 
-{ g:'media', id:'m_torrent', q:'Run a download client with a web interface?', h:'Torrent or Usenet — qBittorrent, SABnzbd, Transmission', tag:'File Transfer - Peer-to-peer Filesharing',
+{ g:'media', id:'m_torrent', fx:1, q:'Run a download client with a web interface?', h:'Torrent or Usenet — qBittorrent, SABnzbd, Transmission', tag:'File Transfer - Peer-to-peer Filesharing',
   aq:'Which network?', alts:[
-  { i:'qBittorrent', l:'Torrent: qBittorrent', w:'The standard, excellent web UI' },
-  { i:'Transmission', l:'Torrent: Transmission', w:'Ultra light on resources' },
-  { i:'SABnzbd', l:'Usenet: SABnzbd', w:'Friendly interface, huge ecosystem' },
-  { i:'NZBGet', l:'Usenet: NZBGet', w:'C++, runs on the smallest hardware' },
-  { i:'slskd', l:'Soulseek: slskd', w:'For obscure music you cannot find anywhere' }]},
+  { i:'qBittorrent', l:'Torrent: qBittorrent', t:'polish proven', w:'The standard, excellent web UI' },
+  { i:'Transmission', l:'Torrent: Transmission', t:'lean proven', w:'Ultra light on resources' },
+  { i:'SABnzbd', l:'Usenet: SABnzbd', t:'polish', w:'Friendly interface, huge ecosystem' },
+  { i:'NZBGet', l:'Usenet: NZBGet', t:'lean', w:'C++, runs on the smallest hardware' },
+  { i:'slskd', l:'Soulseek: slskd', t:'lean new', w:'For obscure music you cannot find anywhere' }]},
 
-{ g:'media', id:'m_music', q:'Run your own music streaming service?', h:'Your FLAC and MP3 collection, Spotify style — Navidrome, Music Assistant', tag:'Media Streaming - Audio Streaming',
+{ g:'media', id:'m_music', fx:1, q:'Run your own music streaming service?', h:'Your FLAC and MP3 collection, Spotify style — Navidrome, Music Assistant', tag:'Media Streaming - Audio Streaming',
   aq:'What kind of listener are you?', alts:[
-  { i:'Navidrome Music Server', l:'Navidrome', w:'Lightweight, works with every Subsonic app' },
-  { i:'Music Assistant', l:'Music Assistant', w:'Bridges your library and streaming services into Home Assistant' },
-  { i:'koel', l:'Koel', w:'Beautiful web player' },
-  { i:'OwnTone', l:'OwnTone', w:'AirPlay 2 and multi-room out of the box' },
-  { i:'Funkwhale', l:'Funkwhale', w:'Federated, built for sharing' },
-  { i:'AzuraCast', l:'AzuraCast', w:'A real internet radio station with scheduling' }]},
+  { i:'Navidrome Music Server', l:'Navidrome', t:'lean proven', w:'Lightweight, works with every Subsonic app' },
+  { i:'Music Assistant', l:'Music Assistant', t:'polish new', w:'Bridges your library and streaming services into Home Assistant' },
+  { i:'koel', l:'Koel', t:'polish', w:'Beautiful web player' },
+  { i:'OwnTone', l:'OwnTone', t:'lean proven', w:'AirPlay 2 and multi-room out of the box' },
+  { i:'Funkwhale', l:'Funkwhale', t:'suite', w:'Federated, built for sharing' },
+  { i:'AzuraCast', l:'AzuraCast', t:'suite polish', w:'A real internet radio station with scheduling' }]},
 
 { g:'media', id:'m_audio', q:'Manage audiobooks and podcasts?', h:'With progress sync across all your devices — Audiobookshelf', tag:'Media Streaming - Audio Streaming',
   alts:[{ i:'Audiobookshelf', l:'Audiobookshelf', w:'The clear favourite, with its own apps' }]},
 
-{ g:'media', id:'m_books', q:'Organise e-books, comics or manga?', h:'Library plus reader in the browser, sync to your e-reader — Calibre-Web, Kavita, Komga', tag:'Document Management - E-books',
+{ g:'media', id:'m_books', fx:1, q:'Organise e-books, comics or manga?', h:'Library plus reader in the browser, sync to your e-reader — Calibre-Web, Kavita, Komga', tag:'Document Management - E-books',
   aq:'What do you read?', alts:[
-  { i:'Calibre Web Automated', l:'Books (Calibre-Web Automated)', w:'Calibre library with automatic import' },
-  { i:'Kavita', l:'Mixed (Kavita)', w:'Books, comics and manga in one place' },
-  { i:'Komga', l:'Comics / manga (Komga)', w:'Specialist with OPDS support' },
-  { i:'Calibre', l:'Management only (Calibre)', w:'The desktop classic' }]},
+  { i:'Calibre Web Automated', l:'Books (Calibre-Web Automated)', t:'polish new', w:'Calibre library with automatic import' },
+  { i:'Kavita', l:'Mixed (Kavita)', t:'suite polish', w:'Books, comics and manga in one place' },
+  { i:'Komga', l:'Comics / manga (Komga)', t:'lean proven', w:'Specialist with OPDS support' },
+  { i:'Calibre', l:'Management only (Calibre)', t:'proven', w:'The desktop classic' }]},
 
-{ g:'media', id:'m_yt', q:'Archive YouTube channels or watch without ads?', h:'Subscribe and keep videos locally — Pinchflat, Tube Archivist, Invidious', tag:'Media Management',
+{ g:'media', id:'m_yt', fx:1, q:'Archive YouTube channels or watch without ads?', h:'Subscribe and keep videos locally — Pinchflat, Tube Archivist, Invidious', tag:'Media Management',
   aq:'Archive or front end?', alts:[
-  { i:'Pinchflat', l:'Archive: Pinchflat', w:'Subscribes to channels, files them for Jellyfin' },
-  { i:'Tube Archivist', l:'Archive: Tube Archivist', w:'Full text search and its own player' },
-  { i:'MeTube', l:'Ad hoc: MeTube', w:'yt-dlp with a web front end' },
-  { i:'Invidious', l:'Front end: Invidious', w:'Watch YouTube without the tracking' }]},
+  { i:'Pinchflat', l:'Archive: Pinchflat', t:'lean new', w:'Subscribes to channels, files them for Jellyfin' },
+  { i:'Tube Archivist', l:'Archive: Tube Archivist', t:'suite', w:'Full text search and its own player' },
+  { i:'MeTube', l:'Ad hoc: MeTube', t:'lean', w:'yt-dlp with a web front end' },
+  { i:'Invidious', l:'Front end: Invidious', t:'proven', w:'Watch YouTube without the tracking' }]},
 
 { g:'media', id:'m_live', q:'Broadcast yourself — live stream or video platform?', h:'Your own Twitch or YouTube — Owncast, PeerTube', tag:'Media Streaming - Video Streaming',
-  alts:[{ i:'Owncast', l:'Owncast', w:'One container and you are live' },
-        { i:'PeerTube', l:'PeerTube', w:'Federated video platform' },
-        { i:'SRS', l:'SRS', w:'Streaming server for serious setups' },
-        { i:'Restreamer', l:'Restreamer', w:'Put a camera online 24/7' }]},
+  alts:[{ i:'Owncast', l:'Owncast', t:'lean new', w:'One container and you are live' },
+        { i:'PeerTube', l:'PeerTube', t:'suite', w:'Federated video platform' },
+        { i:'SRS', l:'SRS', t:'lean proven', w:'Streaming server for serious setups' },
+        { i:'Restreamer', l:'Restreamer', t:'polish', w:'Put a camera online 24/7' }]},
 
-{ g:'media', id:'m_game', q:'Host game servers or retro games?', h:'Minecraft and friends, or your ROM collection — Pterodactyl, RomM, Sunshine', tag:'Games - Administrative Utilities & Control Panels',
+{ g:'media', id:'m_game', fx:1, q:'Host game servers or retro games?', h:'Minecraft and friends, or your ROM collection — Pterodactyl, RomM, Sunshine', tag:'Games - Administrative Utilities & Control Panels',
   aq:'What do you have in mind?', alts:[
-  { i:'Pterodactyl', l:'Game server panel', w:'Pterodactyl: spin up servers by clicking' },
-  { i:'Pelican Panel', l:'Game servers (modern)', w:'Pelican: the current fork' },
-  { i:'RomM', l:'Retro library', w:'RomM: manage ROMs and play them in the browser' },
-  { i:'Sunshine', l:'Game streaming', w:'Sunshine: stream PC games to any device' },
-  { i:'LinuxGSM', l:'Scripted servers', w:'LinuxGSM: command line management for 100+ games' }]},
+  { i:'Pterodactyl', l:'Game server panel', t:'suite proven', w:'Pterodactyl: spin up servers by clicking' },
+  { i:'Pelican Panel', l:'Game servers (modern)', t:'new polish', w:'Pelican: the current fork' },
+  { i:'RomM', l:'Retro library', t:'polish new', w:'RomM: manage ROMs and play them in the browser' },
+  { i:'Sunshine', l:'Game streaming', t:'lean', w:'Sunshine: stream PC games to any device' },
+  { i:'LinuxGSM', l:'Scripted servers', t:'lean proven', w:'LinuxGSM: command line management for 100+ games' }]},
 
 /* ============================ FILES ============================ */
 { g:'files', id:'f_cloud', q:'Run your own file cloud with sync?', h:'A Dropbox replacement with mobile apps — Nextcloud, Seafile, Syncthing', tag:'File Transfer & Synchronization',
   aq:'How much do you want around it?', alts:[
-  { i:'Nextcloud', l:'Nextcloud', w:'Everything: files, calendar, office, hundreds of apps' },
-  { i:'Seafile', l:'Seafile', w:'Files only, but seriously fast' },
-  { i:'Syncthing', l:'Syncthing', w:'Peer to peer sync with no central server at all' },
-  { i:'OpenCloud', l:'OpenCloud', w:'Lean modern successor to ownCloud' }]},
+  { i:'Nextcloud', l:'Nextcloud', t:'suite polish', w:'Everything: files, calendar, office, hundreds of apps' },
+  { i:'Seafile', l:'Seafile', t:'lean proven', w:'Files only, but seriously fast' },
+  { i:'Syncthing', l:'Syncthing', t:'lean unix proven', w:'Peer to peer sync with no central server at all' },
+  { i:'OpenCloud', l:'OpenCloud', t:'lean new', w:'Lean modern successor to ownCloud' }]},
 
 { g:'files', id:'f_photos', q:'Replace Google Photos?', h:'Auto upload from the phone, faces, map, albums — Immich, PhotoPrism', tag:'Photo Galleries',
   aq:'What matters most?', alts:[
-  { i:'Immich', l:'Immich', w:'The Google Photos feeling including apps — the favourite' },
-  { i:'PhotoPrism', l:'PhotoPrism', w:'Strong AI tagging, modest requirements' },
-  { i:'Ente', l:'Ente', w:'End to end encrypted' },
-  { i:'Lychee', l:'Lychee', w:'Slim, pretty gallery for showing work' },
-  { i:'Piwigo', l:'Piwigo', w:'Veteran gallery with heavy metadata support' }]},
+  { i:'Immich', l:'Immich', t:'polish new', w:'The Google Photos feeling including apps — the favourite' },
+  { i:'PhotoPrism', l:'PhotoPrism', t:'lean proven', w:'Strong AI tagging, modest requirements' },
+  { i:'Ente', l:'Ente', t:'polish new', w:'End to end encrypted' },
+  { i:'Lychee', l:'Lychee', t:'lean', w:'Slim, pretty gallery for showing work' },
+  { i:'Piwigo', l:'Piwigo', t:'lean proven', w:'Veteran gallery with heavy metadata support' }]},
 
 { g:'files', id:'f_docs', q:'Go paperless with your documents?', h:'Scan, OCR, full text search, tax folder — Paperless-ngx', tag:'Archiving and Digital Preservation (DP)',
-  alts:[{ i:'Paperless-ngx', l:'Paperless-ngx', w:'The de facto standard' },
-        { i:'Papra', l:'Papra', w:'Minimal, modern alternative' },
-        { i:'Docspell', l:'Docspell', w:'Powerful automatic filing rules' },
-        { i:'Docling', l:'Docling', w:'Turns documents into clean data for an LLM' }]},
+  alts:[{ i:'Paperless-ngx', l:'Paperless-ngx', t:'polish proven', w:'The de facto standard' },
+        { i:'Papra', l:'Papra', t:'lean new', w:'Minimal, modern alternative' },
+        { i:'Docspell', l:'Docspell', t:'proven', w:'Powerful automatic filing rules' },
+        { i:'Docling', l:'Docling', nx:1, t:'unix new', w:'Turns documents into clean data for an LLM' }]},
 
-{ g:'files', id:'f_pdf', q:'Edit, convert or sign PDFs?', h:'Everything you would otherwise upload to a sketchy website — Stirling-PDF', tag:'Document Management',
+{ g:'files', id:'f_pdf', fx:1, q:'Edit, convert or sign PDFs?', h:'Everything you would otherwise upload to a sketchy website — Stirling-PDF', tag:'Document Management',
   aq:'What for?', alts:[
-  { i:'Stirling-PDF', l:'PDF toolbox', w:'Stirling-PDF: 50+ tools, all local' },
-  { i:'Docuseal', l:'Digital signatures', w:'DocuSeal: signing workflows' },
-  { i:'ConvertX', l:'File conversion', w:'ConvertX: 1000+ formats' }]},
+  { i:'Stirling-PDF', l:'PDF toolbox', t:'suite polish', w:'Stirling-PDF: 50+ tools, all local' },
+  { i:'Docuseal', l:'Digital signatures', t:'unix', w:'DocuSeal: signing workflows' },
+  { i:'ConvertX', l:'File conversion', t:'unix lean', w:'ConvertX: 1000+ formats' }]},
 
 { g:'files', id:'f_files', q:'Browse server files from the browser?', h:'Upload, share, poke around without SSH — copyparty, Filestash', tag:'File Transfer - Web-based File Managers',
-  alts:[{ i:'copyparty', l:'copyparty', w:'One process, an absurd number of features' },
-        { i:'Filestash', l:'Filestash', w:'Pretty, speaks S3, FTP and SFTP' },
-        { i:'OpenList', l:'OpenList', w:'One view across many cloud backends' },
-        { i:'miniserve', l:'miniserve', w:'Single binary, running in seconds' }]},
+  alts:[{ i:'copyparty', l:'copyparty', t:'lean unix', w:'One process, an absurd number of features' },
+        { i:'Filestash', l:'Filestash', t:'polish', w:'Pretty, speaks S3, FTP and SFTP' },
+        { i:'OpenList', l:'OpenList', t:'polish new', w:'One view across many cloud backends' },
+        { i:'miniserve', l:'miniserve', t:'lean', w:'Single binary, running in seconds' }]},
 
 { g:'files', id:'f_share', q:'Send big files to other people?', h:'A WeTransfer replacement with expiring links — PicoShare, Gokapi', tag:'File Transfer - Single-click & Drag-n-drop Upload',
-  alts:[{ i:'PicoShare', l:'PicoShare', w:'Tiny, no re-encoding, direct links' },
-        { i:'Gokapi', l:'Gokapi', w:'Expiry dates and download limits' },
-        { i:'Zipline', l:'Zipline', w:'Great with ShareX and screenshots' },
-        { i:'OnionShare', l:'OnionShare', w:'Anonymous, over Tor' }]},
+  alts:[{ i:'PicoShare', l:'PicoShare', t:'lean', w:'Tiny, no re-encoding, direct links' },
+        { i:'Gokapi', l:'Gokapi', t:'lean', w:'Expiry dates and download limits' },
+        { i:'Zipline', l:'Zipline', t:'polish new', w:'Great with ShareX and screenshots' },
+        { i:'OnionShare', l:'OnionShare', t:'lean', w:'Anonymous, over Tor' }]},
 
 { g:'files', id:'f_secret', q:'Share passwords or secrets safely?', h:'A self-destructing link instead of a chat message — Yopass, PrivateBin', tag:'Pastebins',
-  alts:[{ i:'Yopass', l:'Yopass', w:'Encrypted, one-time, self destructing' },
-        { i:'PrivateBin', l:'PrivateBin', w:'The zero-knowledge classic' },
-        { i:'Password Pusher', l:'Password Pusher', w:'Expiry plus an audit trail' }]},
+  alts:[{ i:'Yopass', l:'Yopass', t:'lean', w:'Encrypted, one-time, self destructing' },
+        { i:'PrivateBin', l:'PrivateBin', t:'lean proven', w:'The zero-knowledge classic' },
+        { i:'Password Pusher', l:'Password Pusher', t:'polish', w:'Expiry plus an audit trail' }]},
 
 { g:'files', id:'f_backup', q:'Set up a real backup strategy?', h:'Encrypted, deduplicated, verified — Restic, Borg, Duplicati, Kopia', tag:'SysAdmin - Backups',
   aq:'What kind of person are you?', alts:[
-  { i:'Backrest', l:'Restic + Backrest', w:'Restic power with a web UI — the sweet spot' },
-  { i:'BorgBackup', l:'BorgBackup', w:'Terminal classic, extremely efficient' },
-  { i:'Kopia', l:'Kopia', w:'Fast, cross platform, has a GUI' },
-  { i:'Duplicati', l:'Duplicati', w:'Click driven, many cloud targets' },
-  { i:'UrBackup', l:'UrBackup', w:'Client/server for whole PCs in the house' },
-  { i:'Proxmox Backup Server', l:'Proxmox Backup Server', w:'The right answer if you run Proxmox VE' }]},
+  { i:'Backrest', l:'Restic + Backrest', t:'polish new', w:'Restic power with a web UI — the sweet spot' },
+  { i:'BorgBackup', l:'BorgBackup', t:'lean proven', w:'Terminal classic, extremely efficient' },
+  { i:'Kopia', l:'Kopia', t:'polish new', w:'Fast, cross platform, has a GUI' },
+  { i:'Duplicati', l:'Duplicati', t:'polish proven', w:'Click driven, many cloud targets' },
+  { i:'UrBackup', l:'UrBackup', t:'suite proven', w:'Client/server for whole PCs in the house' },
+  { i:'Proxmox Backup Server', l:'Proxmox Backup Server', t:'suite proven', w:'The right answer if you run Proxmox VE' }]},
 
 { g:'files', id:'f_nas', q:'Use a ready-made NAS or server OS?', h:'Disks, shares and apps behind one interface — TrueNAS, OpenMediaVault, CasaOS', tag:'Self-hosting Solutions',
   aq:'Which flavour suits you?', alts:[
-  { i:'OpenMediaVault', l:'OpenMediaVault', w:'Debian based, classic NAS' },
-  { i:'TrueNAS', l:'TrueNAS', w:'ZFS, snapshots, replication' },
-  { i:'CasaOS', l:'CasaOS', w:'Friendly app store for the living room server' },
-  { i:'Umbrel', l:'Umbrel', w:'Beautiful home server OS, one click apps' },
-  { i:'Tipi', l:'Runtipi', w:'App store approach, very beginner friendly' },
-  { i:'Yunohost', l:'YunoHost', w:'Domains, mail and backups included' },
-  { i:'Cosmos', l:'Cosmos', w:'App store, reverse proxy and auth in one' }]},
+  { i:'OpenMediaVault', l:'OpenMediaVault', t:'proven', w:'Debian based, classic NAS' },
+  { i:'TrueNAS', l:'TrueNAS', t:'suite proven', w:'ZFS, snapshots, replication' },
+  { i:'CasaOS', l:'CasaOS', t:'polish new', w:'Friendly app store for the living room server' },
+  { i:'Umbrel', l:'Umbrel', t:'polish new', w:'Beautiful home server OS, one click apps' },
+  { i:'Tipi', l:'Runtipi', t:'polish new', w:'App store approach, very beginner friendly' },
+  { i:'Yunohost', l:'YunoHost', t:'suite proven', w:'Domains, mail and backups included' },
+  { i:'Cosmos', l:'Cosmos', t:'suite new', w:'App store, reverse proxy and auth in one' }]},
 
 { g:'files', id:'f_office', q:'Edit office documents in the browser?', h:'A Word and Excel replacement, also for working together — ONLYOFFICE, Collabora', tag:'Office Suites',
-  alts:[{ i:'ONLYOFFICE', l:'ONLYOFFICE', w:'Best Microsoft Office compatibility' },
-        { i:'Collabora Online Development Edition', l:'Collabora', w:'LibreOffice in the browser' },
-        { i:'CryptPad', l:'CryptPad', w:'Encrypted and anonymous' },
-        { i:'Grist', l:'Grist', w:'Spreadsheets with database powers' }]},
+  alts:[{ i:'ONLYOFFICE', l:'ONLYOFFICE', t:'polish proven', w:'Best Microsoft Office compatibility' },
+        { i:'Collabora Online Development Edition', l:'Collabora', t:'proven', w:'LibreOffice in the browser' },
+        { i:'CryptPad', l:'CryptPad', t:'lean', w:'Encrypted and anonymous' },
+        { i:'Grist', l:'Grist', t:'polish new', w:'Spreadsheets with database powers' }]},
 
 /* ============================ SMART HOME ============================ */
 { g:'home', id:'h_ha', q:'Run a smart home hub without the cloud?', h:'Every vendor under one roof — Home Assistant, openHAB', tag:'Internet of Things (IoT)',
-  alts:[{ i:'Home Assistant', l:'Home Assistant', w:'Number one, enormous ecosystem' },
-        { i:'openHAB', l:'openHAB', w:'Java based, very strong rule engine' },
-        { i:'Domoticz', l:'Domoticz', w:'Lightweight for small hardware' },
-        { i:'Node RED', l:'Node-RED', w:'Wire your automations together visually' }]},
+  alts:[{ i:'Home Assistant', l:'Home Assistant', t:'suite polish proven', w:'Number one, enormous ecosystem' },
+        { i:'openHAB', l:'openHAB', t:'proven', w:'Java based, very strong rule engine' },
+        { i:'Domoticz', l:'Domoticz', t:'lean proven', w:'Lightweight for small hardware' },
+        { i:'Node RED', l:'Node-RED', t:'unix lean', w:'Wire your automations together visually' }]},
 
-{ g:'home', id:'h_zigbee', q:'Free your radio devices from vendor bridges?', h:'Zigbee, Z-Wave or your own ESP sensors — Zigbee2MQTT, ESPHome', tag:'Internet of Things (IoT)',
+{ g:'home', id:'h_zigbee', fx:1, q:'Free your radio devices from vendor bridges?', h:'Zigbee, Z-Wave or your own ESP sensors — Zigbee2MQTT, ESPHome', tag:'Internet of Things (IoT)',
   aq:'Which radio technology?', alts:[
   { i:'Zigbee2MQTT', l:'Zigbee', w:'Zigbee2MQTT: every Zigbee device, one bridge' },
   { i:'Z-Wave JS UI', l:'Z-Wave', w:'Z-Wave JS UI: control panel plus MQTT gateway' },
@@ -482,87 +629,87 @@ const NEEDS = [
 
 { g:'home', id:'h_cam', q:'Run security cameras without a vendor cloud?', h:'Recording, motion and object detection — Frigate, Scrypted', tag:'Video Surveillance',
   aq:'How clever should it be?', alts:[
-  { i:'Frigate', l:'Frigate', w:'AI object detection (person, car), Coral support' },
-  { i:'Scrypted', l:'Scrypted', w:'Best bridge to HomeKit, Google and Alexa' },
-  { i:'motionEye', l:'motionEye', w:'Simple, happy on a Raspberry Pi' },
-  { i:'Zoneminder', l:'ZoneMinder', w:'Veteran system for many cameras' },
-  { i:'Viseron', l:'Viseron', w:'Modular NVR with several detectors' }]},
+  { i:'Frigate', l:'Frigate', t:'polish new', w:'AI object detection (person, car), Coral support' },
+  { i:'Scrypted', l:'Scrypted', t:'polish new', w:'Best bridge to HomeKit, Google and Alexa' },
+  { i:'motionEye', l:'motionEye', t:'lean proven', w:'Simple, happy on a Raspberry Pi' },
+  { i:'Zoneminder', l:'ZoneMinder', t:'proven', w:'Veteran system for many cameras' },
+  { i:'Viseron', l:'Viseron', t:'lean new', w:'Modular NVR with several detectors' }]},
 
-{ g:'home', id:'h_energy', q:'Track electricity, solar or an EV charger?', h:'Surplus charging and consumption history — evcc, Emoncms, Grott', tag:'Internet of Things (IoT)',
+{ g:'home', id:'h_energy', fx:1, q:'Track electricity, solar or an EV charger?', h:'Surplus charging and consumption history — evcc, Emoncms, Grott', tag:'Internet of Things (IoT)',
   aq:'What are you measuring?', alts:[
   { i:'evcc', l:'EV charging', w:'evcc: charge the car from solar surplus' },
   { i:'Emoncms', l:'Energy logging', w:'Emoncms: log and visualise power and temperature' },
   { i:'Grott', l:'Growatt inverter', w:'Grott: intercepts inverter data into MQTT' },
   { i:'Teslamate', l:'Tesla logging', w:'Teslamate: every drive, charge and battery stat' }]},
 
-{ g:'home', id:'h_3d', q:'Control a 3D printer or CNC machine?', h:'Web interface, webcam, job queue — OctoPrint, Mainsail, Fluidd', tag:'Manufacturing',
+{ g:'home', id:'h_3d', fx:1, q:'Control a 3D printer or CNC machine?', h:'Web interface, webcam, job queue — OctoPrint, Mainsail, Fluidd', tag:'Manufacturing',
   aq:'What are you printing with?', alts:[
-  { i:'Octoprint', l:'OctoPrint', w:'The classic with a huge plugin ecosystem' },
-  { i:'Mainsail', l:'Mainsail (Klipper)', w:'Modern Klipper front end' },
-  { i:'Fluidd', l:'Fluidd (Klipper)', w:'Klipper front end, very tidy' },
-  { i:'Spoolman', l:'Spoolman', w:'Track filament spools and usage' },
-  { i:'Manyfold', l:'Manyfold', w:'Organise your STL collection' }]},
+  { i:'Octoprint', l:'OctoPrint', t:'proven', w:'The classic with a huge plugin ecosystem' },
+  { i:'Mainsail', l:'Mainsail (Klipper)', t:'polish new', w:'Modern Klipper front end' },
+  { i:'Fluidd', l:'Fluidd (Klipper)', t:'lean new', w:'Klipper front end, very tidy' },
+  { i:'Spoolman', l:'Spoolman', t:'unix lean', w:'Track filament spools and usage' },
+  { i:'Manyfold', l:'Manyfold', t:'unix new', w:'Organise your STL collection' }]},
 
 /* ============================ NETWORK ============================ */
 { g:'net', id:'n_dns', q:'Block ads and trackers for the whole network?', h:'A DNS filter that also covers the smart TV — Pi-hole, AdGuard Home', tag:'DNS',
   aq:'Which interface?', alts:[
-  { i:'AdGuard Home', l:'AdGuard Home', w:'Modern, DoH and DoT built in, simpler setup' },
-  { i:'Pi-hole', l:'Pi-hole', w:'The classic with an enormous community' },
-  { i:'Technitium DNS Server', l:'Technitium', w:'A full DNS server that also blocks' },
-  { i:'blocky', l:'blocky', w:'Tiny, configured in YAML' }]},
+  { i:'AdGuard Home', l:'AdGuard Home', t:'polish new', w:'Modern, DoH and DoT built in, simpler setup' },
+  { i:'Pi-hole', l:'Pi-hole', t:'proven', w:'The classic with an enormous community' },
+  { i:'Technitium DNS Server', l:'Technitium', t:'suite', w:'A full DNS server that also blocks' },
+  { i:'blocky', l:'blocky', t:'lean', w:'Tiny, configured in YAML' }]},
 
 { g:'net', id:'n_proxy', q:'Give services proper domains and HTTPS?', h:'Reverse proxy with automatic Let\'s Encrypt — Nginx Proxy Manager, Traefik, Caddy', tag:'Web Servers',
   aq:'How do you like to configure things?', alts:[
-  { i:'Nginx Proxy Manager', l:'Nginx Proxy Manager', w:'Click instead of type — the easy start' },
-  { i:'Traefik', l:'Traefik', w:'Discovers containers automatically through labels' },
-  { i:'Caddy', l:'Caddy', w:'Two lines of config, HTTPS handled for you' },
-  { i:'Zoraxy', l:'Zoraxy', w:'GUI plus tunnels and uptime checks' },
-  { i:'Pangolin', l:'Pangolin', w:'Expose services without opening a single port' }]},
+  { i:'Nginx Proxy Manager', l:'Nginx Proxy Manager', t:'polish proven', w:'Click instead of type — the easy start' },
+  { i:'Traefik', l:'Traefik', t:'unix new', w:'Discovers containers automatically through labels' },
+  { i:'Caddy', l:'Caddy', t:'lean new', w:'Two lines of config, HTTPS handled for you' },
+  { i:'Zoraxy', l:'Zoraxy', t:'suite new', w:'GUI plus tunnels and uptime checks' },
+  { i:'Pangolin', l:'Pangolin', t:'new polish', w:'Expose services without opening a single port' }]},
 
 { g:'net', id:'n_vpn', q:'Reach your home network from anywhere?', h:'A VPN instead of open ports — WireGuard, Headscale, NetBird', tag:'SysAdmin - VPN',
   aq:'How much comfort do you want?', alts:[
-  { i:'WireGuard', l:'Plain WireGuard', w:'Fast, lean, built into the kernel' },
-  { i:'Headscale', l:'Headscale', w:'Tailscale style mesh, punches through any NAT' },
-  { i:'NetBird', l:'NetBird', w:'Mesh with SSO and access rules' },
-  { i:'Netmaker', l:'Netmaker', w:'WireGuard mesh with a management UI' },
-  { i:'Firezone', l:'Firezone', w:'WireGuard with firewall rules and a web UI' },
-  { i:'OpenVPN', l:'OpenVPN', w:'When you need maximum compatibility' }]},
+  { i:'WireGuard', l:'Plain WireGuard', t:'lean proven', w:'Fast, lean, built into the kernel' },
+  { i:'Headscale', l:'Headscale', t:'polish new', w:'Tailscale style mesh, punches through any NAT' },
+  { i:'NetBird', l:'NetBird', t:'polish new', w:'Mesh with SSO and access rules' },
+  { i:'Netmaker', l:'Netmaker', t:'suite new', w:'WireGuard mesh with a management UI' },
+  { i:'Firezone', l:'Firezone', t:'polish new', w:'WireGuard with firewall rules and a web UI' },
+  { i:'OpenVPN', l:'OpenVPN', t:'proven suite', w:'When you need maximum compatibility' }]},
 
 { g:'net', id:'n_sso', q:'One login for everything (SSO and 2FA)?', h:'Sign in once, even for apps with no user management — Authelia, Authentik', tag:'SysAdmin - Identity Management - Single Sign-On (SSO)',
   aq:'How big may it be?', alts:[
-  { i:'Authelia', l:'Authelia', w:'Lightweight, sits in front of your reverse proxy' },
-  { i:'Authentik', l:'Authentik', w:'Powerful: OIDC, SAML, LDAP, nice UI' },
-  { i:'Pocket ID', l:'Pocket ID', w:'Minimal OIDC provider, passkeys only' },
-  { i:'KeyCloak', l:'Keycloak', w:'The enterprise standard, plenty of Java' }]},
+  { i:'Authelia', l:'Authelia', t:'lean', w:'Lightweight, sits in front of your reverse proxy' },
+  { i:'Authentik', l:'Authentik', t:'suite polish', w:'Powerful: OIDC, SAML, LDAP, nice UI' },
+  { i:'Pocket ID', l:'Pocket ID', nx:1, t:'lean new', w:'Minimal OIDC provider, passkeys only' },
+  { i:'KeyCloak', l:'Keycloak', t:'suite proven', w:'The enterprise standard, plenty of Java' }]},
 
-{ g:'net', id:'n_monitor', q:'Find out when something breaks?', h:'Check availability and get notified — Uptime Kuma, Beszel, Grafana', tag:'SysAdmin - Monitoring & Status Pages',
+{ g:'net', id:'n_monitor', fx:1, q:'Find out when something breaks?', h:'Check availability and get notified — Uptime Kuma, Beszel, Grafana', tag:'SysAdmin - Monitoring & Status Pages',
   aq:'What do you want to watch?', alts:[
-  { i:'Uptime Kuma', l:'Availability (Uptime Kuma)', w:'Set up in five minutes, 90+ notification channels' },
-  { i:'Beszel', l:'Server resources (Beszel)', w:'CPU, RAM and Docker stats, featherweight' },
-  { i:'Netdata', l:'Everything live (Netdata)', w:'Per second metrics with zero configuration' },
-  { i:['Grafana','Prometheus'], l:'The pro stack', w:'Grafana + Prometheus: any metric, any dashboard' },
-  { i:'Zabbix', l:'Classic NMS (Zabbix)', w:'For many hosts and network gear' },
-  { i:'Gatus', l:'Health dashboard (Gatus)', w:'Status checks defined as code' }]},
+  { i:'Uptime Kuma', l:'Availability (Uptime Kuma)', t:'polish proven', w:'Set up in five minutes, 90+ notification channels' },
+  { i:'Beszel', l:'Server resources (Beszel)', t:'lean new', w:'CPU, RAM and Docker stats, featherweight' },
+  { i:'Netdata', l:'Everything live (Netdata)', t:'polish proven', w:'Per second metrics with zero configuration' },
+  { i:['Grafana','Prometheus'], l:'The pro stack', t:'suite unix proven', w:'Grafana + Prometheus: any metric, any dashboard' },
+  { i:'Zabbix', l:'Classic NMS (Zabbix)', t:'suite proven', w:'For many hosts and network gear' },
+  { i:'Gatus', l:'Health dashboard (Gatus)', t:'lean new', w:'Status checks defined as code' }]},
 
 { g:'net', id:'n_dash', q:'Have one start page for all your services?', h:'Tiles with live status, weather and search — Homepage, Glance, Dashy', tag:'Personal Dashboards',
   aq:'How should it feel?', alts:[
-  { i:'Homepage by gethomepage', l:'Homepage', w:'YAML config, pulls live data from 100+ services' },
-  { i:'Glance', l:'Glance', w:'Feeds, markets and weather — genuinely gorgeous' },
-  { i:'Dashy', l:'Dashy', w:'Configure everything through the UI' },
-  { i:'Homarr', l:'Homarr', w:'Drag and drop with Docker integration' },
-  { i:'Heimdall', l:'Heimdall', w:'Minimal and simply pretty' }]},
+  { i:'Homepage by gethomepage', l:'Homepage', t:'polish proven', w:'YAML config, pulls live data from 100+ services' },
+  { i:'Glance', l:'Glance', t:'polish new', w:'Feeds, markets and weather — genuinely gorgeous' },
+  { i:'Dashy', l:'Dashy', t:'polish proven', w:'Configure everything through the UI' },
+  { i:'Homarr', l:'Homarr', t:'polish new', w:'Drag and drop with Docker integration' },
+  { i:'Heimdall', l:'Heimdall', t:'lean proven', w:'Minimal and simply pretty' }]},
 
 { g:'net', id:'n_remote', q:'Reach desktops or terminals through the browser?', h:'SSH, RDP and VNC without installing a client — Guacamole, RustDesk', tag:'Remote Access',
-  alts:[{ i:'Guacamole', l:'Apache Guacamole', w:'RDP, VNC and SSH in a browser tab' },
-        { i:'RustDesk', l:'RustDesk', w:'Self-hosted TeamViewer replacement' },
-        { i:'Termix', l:'Termix', w:'Modern SSH interface with a file editor' },
-        { i:'MeshCentral', l:'MeshCentral', w:'Remote manage every machine in the house' }]},
+  alts:[{ i:'Guacamole', l:'Apache Guacamole', t:'suite proven', w:'RDP, VNC and SSH in a browser tab' },
+        { i:'RustDesk', l:'RustDesk', t:'polish new', w:'Self-hosted TeamViewer replacement' },
+        { i:'Termix', l:'Termix', t:'lean new', w:'Modern SSH interface with a file editor' },
+        { i:'MeshCentral', l:'MeshCentral', t:'suite proven', w:'Remote manage every machine in the house' }]},
 
 { g:'net', id:'n_sec', q:'Actively keep attackers out?', h:'The modern fail2ban, a WAF, intrusion detection — CrowdSec, Wazuh', tag:'SysAdmin - Monitoring & Status Pages',
-  alts:[{ i:'CrowdSec', l:'CrowdSec', w:'Blocks based on crowd-sourced intelligence' },
-        { i:'SafeLine', l:'SafeLine', w:'Web application firewall with a UI' },
-        { i:'Wazuh', l:'Wazuh', w:'Full SIEM and XDR platform' },
-        { i:'Anubis', l:'Anubis', w:'Keeps AI scrapers off your sites' }]},
+  alts:[{ i:'CrowdSec', l:'CrowdSec', t:'polish new', w:'Blocks based on crowd-sourced intelligence' },
+        { i:'SafeLine', l:'SafeLine', t:'polish new', w:'Web application firewall with a UI' },
+        { i:'Wazuh', l:'Wazuh', t:'suite proven', w:'Full SIEM and XDR platform' },
+        { i:'Anubis', l:'Anubis', nx:1, t:'lean new', w:'Keeps AI scrapers off your sites' }]},
 
 { g:'net', id:'n_net', q:'Know what is happening on your network?', h:'New devices, bandwidth, speed test history — NetAlertX, Speedtest Tracker', tag:'Network Utilities',
   alts:[{ i:'NetAlertX', l:'NetAlertX', w:'Alerts you about unknown devices on the LAN' },
@@ -572,75 +719,75 @@ const NEEDS = [
         { i:'WatchYourLAN', l:'WatchYourLAN', w:'Tiny network scanner' }]},
 
 { g:'net', id:'n_router', q:'Replace the router firmware or run a real firewall?', h:'OPNsense, pfSense, OpenWrt, IPFire', tag:'SysAdmin - Router',
-  alts:[{ i:'OPNsense', l:'OPNsense', w:'Modern FreeBSD firewall with frequent releases' },
-        { i:'pfSense CE', l:'pfSense CE', w:'The long standing classic' },
-        { i:'OpenWrt', l:'OpenWrt', w:'Turns cheap routers into real Linux boxes' },
-        { i:'IPFire', l:'IPFire', w:'Hardened firewall distribution' }]},
+  alts:[{ i:'OPNsense', l:'OPNsense', t:'polish new', w:'Modern FreeBSD firewall with frequent releases' },
+        { i:'pfSense CE', l:'pfSense CE', t:'proven', w:'The long standing classic' },
+        { i:'OpenWrt', l:'OpenWrt', t:'lean proven', w:'Turns cheap routers into real Linux boxes' },
+        { i:'IPFire', l:'IPFire', t:'lean proven', w:'Hardened firewall distribution' }]},
 
 { g:'net', id:'n_ipam', q:'Document your network and IP addresses?', h:'Source of truth for racks, VLANs and subnets — NetBox, phpIPAM', tag:'SysAdmin - IT Asset Management',
-  alts:[{ i:'Netbox', l:'NetBox', w:'The standard source of truth for infrastructure' },
-        { i:'phpIPAM', l:'phpIPAM', w:'Focused, simple IP address management' },
-        { i:'Nautobot', l:'Nautobot', w:'NetBox fork with automation built in' },
-        { i:'Snipe IT', l:'Snipe-IT', w:'Asset management for hardware and licences' }]},
+  alts:[{ i:'Netbox', l:'NetBox', t:'suite proven', w:'The standard source of truth for infrastructure' },
+        { i:'phpIPAM', l:'phpIPAM', t:'lean proven', w:'Focused, simple IP address management' },
+        { i:'Nautobot', l:'Nautobot', t:'suite new', w:'NetBox fork with automation built in' },
+        { i:'Snipe IT', l:'Snipe-IT', t:'polish proven', w:'Asset management for hardware and licences' }]},
 
 /* ============================ PRODUCTIVITY ============================ */
 { g:'prod', id:'p_notes', q:'Keep notes in one place, synced everywhere?', h:'An Evernote or Notion replacement — Joplin, Memos, Trilium, SiYuan', tag:'Note-taking & Editors',
   aq:'How does your brain work?', alts:[
-  { i:'Joplin', l:'Joplin', w:'Markdown, end to end encryption, apps everywhere' },
-  { i:'Memos', l:'Memos', w:'Fast micro notes, like a private Twitter' },
-  { i:'TriliumNext Notes', l:'Trilium', w:'Huge interlinked knowledge trees' },
-  { i:'SiYuan', l:'SiYuan', w:'Block based like Notion, offline first' },
-  { i:'AFFiNE Community Edition', l:'AFFiNE', w:'Documents and whiteboard in one' },
-  { i:'SilverBullet', l:'SilverBullet', w:'Markdown notebook you can program' }]},
+  { i:'Joplin', l:'Joplin', t:'polish proven', w:'Markdown, end to end encryption, apps everywhere' },
+  { i:'Memos', l:'Memos', t:'lean new', w:'Fast micro notes, like a private Twitter' },
+  { i:'TriliumNext Notes', l:'Trilium', t:'suite proven', w:'Huge interlinked knowledge trees' },
+  { i:'SiYuan', l:'SiYuan', t:'polish new', w:'Block based like Notion, offline first' },
+  { i:'AFFiNE Community Edition', l:'AFFiNE', t:'polish new', w:'Documents and whiteboard in one' },
+  { i:'SilverBullet', l:'SilverBullet', t:'lean new', w:'Markdown notebook you can program' }]},
 
 { g:'prod', id:'p_wiki', q:'Write documentation that lasts?', h:'Guides, runbooks, team knowledge — BookStack, Outline, Wiki.js', tag:'Wikis',
   aq:'Who is it for?', alts:[
-  { i:'BookStack', l:'BookStack', w:'Books, chapters, pages — instantly understandable' },
-  { i:'Outline', l:'Outline', w:'Very fast and polished, Notion feeling' },
-  { i:'Wiki.js', l:'Wiki.js', w:'Modular, many auth and storage backends' },
-  { i:'docmost Community Edition', l:'Docmost', w:'Real-time collaborative editing' },
-  { i:'Dokuwiki', l:'DokuWiki', w:'No database, runs forever' },
-  { i:'TiddlyWiki', l:'TiddlyWiki', w:'A whole wiki in a single HTML file' }]},
+  { i:'BookStack', l:'BookStack', t:'polish proven', w:'Books, chapters, pages — instantly understandable' },
+  { i:'Outline', l:'Outline', t:'polish new', w:'Very fast and polished, Notion feeling' },
+  { i:'Wiki.js', l:'Wiki.js', t:'suite proven', w:'Modular, many auth and storage backends' },
+  { i:'docmost Community Edition', l:'Docmost', t:'polish new', w:'Real-time collaborative editing' },
+  { i:'Dokuwiki', l:'DokuWiki', t:'lean proven', w:'No database, runs forever' },
+  { i:'TiddlyWiki', l:'TiddlyWiki', t:'lean proven', w:'A whole wiki in a single HTML file' }]},
 
 { g:'prod', id:'p_tasks', q:'Keep track of tasks and projects?', h:'To-do lists or a kanban board — Vikunja, Planka, Focalboard', tag:'Task Management & To-do Lists',
   aq:'How do you work?', alts:[
-  { i:'Vikunja', l:'Vikunja', w:'List, kanban, gantt and calendar in one' },
-  { i:'Planka', l:'Planka', w:'Real-time Trello clone' },
-  { i:'Focalboard', l:'Focalboard', w:'Boards, tables and calendars, Notion style' },
-  { i:'Wekan', l:'Wekan', w:'The kanban veteran' },
-  { i:'Super Productivity', l:'Super Productivity', w:'Personal, with time tracking and pomodoro' },
-  { i:'Kanboard', l:'Kanboard', w:'Extremely frugal, plain PHP' }]},
+  { i:'Vikunja', l:'Vikunja', t:'suite polish', w:'List, kanban, gantt and calendar in one' },
+  { i:'Planka', l:'Planka', t:'polish new', w:'Real-time Trello clone' },
+  { i:'Focalboard', l:'Focalboard', t:'polish proven', w:'Boards, tables and calendars, Notion style' },
+  { i:'Wekan', l:'Wekan', t:'proven', w:'The kanban veteran' },
+  { i:'Super Productivity', l:'Super Productivity', t:'polish', w:'Personal, with time tracking and pomodoro' },
+  { i:'Kanboard', l:'Kanboard', t:'lean proven', w:'Extremely frugal, plain PHP' }]},
 
 { g:'prod', id:'p_cal', q:'Host your own calendar and contacts?', h:'CalDAV and CardDAV for iPhone, Android and Thunderbird — Radicale, Baïkal', tag:'Calendar & Contacts',
-  alts:[{ i:'Radicale', l:'Radicale', w:'Tiny, running in minutes' },
-        { i:'Baïkal', l:'Baïkal', w:'Comes with a web admin interface' },
-        { i:'Nextcloud', l:'Nextcloud', w:'The obvious choice if you run it anyway' },
-        { i:'SOGo', l:'SOGo', w:'Groupware including ActiveSync' }]},
+  alts:[{ i:'Radicale', l:'Radicale', t:'lean proven', w:'Tiny, running in minutes' },
+        { i:'Baïkal', l:'Baïkal', t:'lean proven', w:'Comes with a web admin interface' },
+        { i:'Nextcloud', l:'Nextcloud', t:'suite polish', w:'The obvious choice if you run it anyway' },
+        { i:'SOGo', l:'SOGo', t:'suite proven', w:'Groupware including ActiveSync' }]},
 
 { g:'prod', id:'p_book', q:'Save links and articles for later?', h:'A Pocket replacement that keeps an offline copy — Karakeep, linkding, Linkwarden', tag:'Bookmarks and Link Sharing',
   aq:'What are you collecting?', alts:[
-  { i:'Karakeep', l:'Karakeep', w:'Links, notes and images with AI tagging' },
-  { i:'linkding', l:'linkding', w:'Blazing fast, minimal, browser extension' },
-  { i:'LinkWarden', l:'Linkwarden', w:'Archives pages permanently as PDF' },
-  { i:'Wallabag', l:'Wallabag', w:'Pure reading view, exports to Kindle' }]},
+  { i:'Karakeep', l:'Karakeep', t:'polish new', w:'Links, notes and images with AI tagging' },
+  { i:'linkding', l:'linkding', t:'lean proven', w:'Blazing fast, minimal, browser extension' },
+  { i:'LinkWarden', l:'Linkwarden', t:'polish new', w:'Archives pages permanently as PDF' },
+  { i:'Wallabag', l:'Wallabag', t:'proven', w:'Pure reading view, exports to Kindle' }]},
 
 { g:'prod', id:'p_rss', q:'Read the news through RSS instead of an algorithm?', h:'A feed reader that syncs to every device — FreshRSS, Miniflux', tag:'Feed Readers',
   aq:'How many feeds?', alts:[
-  { i:'FreshRSS', l:'FreshRSS', w:'The best all rounder, many client apps' },
-  { i:'Miniflux', l:'Miniflux', w:'Minimalist, single binary, very fast' },
-  { i:'RSSHub', l:'RSSHub', w:'Makes a feed out of sites that have none' },
-  { i:'CommaFeed', l:'CommaFeed', w:'Google Reader nostalgia' }]},
+  { i:'FreshRSS', l:'FreshRSS', t:'polish proven', w:'The best all rounder, many client apps' },
+  { i:'Miniflux', l:'Miniflux', t:'lean proven', w:'Minimalist, single binary, very fast' },
+  { i:'RSSHub', l:'RSSHub', nx:1, t:'unix new', w:'Makes a feed out of sites that have none' },
+  { i:'CommaFeed', l:'CommaFeed', t:'proven', w:'Google Reader nostalgia' }]},
 
 { g:'prod', id:'p_pw', q:'Run your own password manager?', h:'Works with the official Bitwarden apps — Vaultwarden', tag:'Password Managers',
-  alts:[{ i:'Vaultwarden', l:'Vaultwarden', w:'Bitwarden server in Rust, tiny, all clients work' },
-        { i:'Passbolt', l:'Passbolt', w:'Team oriented with fine grained sharing' },
-        { i:'Psono', l:'Psono', w:'Enterprise features, many secret types' }]},
+  alts:[{ i:'Vaultwarden', l:'Vaultwarden', t:'lean polish proven', w:'Bitwarden server in Rust, tiny, all clients work' },
+        { i:'Passbolt', l:'Passbolt', t:'suite', w:'Team oriented with fine grained sharing' },
+        { i:'Psono', l:'Psono', t:'suite', w:'Enterprise features, many secret types' }]},
 
 { g:'prod', id:'p_time', q:'Track working time or projects?', h:'For invoices or for curiosity — Kimai, ActivityWatch', tag:'Time Tracking',
-  alts:[{ i:'Kimai', l:'Kimai', w:'The classic, invoicing included' },
-        { i:'solidtime', l:'solidtime', w:'Modern, built for teams' },
-        { i:'ActivityWatch', l:'ActivityWatch', w:'Automatically records what you do on the PC' },
-        { i:'Wakapi', l:'Wakapi', w:'WakaTime replacement for coding time' }]},
+  alts:[{ i:'Kimai', l:'Kimai', t:'suite proven', w:'The classic, invoicing included' },
+        { i:'solidtime', l:'solidtime', t:'polish new', w:'Modern, built for teams' },
+        { i:'ActivityWatch', l:'ActivityWatch', t:'unix', w:'Automatically records what you do on the PC' },
+        { i:'Wakapi', l:'Wakapi', t:'lean new', w:'WakaTime replacement for coding time' }]},
 
 { g:'prod', id:'p_search', q:'Search the web without being profiled?', h:'A meta search engine of your own — SearXNG', tag:'Search Engines',
   alts:[{ i:'SearXNG', l:'SearXNG', w:'Meta search, no ads, no profile' },
@@ -649,11 +796,11 @@ const NEEDS = [
         { i:'Yacy', l:'YaCy', w:'Peer to peer web crawler' }]},
 
 { g:'prod', id:'p_paste', q:'Share code snippets or text?', h:'A pastebin or your own snippet library — Opengist, ByteStash', tag:'Pastebins',
-  alts:[{ i:'Opengist', l:'Opengist', w:'Like GitHub Gist, backed by real Git' },
-        { i:'ByteStash', l:'ByteStash', w:'Personal snippet library' },
-        { i:'PrivateBin', l:'PrivateBin', w:'Encrypted, no account needed' }]},
+  alts:[{ i:'Opengist', l:'Opengist', t:'polish new', w:'Like GitHub Gist, backed by real Git' },
+        { i:'ByteStash', l:'ByteStash', t:'new', w:'Personal snippet library' },
+        { i:'PrivateBin', l:'PrivateBin', t:'lean proven', w:'Encrypted, no account needed' }]},
 
-{ g:'prod', id:'p_draw', q:'Draw diagrams, sketches or whiteboards?', h:'Architecture drawings and brainstorming — Excalidraw, draw.io, PlantUML', tag:'SysAdmin - Diagramming',
+{ g:'prod', id:'p_draw', fx:1, q:'Draw diagrams, sketches or whiteboards?', h:'Architecture drawings and brainstorming — Excalidraw, draw.io, PlantUML', tag:'SysAdmin - Diagramming',
   aq:'What kind of drawing?', alts:[
   { i:'Excalidraw', l:'Sketching (Excalidraw)', w:'Hand drawn feel, perfect for whiteboarding' },
   { i:'draw.io', l:'Diagrams (draw.io)', w:'The full featured diagram editor' },
@@ -663,44 +810,44 @@ const NEEDS = [
 /* ============================ COMMUNICATION ============================ */
 { g:'comm', id:'c_chat', q:'Run your own messenger or team chat?', h:'A Slack or Discord replacement — Matrix, Mattermost, Rocket.Chat', tag:'Communication - Custom Communication Systems',
   aq:'What matters to you?', alts:[
-  { i:['Synapse','Element'], l:'Matrix (Synapse + Element)', w:'Open standard, federated, end to end encrypted' },
-  { i:'Mattermost', l:'Mattermost', w:'Slack feeling, very mature' },
-  { i:'Rocket.Chat', l:'Rocket.Chat', w:'Feature rich, includes customer chat' },
-  { i:'Zulip', l:'Zulip', w:'Threads that actually work' },
-  { i:'SimpleX Chat', l:'SimpleX', w:'Maximum privacy, no accounts at all' }]},
+  { i:['Synapse','Element'], l:'Matrix (Synapse + Element)', t:'suite proven', w:'Open standard, federated, end to end encrypted' },
+  { i:'Mattermost', l:'Mattermost', t:'polish proven', w:'Slack feeling, very mature' },
+  { i:'Rocket.Chat', l:'Rocket.Chat', t:'suite', w:'Feature rich, includes customer chat' },
+  { i:'Zulip', l:'Zulip', t:'polish proven', w:'Threads that actually work' },
+  { i:'SimpleX Chat', l:'SimpleX', t:'lean new', w:'Maximum privacy, no accounts at all' }]},
 
 { g:'comm', id:'c_notify', q:'Push messages from your scripts to your phone?', h:'"Backup done", "door open", "server down" — ntfy, Gotify', tag:'Communication - Custom Communication Systems',
-  alts:[{ i:'ntfy', l:'ntfy', w:'A single curl command is enough' },
-        { i:'Gotify', l:'Gotify', w:'Server plus app, very simple' },
-        { i:'Apprise', l:'Apprise', w:'Fans out to 100+ services' }]},
+  alts:[{ i:'ntfy', l:'ntfy', t:'lean new', w:'A single curl command is enough' },
+        { i:'Gotify', l:'Gotify', t:'lean proven', w:'Server plus app, very simple' },
+        { i:'Apprise', l:'Apprise', t:'unix', w:'Fans out to 100+ services' }]},
 
 { g:'comm', id:'c_video', q:'Hold video calls without Zoom?', h:'Send a browser link and go — Jitsi Meet, BigBlueButton', tag:'Communication - Video Conferencing',
-  alts:[{ i:'Jitsi Meet', l:'Jitsi Meet', w:'The standard, no account required' },
-        { i:'MiroTalk SFU', l:'MiroTalk SFU', w:'Light weight, many participants' },
-        { i:'BigBlueButton', l:'BigBlueButton', w:'For teaching: whiteboard and breakout rooms' }]},
+  alts:[{ i:'Jitsi Meet', l:'Jitsi Meet', t:'polish proven', w:'The standard, no account required' },
+        { i:'MiroTalk SFU', l:'MiroTalk SFU', t:'lean new', w:'Light weight, many participants' },
+        { i:'BigBlueButton', l:'BigBlueButton', t:'suite proven', w:'For teaching: whiteboard and breakout rooms' }]},
 
 { g:'comm', id:'c_mail', q:'Run your own mail server?', h:'Demanding, but doable — mailcow, Stalwart, Mail-in-a-Box', tag:'Communication - Email - Complete Solutions',
   aq:'How much hand work?', alts:[
-  { i:'Mailcow', l:'mailcow', w:'Complete package with a UI, the community favourite' },
-  { i:'Stalwart Mail Server', l:'Stalwart', w:'Modern all-in-one server written in Rust' },
-  { i:'docker-mailserver', l:'docker-mailserver', w:'Lean, configured through files' },
-  { i:'Mail-in-a-Box', l:'Mail-in-a-Box', w:'One script, done' },
-  { i:'SimpleLogin', l:'SimpleLogin', w:'Only aliases, no full mail server' }]},
+  { i:'Mailcow', l:'mailcow', t:'suite polish', w:'Complete package with a UI, the community favourite' },
+  { i:'Stalwart Mail Server', l:'Stalwart', t:'suite lean new', w:'Modern all-in-one server written in Rust' },
+  { i:'docker-mailserver', l:'docker-mailserver', t:'lean unix', w:'Lean, configured through files' },
+  { i:'Mail-in-a-Box', l:'Mail-in-a-Box', t:'suite proven', w:'One script, done' },
+  { i:'SimpleLogin', l:'SimpleLogin', nx:1, w:'Only aliases, no full mail server' }]},
 
 { g:'comm', id:'c_forum', q:'Build a forum or community?', h:'Discussions, support, questions and answers — Discourse, Flarum', tag:'Communication - Social Networks and Forums',
-  alts:[{ i:'Discourse', l:'Discourse', w:'The modern forum standard' },
-        { i:'Flarum', l:'Flarum', w:'Light and fast' },
-        { i:'NodeBB', l:'NodeBB', w:'Real-time discussions' },
-        { i:'Answer', l:'Answer', w:'Stack Overflow style Q&A' }]},
+  alts:[{ i:'Discourse', l:'Discourse', t:'suite polish proven', w:'The modern forum standard' },
+        { i:'Flarum', l:'Flarum', t:'lean', w:'Light and fast' },
+        { i:'NodeBB', l:'NodeBB', t:'polish', w:'Real-time discussions' },
+        { i:'Answer', l:'Answer', t:'new', w:'Stack Overflow style Q&A' }]},
 
-{ g:'comm', id:'c_social', q:'Join the fediverse with your own instance?', h:'Alternatives to Twitter, Instagram and Reddit — Mastodon, Pixelfed, Lemmy', tag:'Communication - Social Networks and Forums',
+{ g:'comm', id:'c_social', fx:1, q:'Join the fediverse with your own instance?', h:'Alternatives to Twitter, Instagram and Reddit — Mastodon, Pixelfed, Lemmy', tag:'Communication - Social Networks and Forums',
   aq:'Which platform?', alts:[
   { i:'Mastodon', l:'Microblogging (Mastodon)', w:'The Twitter replacement' },
   { i:'PixelFed', l:'Photos (Pixelfed)', w:'Instagram for the fediverse' },
   { i:'Lemmy', l:'Link aggregator (Lemmy)', w:'Reddit for the fediverse' },
   { i:'Misskey', l:'Playful (Misskey)', w:'Lots of extras, highly customisable' }]},
 
-{ g:'comm', id:'c_old', q:'Run a classic chat protocol (IRC or XMPP)?', h:'Still the most frugal way to chat — The Lounge, ejabberd, Prosody', tag:'Communication - IRC',
+{ g:'comm', id:'c_old', fx:1, q:'Run a classic chat protocol (IRC or XMPP)?', h:'Still the most frugal way to chat — The Lounge, ejabberd, Prosody', tag:'Communication - IRC',
   aq:'Which protocol?', alts:[
   { i:'The Lounge', l:'IRC (The Lounge)', w:'Always-on IRC client in the browser' },
   { i:'Ergo', l:'IRC server (Ergo)', w:'Modern IRCv3 server in one binary' },
@@ -710,28 +857,28 @@ const NEEDS = [
 /* ============================ DEV ============================ */
 { g:'dev', id:'d_git', q:'Host your own GitHub?', h:'Repos, issues, pull requests, registry — Forgejo, Gitea, GitLab', tag:'Software Development - Project Management',
   aq:'How heavy may it be?', alts:[
-  { i:'Forgejo', l:'Forgejo', w:'Community fork of Gitea, light and non profit' },
-  { i:'Gitea', l:'Gitea', w:'Very frugal, hugely popular' },
-  { i:'GitLab', l:'GitLab CE', w:'Everything including CI/CD — needs RAM' },
-  { i:'OneDev', l:'OneDev', w:'Git, CI and kanban in a single binary' }]},
+  { i:'Forgejo', l:'Forgejo', t:'unix lean new', w:'Community fork of Gitea, light and non profit' },
+  { i:'Gitea', l:'Gitea', t:'unix lean proven', w:'Very frugal, hugely popular' },
+  { i:'GitLab', l:'GitLab CE', t:'suite proven', w:'Everything including CI/CD — needs RAM' },
+  { i:'OneDev', l:'OneDev', t:'suite new', w:'Git, CI and kanban in a single binary' }]},
 
 { g:'dev', id:'d_ci', q:'Automate builds and deployments?', h:'Test and ship on every push — Woodpecker, Jenkins, Argo CD', tag:'SysAdmin - Continuous Integration & Continuous Deployment',
-  alts:[{ i:'Woodpecker', l:'Woodpecker CI', w:'Lightweight, pairs perfectly with Gitea and Forgejo' },
-        { i:'Jenkins', l:'Jenkins', w:'Can do anything, has a plugin for everything' },
-        { i:'ArgoCD', l:'Argo CD', w:'GitOps for Kubernetes' },
-        { i:'Concourse', l:'Concourse', w:'Pipelines defined as code' }]},
+  alts:[{ i:'Woodpecker', l:'Woodpecker CI', t:'lean new', w:'Lightweight, pairs perfectly with Gitea and Forgejo' },
+        { i:'Jenkins', l:'Jenkins', t:'suite proven', w:'Can do anything, has a plugin for everything' },
+        { i:'ArgoCD', l:'Argo CD', t:'new', w:'GitOps for Kubernetes' },
+        { i:'Concourse', l:'Concourse', t:'proven', w:'Pipelines defined as code' }]},
 
 { g:'dev', id:'d_paas', q:'Deploy apps with one click (your own Heroku)?', h:'git push and it runs, HTTPS included — Coolify, Dokku, CapRover', tag:'SysAdmin - PaaS',
-  alts:[{ i:'Coolify', l:'Coolify', w:'The current favourite: apps, databases, backups, SSL' },
-        { i:'Dokku', l:'Dokku', w:'Minimalist, uses Heroku buildpacks' },
-        { i:'CapRover', l:'CapRover', w:'One-click apps with a UI' }]},
+  alts:[{ i:'Coolify', l:'Coolify', t:'suite polish new', w:'The current favourite: apps, databases, backups, SSL' },
+        { i:'Dokku', l:'Dokku', t:'lean proven', w:'Minimalist, uses Heroku buildpacks' },
+        { i:'CapRover', l:'CapRover', t:'polish proven', w:'One-click apps with a UI' }]},
 
 { g:'dev', id:'d_ide', q:'Have a development environment in the browser?', h:'Work on the same project from any device — code-server, Coder', tag:'Software Development - IDE & Tools',
-  alts:[{ i:'code-server', l:'code-server', w:'VS Code in a browser tab, one container' },
-        { i:'Coder', l:'Coder', w:'Provision dev environments for a team' },
-        { i:'JupyterLab', l:'JupyterLab', w:'For data and notebooks' }]},
+  alts:[{ i:'code-server', l:'code-server', t:'lean proven', w:'VS Code in a browser tab, one container' },
+        { i:'Coder', l:'Coder', t:'suite new', w:'Provision dev environments for a team' },
+        { i:'JupyterLab', l:'JupyterLab', nx:1, t:'unix proven', w:'For data and notebooks' }]},
 
-{ g:'dev', id:'d_db', q:'Manage databases or use one as a backend?', h:'A GUI for SQL, or a whole backend — NocoDB, Baserow, PocketBase', tag:'Database Management',
+{ g:'dev', id:'d_db', fx:1, q:'Manage databases or use one as a backend?', h:'A GUI for SQL, or a whole backend — NocoDB, Baserow, PocketBase', tag:'Database Management',
   aq:'What do you need?', alts:[
   { i:'NocoDB', l:'Airtable style (NocoDB)', w:'Tables with views and automations' },
   { i:'Baserow', l:'Airtable style (Baserow)', w:'Open core, very clean UI' },
@@ -741,31 +888,31 @@ const NEEDS = [
   { i:'Directus', l:'Headless (Directus)', w:'Wraps any existing SQL database' }]},
 
 { g:'dev', id:'d_api', q:'Test, publish or protect APIs?', h:'A Postman replacement or an API gateway — Hoppscotch, Kong', tag:'Software Development - API Management',
-  alts:[{ i:'Hoppscotch Community Edition', l:'Hoppscotch', w:'Postman replacement in the browser' },
-        { i:'Kong', l:'Kong', w:'The API gateway' },
-        { i:'Svix', l:'Svix', w:'Reliable webhook delivery' }]},
+  alts:[{ i:'Hoppscotch Community Edition', l:'Hoppscotch', t:'polish new', w:'Postman replacement in the browser' },
+        { i:'Kong', l:'Kong', t:'suite proven', w:'The API gateway' },
+        { i:'Svix', l:'Svix', nx:1, t:'unix new', w:'Reliable webhook delivery' }]},
 
 { g:'dev', id:'d_err', q:'Monitor errors and performance of your apps?', h:'Collect stack traces and traces — Sentry, GlitchTip', tag:'Software Development - Testing',
-  alts:[{ i:'Sentry Self-Hosted', l:'Sentry', w:'The standard for error tracking' },
-        { i:'GlitchTip', l:'GlitchTip', w:'Sentry compatible and far lighter' },
-        { i:'Langfuse', l:'Langfuse', w:'When you are building LLM applications' }]},
+  alts:[{ i:'Sentry Self-Hosted', l:'Sentry', t:'suite proven', w:'The standard for error tracking' },
+        { i:'GlitchTip', l:'GlitchTip', t:'lean new', w:'Sentry compatible and far lighter' },
+        { i:'Langfuse', l:'Langfuse', nx:1, t:'new', w:'When you are building LLM applications' }]},
 
 { g:'dev', id:'d_low', q:'Build internal tools without much code?', h:'Admin panels, forms, dashboards — Appsmith, ToolJet, Budibase', tag:'Software Development - Low Code',
-  alts:[{ i:'Appsmith', l:'Appsmith', w:'Drag and drop on top of your data sources' },
-        { i:'ToolJet', l:'ToolJet', w:'Similar, very actively developed' },
-        { i:'Budibase', l:'Budibase', w:'Comes with its own database' }]},
+  alts:[{ i:'Appsmith', l:'Appsmith', t:'polish proven', w:'Drag and drop on top of your data sources' },
+        { i:'ToolJet', l:'ToolJet', t:'polish new', w:'Similar, very actively developed' },
+        { i:'Budibase', l:'Budibase', t:'suite', w:'Comes with its own database' }]},
 
 /* ============================ AI ============================ */
 { g:'ai', id:'a_llm', q:'Run language models locally?', h:'A ChatGPT replacement on your own hardware — Ollama, Open WebUI', tag:'Generative Artificial Intelligence (GenAI)',
   aq:'Which combination?', alts:[
-  { i:['Ollama','Open-WebUI'], l:'Ollama + Open WebUI', w:'The standard stack: model runner plus a proper chat UI' },
-  { i:'LocalAI', l:'LocalAI', w:'OpenAI compatible API as a drop-in replacement' },
-  { i:'AnythingLLM', l:'AnythingLLM', w:'Chat with your own documents' },
-  { i:'LibreChat', l:'LibreChat', w:'One UI for every provider plus local models' }]},
+  { i:['Ollama','Open-WebUI'], l:'Ollama + Open WebUI', t:'polish proven', w:'The standard stack: model runner plus a proper chat UI' },
+  { i:'LocalAI', l:'LocalAI', t:'lean unix', w:'OpenAI compatible API as a drop-in replacement' },
+  { i:'AnythingLLM', l:'AnythingLLM', t:'suite polish', w:'Chat with your own documents' },
+  { i:'LibreChat', l:'LibreChat', t:'polish new', w:'One UI for every provider plus local models' }]},
 
 { g:'ai', id:'a_img', q:'Generate images?', h:'Stable Diffusion and friends on your own GPU — ComfyUI, A1111', tag:'Generative Artificial Intelligence (GenAI)',
-  alts:[{ i:'ComfyUI', l:'ComfyUI', w:'Node graphs, maximum control' },
-        { i:'Stable Diffusion web UI', l:'A1111 WebUI', w:'Classic form based UI, easier to start with' }]},
+  alts:[{ i:'ComfyUI', l:'ComfyUI', t:'unix new', w:'Node graphs, maximum control' },
+        { i:'Stable Diffusion web UI', l:'A1111 WebUI', t:'polish proven', w:'Classic form based UI, easier to start with' }]},
 
 { g:'ai', id:'a_rag', q:'Chat with your own documents and notes?', h:'Retrieval over your knowledge base, mail and PDFs — Khoj, Onyx', tag:'Generative Artificial Intelligence (GenAI)',
   alts:[{ i:'Khoj', l:'Khoj', w:'Second brain across notes, PDFs and the web' },
@@ -774,20 +921,20 @@ const NEEDS = [
 
 { g:'ai', id:'a_auto', q:'Automate recurring workflows?', h:'When X happens, do Y — n8n, Node-RED, Activepieces, Huginn', tag:'Automation',
   aq:'Which style?', alts:[
-  { i:'n8n', l:'n8n', w:'Visual workflow builder with 400+ integrations' },
-  { i:'Activepieces', l:'Activepieces', w:'Zapier feeling, very tidy' },
-  { i:'Node RED', l:'Node-RED', w:'Wire up events, perfect next to Home Assistant' },
-  { i:'Dify.ai', l:'Dify', w:'Purpose built for AI workflows and agents' },
-  { i:'Huginn', l:'Huginn', w:'Agents that watch the web for you' },
-  { i:'changedetection.io', l:'changedetection.io', w:'Only watches web pages for changes' }]},
+  { i:'n8n', l:'n8n', t:'suite polish proven', w:'Visual workflow builder with 400+ integrations' },
+  { i:'Activepieces', l:'Activepieces', t:'polish new', w:'Zapier feeling, very tidy' },
+  { i:'Node RED', l:'Node-RED', t:'lean unix', w:'Wire up events, perfect next to Home Assistant' },
+  { i:'Dify.ai', l:'Dify', t:'suite new', w:'Purpose built for AI workflows and agents' },
+  { i:'Huginn', l:'Huginn', t:'lean proven', w:'Agents that watch the web for you' },
+  { i:'changedetection.io', l:'changedetection.io', t:'unix lean', w:'Only watches web pages for changes' }]},
 
 /* ============================ LIFE ============================ */
 { g:'life', id:'l_recipe', q:'Collect recipes and plan meals?', h:'Import by link, weekly plan, shopping list — Mealie, Tandoor', tag:'Recipe Management',
-  alts:[{ i:'Mealie', l:'Mealie', w:'Pretty, phone friendly, great import' },
-        { i:'Tandoor Recipes', l:'Tandoor', w:'Very strong at planning and pantry' },
-        { i:'Bar Assistant', l:'Bar Assistant', w:'For cocktails' }]},
+  alts:[{ i:'Mealie', l:'Mealie', t:'polish new', w:'Pretty, phone friendly, great import' },
+        { i:'Tandoor Recipes', l:'Tandoor', t:'suite proven', w:'Very strong at planning and pantry' },
+        { i:'Bar Assistant', l:'Bar Assistant', nx:1, t:'unix', w:'For cocktails' }]},
 
-{ g:'life', id:'l_money', q:'Get your finances under control?', h:'Budget, accounts, portfolio, subscriptions — Actual, Firefly III, Wallos', tag:'Money, Budgeting & Management',
+{ g:'life', id:'l_money', fx:1, q:'Get your finances under control?', h:'Budget, accounts, portfolio, subscriptions — Actual, Firefly III, Wallos', tag:'Money, Budgeting & Management',
   aq:'What is it about?', alts:[
   { i:'Actual', l:'Budgeting (Actual)', w:'Envelope budgeting, very fast' },
   { i:'Firefly III', l:'Bookkeeping (Firefly III)', w:'All accounts, rules and reports' },
@@ -796,7 +943,7 @@ const NEEDS = [
   { i:'Maybe', l:'Net worth (Maybe)', w:'Accounts, investments and wealth in one' },
   { i:'Invoice Ninja', l:'Invoicing (Invoice Ninja)', w:'Quotes, invoices, reminders' }]},
 
-{ g:'life', id:'l_inv', q:'Keep an inventory of your stuff?', h:'From the cellar to the pantry to the parts bin — HomeBox, Grocy, InvenTree', tag:'Inventory Management',
+{ g:'life', id:'l_inv', fx:1, q:'Keep an inventory of your stuff?', h:'From the cellar to the pantry to the parts bin — HomeBox, Grocy, InvenTree', tag:'Inventory Management',
   aq:'What are you storing?', alts:[
   { i:'HomeBox (SysAdminsMedia)', l:'Household (HomeBox)', w:'What is in which box, with QR labels' },
   { i:'grocy', l:'Groceries (Grocy)', w:'ERP for your fridge, with expiry dates' },
@@ -805,11 +952,11 @@ const NEEDS = [
   { i:'Koillection', l:'Collections (Koillection)', w:'Any collection: records, stamps, LEGO, wine' }]},
 
 { g:'life', id:'l_fit', q:'Track training and health?', h:'Without handing data to a fitness corporation — wger, FitTrackee', tag:'Health and Fitness',
-  alts:[{ i:'wger', l:'wger', w:'Workout plans, weight and nutrition' },
-        { i:'FitTrackee', l:'FitTrackee', w:'Analyse GPX activities' },
-        { i:'Endurain', l:'Endurain', w:'Modern Strava replacement' }]},
+  alts:[{ i:'wger', l:'wger', t:'suite proven', w:'Workout plans, weight and nutrition' },
+        { i:'FitTrackee', l:'FitTrackee', t:'lean', w:'Analyse GPX activities' },
+        { i:'Endurain', l:'Endurain', t:'polish new', w:'Modern Strava replacement' }]},
 
-{ g:'life', id:'l_travel', q:'Record trips, tours or places?', h:'Where you have been and where you want to go — AdventureLog, wanderer, Dawarich', tag:'Maps and Global Positioning System (GPS)',
+{ g:'life', id:'l_travel', fx:1, q:'Record trips, tours or places?', h:'Where you have been and where you want to go — AdventureLog, wanderer, Dawarich', tag:'Maps and Global Positioning System (GPS)',
   aq:'What interests you?', alts:[
   { i:'AdventureLog', l:'Travel (AdventureLog)', w:'Visited places and trip planning' },
   { i:'wanderer', l:'Tours (wanderer)', w:'GPX collection for hiking and cycling' },
@@ -819,26 +966,26 @@ const NEEDS = [
 /* ============================ WEB / BUSINESS ============================ */
 { g:'web', id:'w_site', q:'Run a website or blog?', h:'From Markdown files to a full CMS — Ghost, WordPress, Hugo', tag:'Content Management Systems (CMS)',
   aq:'How do you want to maintain it?', alts:[
-  { i:'Ghost', l:'Blog (Ghost)', w:'Publishing and newsletters, very fast' },
-  { i:'WordPress', l:'Classic (WordPress)', w:'A plugin for absolutely everything' },
-  { i:'Hugo', l:'Static (Hugo)', w:'Markdown in, HTML out — extremely fast' },
-  { i:'Strapi', l:'Headless (Strapi)', w:'Content plus API for your own front end' },
-  { i:'Payload CMS', l:'Headless (Payload)', w:'Modern, TypeScript first' }]},
+  { i:'Ghost', l:'Blog (Ghost)', t:'polish new', w:'Publishing and newsletters, very fast' },
+  { i:'WordPress', l:'Classic (WordPress)', t:'suite proven', w:'A plugin for absolutely everything' },
+  { i:'Hugo', l:'Static (Hugo)', t:'lean unix', w:'Markdown in, HTML out — extremely fast' },
+  { i:'Strapi', l:'Headless (Strapi)', t:'unix new', w:'Content plus API for your own front end' },
+  { i:'Payload CMS', l:'Headless (Payload)', t:'polish new', w:'Modern, TypeScript first' }]},
 
 { g:'web', id:'w_shop', q:'Build an online shop?', h:'Products, cart, payments — Medusa, Saleor, PrestaShop', tag:'E-commerce',
-  alts:[{ i:'MedusaJs', l:'Medusa', w:'Headless, modern, developer friendly' },
-        { i:'Saleor', l:'Saleor', w:'GraphQL first, scales well' },
-        { i:'PrestaShop', l:'PrestaShop', w:'Classic shop with a full back office' },
-        { i:'Bagisto', l:'Bagisto', w:'Laravel based with many modules' }]},
+  alts:[{ i:'MedusaJs', l:'Medusa', t:'unix new', w:'Headless, modern, developer friendly' },
+        { i:'Saleor', l:'Saleor', t:'suite new', w:'GraphQL first, scales well' },
+        { i:'PrestaShop', l:'PrestaShop', t:'suite proven', w:'Classic shop with a full back office' },
+        { i:'Bagisto', l:'Bagisto', t:'suite', w:'Laravel based with many modules' }]},
 
 { g:'web', id:'w_analytics', q:'Count visitors without Google Analytics?', h:'Privacy friendly, usually without a cookie banner — Umami, Plausible, Matomo', tag:'Analytics',
   aq:'How deep?', alts:[
-  { i:'Umami', l:'Umami', w:'Lean, pretty, running in minutes' },
-  { i:'Plausible Analytics', l:'Plausible', w:'Clear and data frugal' },
-  { i:'Matomo', l:'Matomo', w:'The full Google Analytics feature set' },
-  { i:'PostHog', l:'PostHog', w:'Product analytics with session replay' }]},
+  { i:'Umami', l:'Umami', t:'lean new', w:'Lean, pretty, running in minutes' },
+  { i:'Plausible Analytics', l:'Plausible', t:'lean polish', w:'Clear and data frugal' },
+  { i:'Matomo', l:'Matomo', t:'suite proven', w:'The full Google Analytics feature set' },
+  { i:'PostHog', l:'PostHog', t:'suite polish new', w:'Product analytics with session replay' }]},
 
-{ g:'web', id:'w_forms', q:'Collect forms, surveys or meeting times?', h:'A Google Forms or Doodle replacement — Formbricks, OpnForm, Rallly', tag:'Polls and Events',
+{ g:'web', id:'w_forms', fx:1, q:'Collect forms, surveys or meeting times?', h:'A Google Forms or Doodle replacement — Formbricks, OpnForm, Rallly', tag:'Polls and Events',
   aq:'What for?', alts:[
   { i:'Formbricks', l:'Surveys (Formbricks)', w:'Modern, with proper analysis' },
   { i:'OpnForm', l:'Forms (OpnForm)', w:'Quick to build and good looking' },
@@ -851,30 +998,30 @@ const NEEDS = [
         { i:'Hi.Events', l:'Hi.Events', w:'Events with ticket sales' }]},
 
 { g:'web', id:'w_support', q:'Handle support requests as tickets?', h:'A shared inbox with history — Zammad, FreeScout', tag:'Ticketing',
-  alts:[{ i:'Zammad', l:'Zammad', w:'Mature, many channels' },
-        { i:'FreeScout', l:'FreeScout', w:'Help Scout replacement, frugal' },
-        { i:'Libredesk', l:'Libredesk', w:'Lean and modern' }]},
+  alts:[{ i:'Zammad', l:'Zammad', t:'suite proven', w:'Mature, many channels' },
+        { i:'FreeScout', l:'FreeScout', t:'lean proven', w:'Help Scout replacement, frugal' },
+        { i:'Libredesk', l:'Libredesk', t:'lean new', w:'Lean and modern' }]},
 
 { g:'web', id:'w_pm', q:'Plan projects with a team (Jira replacement)?', h:'Sprints, roadmaps, time tracking — Plane, OpenProject', tag:'Software Development - Project Management',
-  alts:[{ i:'Plane', l:'Plane', w:'Modern Jira and Linear feeling' },
-        { i:'OpenProject', l:'OpenProject', w:'Classic, with gantt and budgets' },
-        { i:'Leantime', l:'Leantime', w:'For small teams and non technical people' },
-        { i:'Huly', l:'Huly', w:'Projects, chat and HR in one' }]},
+  alts:[{ i:'Plane', l:'Plane', t:'polish new', w:'Modern Jira and Linear feeling' },
+        { i:'OpenProject', l:'OpenProject', t:'suite proven', w:'Classic, with gantt and budgets' },
+        { i:'Leantime', l:'Leantime', t:'polish', w:'For small teams and non technical people' },
+        { i:'Huly', l:'Huly', t:'suite new', w:'Projects, chat and HR in one' }]},
 
 { g:'web', id:'w_crm', q:'Manage customers and contacts (CRM)?', h:'Pipeline, notes, follow ups — Twenty, EspoCRM', tag:'Customer Relationship Management (CRM)',
-  alts:[{ i:'Twenty', l:'Twenty', w:'Modern CRM, very good looking' },
-        { i:'EspoCRM', l:'EspoCRM', w:'Frugal and flexible' },
-        { i:'SuiteCRM', l:'SuiteCRM', w:'Enterprise feature set' }]},
+  alts:[{ i:'Twenty', l:'Twenty', t:'polish new', w:'Modern CRM, very good looking' },
+        { i:'EspoCRM', l:'EspoCRM', t:'lean proven', w:'Frugal and flexible' },
+        { i:'SuiteCRM', l:'SuiteCRM', t:'suite proven', w:'Enterprise feature set' }]},
 
 { g:'web', id:'w_erp', q:'Run a whole business (ERP)?', h:'Accounting, stock, staff, sales — Odoo, ERPNext', tag:'Resource Planning',
-  alts:[{ i:'Odoo', l:'Odoo', w:'Enormous module ecosystem' },
-        { i:'ERPNext', l:'ERPNext', w:'Fully open and very complete' },
-        { i:'Dolibarr', l:'Dolibarr', w:'Lean entry point for small business' }]},
+  alts:[{ i:'Odoo', l:'Odoo', t:'suite polish', w:'Enormous module ecosystem' },
+        { i:'ERPNext', l:'ERPNext', t:'suite proven', w:'Fully open and very complete' },
+        { i:'Dolibarr', l:'Dolibarr', t:'lean proven', w:'Lean entry point for small business' }]},
 
 { g:'web', id:'w_url', q:'Run short links or a link-in-bio page?', h:'With click statistics — Shlink, Kutt', tag:'URL Shorteners',
-  alts:[{ i:'Shlink', l:'Shlink', w:'API first, with a web client and QR codes' },
-        { i:'Kutt', l:'Kutt', w:'Pretty, simple, with statistics' },
-        { i:'LinkStack', l:'LinkStack', w:'Linktree replacement' }]},
+  alts:[{ i:'Shlink', l:'Shlink', t:'lean proven', w:'API first, with a web client and QR codes' },
+        { i:'Kutt', l:'Kutt', t:'polish', w:'Pretty, simple, with statistics' },
+        { i:'LinkStack', l:'LinkStack', t:'polish', w:'Linktree replacement' }]},
 
 /* ============================ LEARNING / CULTURE ============================ */
 { g:'learn', id:'e_offline', q:'Keep an offline copy of the internet?', h:'Wikipedia, Stack Overflow and Gutenberg without a connection — Kiwix', tag:'Archiving and Digital Preservation (DP)',
@@ -883,14 +1030,14 @@ const NEEDS = [
         { i:'Wallabag', l:'Wallabag', w:'Keeps readable copies of articles' }]},
 
 { g:'learn', id:'e_lms', q:'Teach courses or train people?', h:'A learning platform with lessons and quizzes — Moodle, Canvas LMS', tag:'Learning and Courses',
-  alts:[{ i:'Moodle', l:'Moodle', w:'The most widespread learning platform in the world' },
-        { i:'Canvas LMS', l:'Canvas LMS', w:'Modern, used by many universities' },
-        { i:'Chamilo LMS', l:'Chamilo', w:'Easier to run, quick to set up' }]},
+  alts:[{ i:'Moodle', l:'Moodle', t:'suite proven', w:'The most widespread learning platform in the world' },
+        { i:'Canvas LMS', l:'Canvas LMS', t:'polish', w:'Modern, used by many universities' },
+        { i:'Chamilo LMS', l:'Chamilo', t:'lean', w:'Easier to run, quick to set up' }]},
 
 { g:'learn', id:'e_lib', q:'Run a real library catalogue?', h:'For a club, school or a very large private collection — Koha', tag:'Document Management - Integrated Library Systems (ILS)',
-  alts:[{ i:'Koha', l:'Koha', w:'Full library system, used by real libraries' },
-        { i:'Evergreen', l:'Evergreen', w:'Built for library networks' },
-        { i:'Calibre Web Automated', l:'Calibre-Web', w:'Enough for a large private collection' }]},
+  alts:[{ i:'Koha', l:'Koha', t:'suite proven', w:'Full library system, used by real libraries' },
+        { i:'Evergreen', l:'Evergreen', t:'suite proven', w:'Built for library networks' },
+        { i:'Calibre Web Automated', l:'Calibre-Web', nx:1, t:'lean', w:'Enough for a large private collection' }]},
 
 { g:'learn', id:'e_family', q:'Research family history?', h:'A family tree with sources and media — webtrees, Gramps Web', tag:'Genealogy',
   alts:[{ i:'webtrees', l:'webtrees', w:'The web based standard, GEDCOM compatible' },
@@ -904,22 +1051,22 @@ const NEEDS = [
 /* ============================ OPERATIONS ============================ */
 { g:'ops', id:'o_docker', q:'Manage containers through an interface?', h:'Logs, restarts, updates, compose stacks — Portainer, Dockge, Komodo', tag:'SysAdmin - Software Containers',
   aq:'What is your style?', alts:[
-  { i:'Portainer Community Edition', l:'Portainer', w:'The classic: sees and does everything' },
-  { i:'Dockge', l:'Dockge', w:'Compose stacks only, and wonderfully simple' },
-  { i:'Komodo', l:'Komodo', w:'Several servers plus builds straight from Git' },
-  { i:'Dozzle', l:'Dozzle', w:'Just the logs, live and searchable' },
-  { i:'Cockpit', l:'Cockpit', w:'The whole server in the browser, not only Docker' }]},
+  { i:'Portainer Community Edition', l:'Portainer', t:'suite polish proven', w:'The classic: sees and does everything' },
+  { i:'Dockge', l:'Dockge', t:'lean new', w:'Compose stacks only, and wonderfully simple' },
+  { i:'Komodo', l:'Komodo', t:'suite new', w:'Several servers plus builds straight from Git' },
+  { i:'Dozzle', l:'Dozzle', nx:1, t:'lean unix', w:'Just the logs, live and searchable' },
+  { i:'Cockpit', l:'Cockpit', t:'suite proven', w:'The whole server in the browser, not only Docker' }]},
 
-{ g:'ops', id:'o_update', q:'Stay on top of container updates?', h:'Update automatically or just get told — Watchtower, WUD, Diun', tag:'SysAdmin - Software Containers',
+{ g:'ops', id:'o_update', fx:1, q:'Stay on top of container updates?', h:'Update automatically or just get told — Watchtower, WUD, Diun', tag:'SysAdmin - Software Containers',
   aq:'Automatic or informed?', alts:[
   { i:"What's up Docker", l:'Notify me', w:'WUD reports new image versions and lets you decide' },
   { i:'Diun', l:'Notify me (Diun)', w:'Watches registries and messages you' },
   { i:'Watchtower', l:'Update automatically', w:'Watchtower pulls new images by itself' }]},
 
 { g:'ops', id:'o_virt', q:'Run virtual machines?', h:'Several systems on one box, with snapshots — Proxmox VE, XCP-ng', tag:'SysAdmin - Virtualization',
-  alts:[{ i:'Proxmox VE', l:'Proxmox VE', w:'The self hosting standard: VMs, LXC and clustering' },
-        { i:'XCP-ng', l:'XCP-ng', w:'Xen based, rock solid in operation' },
-        { i:'OpenNebula', l:'OpenNebula', w:'Private cloud across many hosts' }]},
+  alts:[{ i:'Proxmox VE', l:'Proxmox VE', t:'suite polish proven', w:'The self hosting standard: VMs, LXC and clustering' },
+        { i:'XCP-ng', l:'XCP-ng', t:'proven', w:'Xen based, rock solid in operation' },
+        { i:'OpenNebula', l:'OpenNebula', t:'suite', w:'Private cloud across many hosts' }]},
 
 { g:'ops', id:'o_k8s', q:'Go the Kubernetes route?', h:'Only if you actually want it — k3s, Rancher, Argo CD', tag:'SysAdmin - Software Containers',
   alts:[{ i:'k3s', l:'k3s', w:'Certified Kubernetes in a single binary' },
@@ -927,24 +1074,24 @@ const NEEDS = [
         { i:'Portainer Community Edition', l:'Portainer', w:'Also speaks Kubernetes, gentler learning curve' }]},
 
 { g:'ops', id:'o_iac', q:'Describe your infrastructure as code?', h:'Reproducible instead of hand crafted — Ansible, Semaphore UI, OpenTofu', tag:'SysAdmin - Configuration Management',
-  alts:[{ i:'Semaphore UI', l:'Semaphore UI', w:'Web UI and scheduler for Ansible and Terraform' },
-        { i:'Ansible', l:'Ansible', w:'Agentless configuration management' },
-        { i:'OpenTofu', l:'OpenTofu', w:'The open Terraform fork' },
-        { i:'Salt', l:'Salt', w:'Fast at scale, event driven' }]},
+  alts:[{ i:'Semaphore UI', l:'Semaphore UI', t:'polish new', w:'Web UI and scheduler for Ansible and Terraform' },
+        { i:'Ansible', l:'Ansible', t:'unix proven', w:'Agentless configuration management' },
+        { i:'OpenTofu', l:'OpenTofu', t:'unix new', w:'The open Terraform fork' },
+        { i:'Salt', l:'Salt', t:'suite proven', w:'Fast at scale, event driven' }]},
 
 { g:'ops', id:'o_logs', q:'Collect and search logs centrally?', h:'When journalctl is no longer enough — Loki, GoAccess', tag:'SysAdmin - Log Management',
-  alts:[{ i:'Loki', l:'Grafana Loki', w:'Logs the Prometheus way, cheap to run' },
-        { i:'GoAccess', l:'GoAccess', w:'Web server logs analysed in real time' },
-        { i:'Fluentd', l:'Fluentd', w:'Collects and routes everything' }]},
+  alts:[{ i:'Loki', l:'Grafana Loki', t:'suite new', w:'Logs the Prometheus way, cheap to run' },
+        { i:'GoAccess', l:'GoAccess', t:'lean proven', w:'Web server logs analysed in real time' },
+        { i:'Fluentd', l:'Fluentd', nx:1, t:'unix proven', w:'Collects and routes everything' }]},
 
 { g:'ops', id:'o_status', q:'Publish a status page for other people?', h:'So the household or your users can check for themselves — Kener, cState', tag:'SysAdmin - Monitoring & Status Pages',
-  alts:[{ i:'Kener', l:'Kener', w:'Good looking status page with incidents' },
-        { i:'cState', l:'cState', w:'Static and extremely light' },
-        { i:'OneUptime', l:'OneUptime', w:'Full package including on-call' }]},
+  alts:[{ i:'Kener', l:'Kener', t:'polish new', w:'Good looking status page with incidents' },
+        { i:'cState', l:'cState', t:'lean', w:'Static and extremely light' },
+        { i:'OneUptime', l:'OneUptime', t:'suite', w:'Full package including on-call' }]},
 
 { g:'ops', id:'o_disk', q:'Watch disk health before a drive dies?', h:'SMART values with a graph and an alert — Scrutiny', tag:'SysAdmin - Monitoring & Status Pages',
-  alts:[{ i:'Scrutiny', l:'Scrutiny', w:'SMART monitoring with a proper web UI' },
-        { i:'Netdata', l:'Netdata', w:'Also covers disks, plus everything else' }]},
+  alts:[{ i:'Scrutiny', l:'Scrutiny', t:'unix new', w:'SMART monitoring with a proper web UI' },
+        { i:'Netdata', l:'Netdata', t:'suite proven', w:'Also covers disks, plus everything else' }]},
 ];
 
 /* Added automatically when the resulting stack calls for them.
@@ -982,6 +1129,700 @@ const MUSTS = [
 
 </script>
 <script>
+/* Selfhosted Compass - the rabbit hole catalogue
+ *
+ * A burrow is a discovery prompt for a corner of the catalogue the main
+ * questionnaire never mentions. Answering "yes" does not move you on, it takes
+ * you down: the burrow opens with its projects and unlocks the neighbours
+ * listed in `near`.
+ *
+ *   id    stable key, kept in localStorage
+ *   r     realm id, used to steer the deck towards what you keep saying yes to
+ *   c     category id (or ids) from data/apps.json the projects come from
+ *   q     the prompt
+ *   h     one line of why you might want it
+ *   near  burrows unlocked by opening this one - the descent
+ *   pin   optional project names pulled to the front of the burrow
+ *   deep  true when the category itself is already covered by the questionnaire
+ *         and this prompt is about the part of it that never gets named
+ */
+
+const BURROWS = [
+
+/* ============================ MEDIA ============================ */
+{ id:'b_scrobble', r:'media', c:'scrobble', near:['b_yearrev','b_mediastats','b_jukebox'],
+  q:'Keep a lifetime log of every song you play?',
+  h:'Your own Last.fm. Nobody sells the data, and it survives the next streaming service going under.' },
+
+{ id:'b_yearrev', r:'media', c:'year-in-review', near:['b_mediastats','b_scrobble'],
+  q:'Generate your own year in review?',
+  h:'A Spotify Wrapped for the library you actually own — films watched, hours listened, the lot.' },
+
+{ id:'b_posters', r:'media', c:'media-assets', near:['b_arrhelpers','b_mediastats'],
+  q:'Make every poster in your library match?',
+  h:'Fetches, crops and stamps artwork so your media server stops looking like a jumble sale.' },
+
+{ id:'b_vidcut', r:'media', c:'video-editing', near:['b_convert','b_restream'],
+  q:'Trim and shrink video without uploading it anywhere?',
+  h:'Cut a clip, squeeze it under a size limit, hand it back — all on your own machine.' },
+
+{ id:'b_ambient', r:'media', c:'ambient-sounds', near:['b_jukebox'],
+  q:'Rain, a café and a fireplace on tap?',
+  h:'An ambient noise mixer you can leave running on the server instead of a browser tab full of ads.' },
+
+{ id:'b_asciinema', r:'media', c:'recording', near:['b_terminal','b_signage'],
+  q:'Record your terminal as text instead of video?',
+  h:'Sessions you can pause, copy from and embed — a tenth of the size of a screen capture.' },
+
+{ id:'b_arrhelpers', r:'media', c:'arr', near:['b_posters','b_mediastats','b_indexers'],
+  q:'Add the strange helpers the *arr crowd built?',
+  h:'Fifty small tools that unstick queues, solve captchas, hunt missing episodes and tidy up after themselves.' },
+
+{ id:'b_indexers', r:'media', c:['arr','file-transfer-peer-to-peer-filesharing'], deep:true, near:['b_arrhelpers'],
+  q:'Run your own index of what is out there?',
+  h:'Local search over torrent and Usenet sources instead of trusting whatever site is up this week.' },
+
+{ id:'b_watchparty', r:'media', c:['media-streaming-multimedia-streaming'], deep:true, near:['b_browser','b_restream'],
+  q:'Watch something together with people who are not in the room?',
+  h:'A shared browser or player everyone can see and one person drives. Better than counting down to press play.' },
+
+{ id:'b_restream', r:'media', c:['media-streaming-video-streaming'], deep:true, near:['b_signage','b_cams'],
+  q:'Take one video feed and hand it out in every protocol?',
+  h:'RTSP in, HLS, WebRTC and RTMP out. The plumbing behind cameras, live streams and digital signage.' },
+
+{ id:'b_bookaudio', r:'media', c:['document-management-e-books'], deep:true, near:['b_transcribe','b_ils'],
+  q:'Turn a book you own into an audiobook?',
+  h:'Local text to speech across a whole e-book, so a long read becomes something for the commute.' },
+
+{ id:'b_jukebox', r:'media', c:['media-streaming-audio-streaming'], deep:true, near:['b_scrobble','b_ambient'],
+  q:'Build a house jukebox out of spare parts?',
+  h:'Synchronised audio in several rooms, a queue anyone on the wifi can add to, hardware from the drawer.' },
+
+/* ============================ FILES ============================ */
+{ id:'b_s3', r:'files', c:'file-transfer-object-storage-file-servers', near:['b_dfs','b_registry','b_backupdeep'],
+  q:'Run your own S3 bucket?',
+  h:'Half the software written this decade speaks S3. Give it a bucket that lives in your own rack.' },
+
+{ id:'b_dfs', r:'files', c:'sysadmin-distributed-filesystems', near:['b_s3','b_discovery'],
+  q:'Spread one filesystem across several machines?',
+  h:'Storage that survives a disk, or a whole box, going away — the part of a homelab that turns it into infrastructure.' },
+
+{ id:'b_convert', r:'files', c:'file-conversion', near:['b_vidcut','b_pdfdeep','b_misc'],
+  q:'Convert any file to any format, locally?',
+  h:'The thing you currently do on a website full of adverts that keeps your upload.' },
+
+{ id:'b_digrepo', r:'files', c:'document-management-institutional-repository-and-digital-library-software', near:['b_ils','b_archive'],
+  q:'Run a real archive with citable, permanent records?',
+  h:'What universities and museums use. Overkill for holiday photos, exactly right for a collection that must outlive you.' },
+
+{ id:'b_shots', r:'files', c:'screenshots', near:['b_paste','b_shorten'],
+  q:'Host your own screenshot drop?',
+  h:'Press a key, get a link on your own domain, keep the file. No expiry, no watermark.' },
+
+{ id:'b_dedupe', r:'files', c:['file-transfer-web-based-file-managers'], deep:true, near:['b_backupdeep','b_convert'],
+  q:'Find the duplicate files quietly eating your disk?',
+  h:'Every backup of a backup, every photo imported twice. Usually worth a surprising number of gigabytes.' },
+
+{ id:'b_sign', r:'files', c:['document-management'], deep:true, near:['b_pdfdeep','b_forms'],
+  q:'Sign a contract without an Adobe account?',
+  h:'Send a document, collect signatures, keep the audit trail on your own server.' },
+
+{ id:'b_pdfdeep', r:'files', c:['document-management'], deep:true, near:['b_convert','b_sign'],
+  q:'Do the ugly PDF jobs nobody has a tool for?',
+  h:'Split, merge, redact, OCR, un-rotate, strip a password you set yourself and forgot.' },
+
+{ id:'b_archive', r:'files', c:['archiving-and-digital-preservation-dp'], deep:true, near:['b_digrepo','b_bookmarksdeep'],
+  q:'Keep a copy of the web before it disappears?',
+  h:'Pages you cite, articles you liked, whole sites — saved as they looked, not as a dead link.' },
+
+{ id:'b_backupdeep', r:'files', c:['sysadmin-backups'], deep:true, near:['b_dfs','b_s3','b_disks'],
+  q:'Move data between twenty different clouds from one command?',
+  h:'The layer under most backup setups: one syntax for S3, WebDAV, SFTP, Drive and the rest.' },
+
+/* ============================ HOME ============================ */
+{ id:'b_voice', r:'home', c:['voice-assistant','internet-of-things-iot'], near:['b_transcribe','b_iotdeep'],
+  q:'A voice assistant that never phones home?',
+  h:'Wake word, speech to text and the answer all inside your own four walls.' },
+
+{ id:'b_iotdeep', r:'home', c:['internet-of-things-iot'], deep:true, near:['b_voice','b_metrics','b_signage'],
+  q:'Own the layer underneath your smart home?',
+  h:'The broker, the flashed firmware and the device dashboards — so your bulbs stop needing a vendor cloud.' },
+
+{ id:'b_cams', r:'home', c:['video-surveillance'], deep:true, near:['b_restream','b_disks'],
+  q:'Do object detection on your cameras yourself?',
+  h:'"A person, not a cat, at 3am" — computed on your box, with no monthly fee and no clips in someone else\'s bucket.' },
+
+{ id:'b_workshop', r:'home', c:['manufacturing'], deep:true, near:['b_inventorydeep','b_maint'],
+  q:'Run the machines in your workshop from the browser?',
+  h:'3D printers, CNC, filament stock and the model library that goes with them.' },
+
+/* ============================ NET ============================ */
+{ id:'b_ldap', r:'net', c:'sysadmin-identity-management-ldap', near:['b_idp','b_ssodeep'],
+  q:'One user directory that every service asks?',
+  h:'Change a password once instead of in eleven admin panels. Lighter than its reputation these days.' },
+
+{ id:'b_idp', r:'net', c:'sysadmin-identity-management-tools-and-web-interfaces', near:['b_ldap','b_ssodeep','b_secrets'],
+  q:'Run "sign in with my homelab" as a real login provider?',
+  h:'Your own OAuth and OIDC issuer, so other people\'s software can log people in against your users.' },
+
+{ id:'b_alias', r:'net', c:'privacy', near:['b_secrets','b_mailnews','b_paywall'],
+  q:'Give every website a different email address?',
+  h:'One alias per signup. When one starts getting spam you know exactly who sold you, and you burn just that address.' },
+
+{ id:'b_secscan', r:'net', c:'security', near:['b_waf','b_trouble','b_idp'],
+  q:'Scan your own setup the way an attacker would?',
+  h:'Headers, certificates, open ports, known-bad files. Better you find it on a Sunday than someone else on a Tuesday.' },
+
+{ id:'b_waf', r:'net', c:['security'], deep:true, near:['b_secscan','b_proxydeep'],
+  q:'Put a real firewall in front of your web apps?',
+  h:'A layer that reads the requests instead of only the ports — bot filtering, rate limits, rules you can actually read.' },
+
+{ id:'b_tunnel', r:'net', c:'proxy', near:['b_vpndeep','b_proxydeep','b_shorten'],
+  q:'Publish one service without opening a single port?',
+  h:'An outbound tunnel does the work. Useful behind CGNAT, on a mobile connection, or in a flat you do not control.' },
+
+{ id:'b_netdoc', r:'net', c:'sysadmin-network-configuration-management', near:['b_cmdb','b_assets','b_trouble'],
+  q:'Write down your network so future-you understands it?',
+  h:'Which VLAN, which subnet, which cable, which switch port. The document you always mean to make.' },
+
+{ id:'b_rdp', r:'net', c:'sysadmin-remote-desktop-clients', near:['b_terminal','b_webdesktop','b_panels'],
+  q:'Reach a whole desktop from a browser tab?',
+  h:'Screen sharing and remote control that does not route your family\'s support session through a company in another country.' },
+
+{ id:'b_secrets', r:'net', c:['privacy','password-managers'], deep:true, near:['b_idp','b_alias'],
+  q:'Store secrets for your software, not for your browser?',
+  h:'API keys and database passwords with versioning and access rules, instead of a .env file you copied twice.' },
+
+{ id:'b_proxydeep', r:'net', c:['web-servers'], deep:true, near:['b_tunnel','b_waf','b_status'],
+  q:'Look past the three reverse proxies everyone names?',
+  h:'Tunnel-and-proxy appliances, image proxies, edge gateways — the ones you meet once you outgrow the obvious pick.' },
+
+{ id:'b_vpndeep', r:'net', c:['sysadmin-vpn','remote-access'], deep:true, near:['b_tunnel','b_rdp'],
+  q:'Build a flat network across places you do not own?',
+  h:'Mesh VPNs and coordination servers: every machine reaches every other, wherever they physically are.' },
+
+{ id:'b_ssodeep', r:'net', c:['sysadmin-identity-management-single-sign-on-sso'], deep:true, near:['b_idp','b_ldap'],
+  q:'Put one login in front of everything at once?',
+  h:'A gate at the proxy, so even the admin panel that has no user accounts gets protected properly.' },
+
+{ id:'b_dnsdeep', r:'net', c:['dns'], deep:true, near:['b_netdoc','b_trouble'],
+  q:'Run DNS as infrastructure, not just as an ad blocker?',
+  h:'Your own authoritative zones, split horizon, DNS over HTTPS, records that follow your containers around.' },
+
+/* ============================ PROD ============================ */
+{ id:'b_groupware', r:'prod', c:'groupware', near:['b_webmail','b_workspace','b_caldeep'],
+  q:'Mail, calendar and contacts as one thing for a household?',
+  h:'The unglamorous middle ground between a file sync box and a full office suite.' },
+
+{ id:'b_km', r:'prod', c:'knowledge-management-tools', near:['b_workspace','b_searchdeep','b_notesdeep'],
+  q:'Turn your notes into a graph instead of a pile?',
+  h:'Blocks, backlinks and structured facts — for when folders stopped being enough about two years ago.' },
+
+{ id:'b_workspace', r:'prod', c:'workspace', near:['b_km','b_groupware','b_webdesktop'],
+  q:'One tab that holds docs, boards and databases together?',
+  h:'The Notion shape, self-hosted. Handy when the alternative is four tools that do not know about each other.' },
+
+{ id:'b_cron', r:'prod', c:'task-scheduling', near:['b_notify','b_hooks','b_maint'],
+  q:'A cron that tells you when a job fails?',
+  h:'Schedules with a web UI, logs, retries and an alert. Unlike crontab, which fails in complete silence.' },
+
+{ id:'b_habit', r:'prod', c:'habit-tracking', near:['b_quantself','b_track'],
+  q:'Tick off the same things every day and watch the streak?',
+  h:'Habit tracking with the data staying on your side, which is the whole point of tracking a habit.' },
+
+{ id:'b_design', r:'prod', c:'design', near:['b_frontends','b_diagrams'],
+  q:'Design interfaces without a Figma seat?',
+  h:'A real vector and prototyping tool in the browser, plus a component workbench for the code side.' },
+
+{ id:'b_feedback', r:'prod', c:'feedback', near:['b_forms','b_engage','b_helpdesk'],
+  q:'Let people vote on what you build next?',
+  h:'A public board for ideas and complaints, so the roadmap argument happens once rather than in every thread.' },
+
+{ id:'b_webdesktop', r:'prod', c:'web-desktop', near:['b_rdp','b_workspace','b_browser'],
+  q:'A whole desktop inside a browser tab?',
+  h:'Windows, a file manager and apps, served from your server. Strange, genuinely useful on a locked-down machine.' },
+
+{ id:'b_clipboard', r:'prod', c:'clipboard', near:['b_paste','b_localsend'],
+  q:'Share one clipboard across all your machines?',
+  h:'Copy on the laptop, paste on the desktop, without a company in the middle holding both.' },
+
+{ id:'b_latex', r:'prod', c:'latex', near:['b_digrepo','b_km'],
+  q:'Write LaTeX together, in the browser?',
+  h:'Thesis, paper or CV, compiled server-side, with someone else typing in the same document.' },
+
+{ id:'b_notesdeep', r:'prod', c:['note-taking-editors','wikis'], deep:true, near:['b_km','b_paste'],
+  q:'Look past the five note apps everyone recommends?',
+  h:'Forty more, each opinionated in a different direction — single binary, plain files, blocks, outlines, wiki syntax.' },
+
+{ id:'b_bookmarksdeep', r:'prod', c:['bookmarks-and-link-sharing'], deep:true, near:['b_archive','b_feeds'],
+  q:'Keep the page, not just the link?',
+  h:'Bookmark managers that archive a full copy, so the thing you saved is still there when the site is not.' },
+
+{ id:'b_feeds', r:'prod', c:['feed-readers'], deep:true, near:['b_changedet','b_bookmarksdeep','b_comments'],
+  q:'Make a feed out of something that has no feed?',
+  h:'Bridges and scrapers that turn any site, account or mailing list back into RSS, the way it should have stayed.' },
+
+{ id:'b_paste', r:'prod', c:['pastebins'], deep:true, near:['b_shots','b_clipboard','b_secrets'],
+  q:'Send a password or a log that deletes itself after reading?',
+  h:'One-shot, encrypted-in-the-browser paste. Much better than the chat window it would otherwise live in forever.' },
+
+{ id:'b_searchdeep', r:'prod', c:['search-engines'], deep:true, near:['b_km','b_bi'],
+  q:'Give your own data a real search engine?',
+  h:'Typo-tolerant, instant search you point at your own documents, notes or database. A weekend, then everything is findable.' },
+
+{ id:'b_caldeep', r:'prod', c:['calendar-contacts'], deep:true, near:['b_groupware','b_booking'],
+  q:'Own the calendar and contacts your phone syncs with?',
+  h:'A small CalDAV and CardDAV server is often a single container and the last one you ever need to touch.' },
+
+/* ============================ COMM ============================ */
+{ id:'b_mailnews', r:'comm', c:'communication-email-mailing-lists-and-newsletters', near:['b_marketing','b_blog','b_alias'],
+  q:'Send a newsletter that is yours, not a platform\'s?',
+  h:'Your list, your export, your unsubscribe page — and no per-subscriber pricing as it grows.' },
+
+{ id:'b_sip', r:'comm', c:'communication-sip', near:['b_mta','b_chatdeep'],
+  q:'Run an actual phone system?',
+  h:'Extensions, voicemail, a doorbell that rings every handset in the flat. The deep end, and oddly satisfying.' },
+
+{ id:'b_mta', r:'comm', c:['communication-email-mail-transfer-agents','communication-email-mail-delivery-agents'], near:['b_webmail','b_mailnews','b_mailclients'],
+  q:'Build a mail server out of parts instead of a bundle?',
+  h:'The transfer agent and the delivery agent, separately. Harder, but you finally understand what the all-in-one box was doing.' },
+
+{ id:'b_xmpp', r:'comm', c:['communication-xmpp-servers','communication-xmpp-web-clients'], near:['b_chatdeep','b_irc'],
+  q:'Use the chat protocol that outlived every startup?',
+  h:'Twenty-plus years old, federated, still running. A server costs almost nothing and nobody can shut it down.' },
+
+{ id:'b_webmail', r:'comm', c:'communication-email-webmail-clients', near:['b_mta','b_groupware','b_mailclients'],
+  q:'Read your mail in your own browser tab?',
+  h:'The webmail half, which the mail-server bundles hide from you and which you may well prefer to swap out.' },
+
+{ id:'b_comments', r:'comm', c:'comments', near:['b_blog','b_feedback','b_feeds'],
+  q:'Comments under your posts without Disqus watching?',
+  h:'Lightweight, no third-party scripts, moderation you control. Bring the conversation back onto the page.' },
+
+{ id:'b_irc', r:'comm', c:['communication-irc'], deep:true, near:['b_xmpp','b_chatops'],
+  q:'Stay on IRC without staying online?',
+  h:'A bouncer keeps your connection alive and replays what you missed. The original always-on chat client.' },
+
+{ id:'b_chatdeep', r:'comm', c:['communication-custom-communication-systems'], deep:true, near:['b_xmpp','b_notify','b_sip'],
+  q:'Look past the two obvious Slack replacements?',
+  h:'Fifty more messengers: metadata-free, mesh, single-binary, or built for one very specific kind of group.' },
+
+{ id:'b_notify', r:'comm', c:['communication-custom-communication-systems'], deep:true, near:['b_cron','b_status','b_chatops'],
+  q:'Let your scripts reach your phone in one line?',
+  h:'A push endpoint you curl. Backups, disk warnings, the doorbell — everything gets a voice for almost no effort.' },
+
+{ id:'b_forumdeep', r:'comm', c:['communication-social-networks-and-forums'], deep:true, near:['b_comments','b_blog'],
+  q:'Host a place for a group that is not a chat room?',
+  h:'Forums, Q&A sites, small federated servers — threads that are still readable in a year, unlike scrollback.' },
+
+/* ============================ DEV ============================ */
+{ id:'b_baas', r:'dev', c:['development','backend'], near:['b_deploy','b_registry','b_flags'],
+  q:'A backend you do not have to write?',
+  h:'Database, auth, storage and an API generated from your schema. A weekend project becomes an evening one.' },
+
+{ id:'b_deploy', r:'dev', c:'sysadmin-deployment-automation', near:['b_registry','b_runners','b_platform'],
+  q:'Push to git and have the thing be running?',
+  h:'Your own small Heroku, on your own hardware, with the build logs and the domain and TLS handled.' },
+
+{ id:'b_frontends', r:'dev', c:'front-end', near:['b_design','b_themes','b_localai'],
+  q:'Put a better face on a tool you already run?',
+  h:'Standalone front ends for models, servers and services whose own UI is a config file or nothing at all.' },
+
+{ id:'b_terminal', r:'dev', c:'terminal', near:['b_rdp','b_panels','b_asciinema'],
+  q:'SSH from a browser tab?',
+  h:'Terminal in the browser, with host lists and session recording. What you want at 11pm from a borrowed laptop.' },
+
+{ id:'b_flags', r:'dev', c:'software-development-feature-toggle', near:['b_analyticsdeep','b_baas'],
+  q:'Ship code switched off and flip it on later?',
+  h:'Feature flags with targeting, so a deploy and a release stop being the same nerve-wracking moment.' },
+
+{ id:'b_l10n', r:'dev', c:['software-development-localization','language'], near:['b_lang','b_frontends'],
+  q:'Translate your project with other people?',
+  h:'Where most open source translations actually happen. Suggestions, review, and a nudge when a string changes.' },
+
+{ id:'b_registry', r:'dev', c:'container-registry', near:['b_deploy','b_s3','b_updates'],
+  q:'Host your own container images?',
+  h:'No pull limits, no waiting on someone else\'s CDN, and the images survive an account being closed.' },
+
+{ id:'b_hooks', r:'dev', c:'webhooks', near:['b_cron','b_notify','b_automation'],
+  q:'Catch a webhook and see what is actually in it?',
+  h:'An inbox for HTTP callbacks, with replay and forwarding. Saves an afternoon every single integration.' },
+
+{ id:'b_cmdb', r:'dev', c:'sysadmin-configuration-management-database', near:['b_netdoc','b_assets','b_maint'],
+  q:'Keep a record of what runs where?',
+  h:'Machines, services, owners, dependencies. Boring until the moment something breaks and nobody remembers.' },
+
+{ id:'b_signage', r:'dev', c:'digital-signage', near:['b_dashdeep','b_restream'],
+  q:'Turn a spare TV into a display board?',
+  h:'Scheduled screens for a shop, a workshop or the hallway. Rotas, menus, the departures board you always wanted.' },
+
+{ id:'b_qr', r:'dev', c:'qr-codes', near:['b_shorten','b_misc'],
+  q:'Make QR codes that will not expire behind a paywall?',
+  h:'Every free generator online is a redirect through someone\'s tracking domain. This one is a container.' },
+
+{ id:'b_runners', r:'dev', c:'runners', near:['b_deploy','b_cideep','b_registry'],
+  q:'Run your CI jobs on your own hardware?',
+  h:'Your machine, your caches, your minutes. Especially worth it once builds are slow or need a GPU.' },
+
+{ id:'b_scrape', r:'dev', c:'web-scraping', near:['b_changedet','b_feeds','b_automation'],
+  q:'Get data out of a site that has no API?',
+  h:'Click through the page once, get a scraper that keeps running. The gateway drug to home automation.' },
+
+{ id:'b_devinfra', r:'dev', c:'development-infrastructure', near:['b_automation','b_baas','b_cron'],
+  q:'Turn your scripts into internal tools with a UI?',
+  h:'A form on top of a script, permissions and a schedule. Colleagues stop asking you to run things for them.' },
+
+{ id:'b_cideep', r:'dev', c:['sysadmin-continuous-integration-continuous-deployment'], deep:true, near:['b_runners','b_deploy','b_iac'],
+  q:'Look past the CI everyone already regrets?',
+  h:'Pipelines defined as containers, GitOps controllers that pull instead of push, and runners for one specific box.' },
+
+{ id:'b_dbdeep', r:'dev', c:['database-management'], deep:true, near:['b_bi','b_searchdeep','b_queue'],
+  q:'Give yourself a decent front end for your databases?',
+  h:'Browse, query, diagram and migrate without a paid desktop client and without memorising psql flags.' },
+
+{ id:'b_apidepth', r:'dev', c:['software-development-api-management'], deep:true, near:['b_hooks','b_baas'],
+  q:'Put a gateway in front of your own APIs?',
+  h:'Auth, quotas, caching and a place to test calls, instead of the same middleware copied into three services.' },
+
+/* ============================ AI ============================ */
+{ id:'b_transcribe', r:'ai', c:'transcription', near:['b_voice','b_a11y','b_localai'],
+  q:'Turn recordings into searchable text, offline?',
+  h:'Meetings, voice notes, interviews and old tapes — transcribed on your own GPU, never uploaded.' },
+
+{ id:'b_localai', r:'ai', c:['generative-artificial-intelligence-genai'], deep:true, near:['b_frontends','b_transcribe','b_automation'],
+  q:'Look past the two names everyone mentions for local models?',
+  h:'Servers, front ends, image pipelines and fine-tuning tools — the whole shelf below the obvious pick.' },
+
+{ id:'b_automation', r:'ai', c:['automation'], deep:true, near:['b_hooks','b_scrape','b_cron'],
+  q:'Wire two services together that were never meant to meet?',
+  h:'Drag nodes, or write a small agent, and let it watch for the thing you keep checking by hand.' },
+
+{ id:'b_changedet', r:'ai', c:['automation','network-utilities'], deep:true, near:['b_scrape','b_feeds','b_notify'],
+  q:'Get told when a web page changes?',
+  h:'Price drops, exam results, a policy quietly rewritten. Watch the element, get a push, ignore the rest of the page.' },
+
+/* ============================ LIFE ============================ */
+{ id:'b_subs', r:'life', c:'subscriptions', near:['b_moneydeep','b_maint','b_wish'],
+  q:'See every subscription you forgot to cancel?',
+  h:'One list with renewal dates and yearly totals. Usually pays for the server in the first month.' },
+
+{ id:'b_travel', r:'life', c:'travel-organization', near:['b_gps','b_wish','b_photodeep'],
+  q:'Keep a map of everywhere you have been?',
+  h:'Trips, flights, hikes and the places you want to go next, on your own map instead of a timeline nobody owns.' },
+
+{ id:'b_people', r:'life', c:'relationships', near:['b_caldeep','b_crmdeep','b_habit'],
+  q:'A CRM for your friends and family?',
+  h:'Birthdays, what you talked about last time, who you have not called in a year. Less cold than it sounds.' },
+
+{ id:'b_cars', r:'life', c:'vehicles', near:['b_maint','b_iotdeep','b_track'],
+  q:'Log every fill-up, service and repair on your car?',
+  h:'Costs per kilometre, reminders before the MOT, and a full history to hand over when you sell it.' },
+
+{ id:'b_wish', r:'life', c:'wish-lists', near:['b_subs','b_travel','b_shopdeep'],
+  q:'A wish list the family can claim from without spoilers?',
+  h:'Someone marks an item as taken, you never see it. Solves the December group chat entirely.' },
+
+{ id:'b_garden', r:'life', c:'gardening', near:['b_recipedeep','b_csa','b_habit'],
+  q:'Keep every plant alive on a schedule?',
+  h:'What is planted where, when it was last watered, what to sow next month.' },
+
+{ id:'b_track', r:'life', c:'tracking', near:['b_quantself','b_inventorydeep','b_datasette'],
+  q:'Track something nobody has built an app for?',
+  h:'The biggest and strangest shelf in the catalogue — 73 projects for logging one very specific thing very well.' },
+
+{ id:'b_quantself', r:'life', c:['tracking','health-and-fitness'], deep:true, near:['b_habit','b_metrics','b_track'],
+  q:'Put your sleep, weight and steps on your own dashboard?',
+  h:'Pull the watch data off the vendor\'s cloud and graph it next to everything else you measure.' },
+
+{ id:'b_inventorydeep', r:'life', c:['inventory-management'], deep:true, near:['b_assets','b_maint','b_track'],
+  q:'Know what is in every box in the basement?',
+  h:'Label the box, photograph the contents, search for the cable six months later and actually find it.' },
+
+{ id:'b_moneydeep', r:'life', c:['money-budgeting-management'], deep:true, near:['b_subs','b_erp','b_bi'],
+  q:'Look past the three budgeting apps everyone names?',
+  h:'Sixty more: double-entry ledgers, invoicing, payment infrastructure, crypto, receipts, envelopes.' },
+
+{ id:'b_gps', r:'life', c:['maps-and-global-positioning-system-gps'], deep:true, near:['b_travel','b_maptiles','b_cars'],
+  q:'Log where you have been without Google doing it for you?',
+  h:'Your phone posts to your own server. The timeline stays, the surveillance does not.' },
+
+{ id:'b_maptiles', r:'life', c:['maps-and-global-positioning-system-gps'], deep:true, near:['b_gps','b_travel'],
+  q:'Serve your own maps, routing and geocoding?',
+  h:'Tiles, turn-by-turn and address search, offline. Heavy, and completely independent of anyone\'s API key.' },
+
+{ id:'b_recipedeep', r:'life', c:['recipe-management'], deep:true, near:['b_garden','b_csa','b_inventorydeep'],
+  q:'Plan meals from what is actually in the cupboard?',
+  h:'Recipes, stock, shopping list and a scanner for the barcode. The kitchen half of a homelab.' },
+
+/* ============================ WEB ============================ */
+{ id:'b_blog', r:'web', c:'blogging-platforms', near:['b_ssg','b_comments','b_mailnews'],
+  q:'Write in public again, on your own domain?',
+  h:'From a single-binary microblog to a full publishing platform with a paid-membership option.' },
+
+{ id:'b_ssg', r:'web', c:'static-site-generators', near:['b_blog','b_links','b_deploy'],
+  q:'A site that is just files, and therefore never falls over?',
+  h:'Markdown in, HTML out. Nothing to patch, nothing to breach, hosted anywhere including a spare Pi.' },
+
+{ id:'b_platform', r:'web', c:'platform', near:['b_selfhostdeep','b_deploy','b_panels'],
+  q:'Turn a spare box into an appliance with an app store?',
+  h:'One install, then you add services by clicking. The fastest route from bare metal to something the household uses.' },
+
+{ id:'b_links', r:'web', c:'landing-page', near:['b_ssg','b_shorten','b_blog'],
+  q:'One link that holds all your other links?',
+  h:'The bio-link page and the online CV, on your domain, without the free tier watching your visitors.' },
+
+{ id:'b_engage', r:'web', c:'customer-engagement', near:['b_helpdesk','b_marketing','b_feedback'],
+  q:'Chat widgets and product tours without a per-seat bill?',
+  h:'The little bubble in the corner, the onboarding checklist, the in-app survey — all on your own domain.' },
+
+{ id:'b_marketing', r:'web', c:'marketing', near:['b_mailnews','b_analyticsdeep','b_crmdeep'],
+  q:'Marketing automation you actually own?',
+  h:'Campaigns, journeys and lead scoring, with the contact list staying in your database.' },
+
+{ id:'b_hr', r:'web', c:'human-resources-management-hrm', near:['b_erp','b_booking','b_assets'],
+  q:'Run HR for a small team without a seat price?',
+  h:'Leave requests, contracts, onboarding checklists. Dull, and the moment you have five people, necessary.' },
+
+{ id:'b_paywall', r:'web', c:'paywalls', near:['b_archive','b_feeds','b_alias'],
+  q:'Strip the consent walls off an article before you read it?',
+  h:'A reader front end that removes the overlays and hands you the text. Pairs well with an archive.' },
+
+{ id:'b_shopdeep', r:'web', c:['e-commerce'], deep:true, near:['b_erp','b_wish','b_engage'],
+  q:'Sell something without paying a cut per transaction?',
+  h:'Twenty-five shop platforms, from a one-file checkout link to a warehouse-scale commerce API.' },
+
+{ id:'b_analyticsdeep', r:'web', c:['analytics'], deep:true, near:['b_bi','b_marketing','b_flags'],
+  q:'Web analytics that need no cookie banner?',
+  h:'Counts without identifiers. Faster pages, a shorter privacy policy and numbers you can still act on.' },
+
+{ id:'b_helpdesk', r:'web', c:['ticketing'], deep:true, near:['b_engage','b_feedback','b_crmdeep'],
+  q:'A shared inbox several people can work out of?',
+  h:'Support mail that stops being one person\'s Gmail, with assignment, notes and a history per sender.' },
+
+{ id:'b_crmdeep', r:'web', c:['customer-relationship-management-crm'], deep:true, near:['b_erp','b_people','b_marketing'],
+  q:'Keep track of everyone you deal with, properly?',
+  h:'Pipeline, notes and next actions — for a business, a club, or a freelance practice with too many threads.' },
+
+{ id:'b_erp', r:'web', c:['resource-planning'], deep:true, near:['b_crmdeep','b_hr','b_shopdeep'],
+  q:'Run a whole small business from one install?',
+  h:'Accounting, stock, invoices, projects and payroll in a single system. A big commitment and sometimes the right one.' },
+
+{ id:'b_booking', r:'web', c:['booking-and-scheduling'], deep:true, near:['b_caldeep','b_hr','b_forms'],
+  q:'Let people book time with you without Calendly?',
+  h:'Availability from your own calendar, a page you send, no free-tier branding on your booking link.' },
+
+{ id:'b_forms', r:'web', c:['polls-and-events'], deep:true, near:['b_feedback','b_booking','b_sign'],
+  q:'Collect answers without handing them to a form giant?',
+  h:'Surveys, RSVPs, "when can everyone meet" polls and conditional forms — results landing in your own database.' },
+
+{ id:'b_shorten', r:'web', c:['url-shorteners'], deep:true, near:['b_qr','b_links','b_shots'],
+  q:'Shorten links on your own domain?',
+  h:'Short URLs that still resolve in ten years because you are the one paying for the domain.' },
+
+{ id:'b_cmsdeep', r:'web', c:['content-management-systems-cms'], deep:true, near:['b_blog','b_ssg','b_baas'],
+  q:'Use a CMS as an API instead of as a website?',
+  h:'Headless content: editors get a nice admin, your front end gets JSON, neither has to compromise.' },
+
+/* ============================ OPS ============================ */
+{ id:'b_srvmgmt', r:'ops', c:'server-management', near:['b_panels','b_metrics','b_updates'],
+  q:'One screen that shows every machine you own?',
+  h:'CPU, disks, temperature and containers across all hosts. Forty-six projects compete for this job; a few are excellent.' },
+
+{ id:'b_metrics', r:'ops', c:['visualization','sysadmin-metrics-metric-collection'], near:['b_srvmgmt','b_bi','b_logdeep'],
+  q:'Turn your server into graphs you will actually stare at?',
+  h:'The collector, the time series database and the dashboard. Once it is up you will measure things for fun.' },
+
+{ id:'b_mediastats', r:'ops', c:'statistics', near:['b_scrobble','b_yearrev','b_metrics'],
+  q:'Statistics about your own usage?',
+  h:'Who watched what, how much you listened, how far you ran. Numbers about you, computed on your hardware.' },
+
+{ id:'b_editors', r:'ops', c:'sysadmin-editors', near:['b_terminal','b_idedeep'],
+  q:'Settle on the editor you will live in?',
+  h:'The classics and their modern descendants, packaged so you can try one over SSH tonight.' },
+
+{ id:'b_panels', r:'ops', c:'sysadmin-control-panels', near:['b_srvmgmt','b_rdp','b_platform'],
+  q:'Administer the whole box from a browser?',
+  h:'Users, storage, updates, services and a terminal — for the machine with no monitor attached.' },
+
+{ id:'b_updates', r:'ops', c:'updates', near:['b_registry','b_notify','b_srvmgmt'],
+  q:'Get told the minute a container has an update?',
+  h:'Nine projects that only watch registries and tell you. Unpatched containers are the most common way in.' },
+
+{ id:'b_mailclients', r:'ops', c:'sysadmin-mail-clients', near:['b_webmail','b_mta'],
+  q:'A mail client that is not a web app?',
+  h:'Terminal and desktop clients, plus the sync tools for moving a mailbox between providers.' },
+
+{ id:'b_queue', r:'ops', c:'sysadmin-queuing', near:['b_discovery','b_dbdeep','b_hooks'],
+  q:'Put a queue between two of your services?',
+  h:'The piece that makes a slow job stop blocking a web request. Small, old, extremely reliable software.' },
+
+{ id:'b_time', r:'ops', c:'sysadmin-time-servers', near:['b_dnsdeep','b_discovery'],
+  q:'Serve time to your own network?',
+  h:'Certificates, logs and backups all assume the clock is right. Fifteen minutes of work, once.' },
+
+{ id:'b_trouble', r:'ops', c:'sysadmin-troubleshooting', near:['b_netdoc','b_secscan','b_logdeep'],
+  q:'See exactly what your network is doing?',
+  h:'Packet captures, an intercepting proxy, a traceroute that keeps running. Where guessing stops.' },
+
+{ id:'b_pkg', r:'ops', c:['sysadmin-packaging'], near:['b_buildorg','b_registry','b_deploy'],
+  q:'Build a real package instead of curl piped into a shell?',
+  h:'Turn a directory into a .deb or .rpm in one command. Your future self, on the rebuild, will be grateful.' },
+
+{ id:'b_buildorg', r:'ops', c:['sysadmin-build-and-software-organization-tools','build-and-software-organization-tools'], near:['b_pkg','b_cideep','b_registry'],
+  q:'Manage compilers and toolchains without losing your mind?',
+  h:'Environment modules and reproducible build stacks, for the machine that has to hold four versions of everything.' },
+
+{ id:'b_chatops', r:'ops', c:'sysadmin-chatops', near:['b_notify','b_irc','b_automation'],
+  q:'Run your server from a chat window?',
+  h:'A bot in your own chat that deploys, restarts and reports. Half serious infrastructure, half toy.' },
+
+{ id:'b_maint', r:'ops', c:'maintenance', near:['b_assets','b_inventorydeep','b_cars'],
+  q:'Keep a maintenance log for everything you own?',
+  h:'Filters, belts, batteries and service intervals — for the house, the boiler, the bikes and the racks.' },
+
+{ id:'b_discovery', r:'ops', c:'sysadmin-service-discovery', near:['b_queue','b_dfs','b_dnsdeep'],
+  q:'Let services find each other without hardcoded IPs?',
+  h:'A shared key-value store and health checks. The moment you have two hosts, this stops being over-engineering.' },
+
+{ id:'b_vtt', r:'ops', c:'virtual-tabletop', near:['b_gamesdeep','b_tourney'],
+  q:'Run a D&D night for people in three cities?',
+  h:'Maps, fog of war, dice and tokens, hosted by you so the campaign does not end with a subscription.' },
+
+{ id:'b_dashdeep', r:'ops', c:['personal-dashboards'], deep:true, near:['b_signage','b_srvmgmt','b_themes'],
+  q:'Look past the four dashboards everyone screenshots?',
+  h:'Thirty-five start pages, from a YAML file of bookmarks to a live board with widgets for every service you run.' },
+
+{ id:'b_logdeep', r:'ops', c:['sysadmin-log-management'], deep:true, near:['b_metrics','b_trouble','b_status'],
+  q:'Read your logs without SSH-ing anywhere?',
+  h:'From a one-container container-log viewer to a full search stack. Pick the smallest one that answers your questions.' },
+
+{ id:'b_iac', r:'ops', c:['sysadmin-configuration-management'], deep:true, near:['b_cideep','b_vmdeep','b_cmdb'],
+  q:'Describe your infrastructure instead of clicking it?',
+  h:'Rebuild the whole stack from a repository after a disk dies — and know it will come back the same.' },
+
+{ id:'b_vmdeep', r:'ops', c:['sysadmin-virtualization'], deep:true, near:['b_iac','b_dfs','b_platform'],
+  q:'Build machine images and dev VMs reproducibly?',
+  h:'Small Kubernetes, image builders and hypervisor management for people who are not running a datacentre.' },
+
+{ id:'b_assets', r:'ops', c:['sysadmin-it-asset-management'], deep:true, near:['b_maint','b_cmdb','b_inventorydeep'],
+  q:'Know every device you own and when its warranty ends?',
+  h:'Serial numbers, purchase dates, who has the laptop. For a family, a club or a small office.' },
+
+{ id:'b_diagrams', r:'ops', c:['sysadmin-diagramming'], deep:true, near:['b_design','b_netdoc','b_km'],
+  q:'Draw your architecture where the diagram lives with the code?',
+  h:'Text-to-diagram renderers and whiteboards you can host, so the picture updates when the system does.' },
+
+{ id:'b_status', r:'ops', c:['sysadmin-monitoring-status-pages'], deep:true, near:['b_notify','b_logdeep','b_proxydeep'],
+  q:'Put up a status page for your own services?',
+  h:'So the household can check whether it is the internet or you, before they come and find you.' },
+
+{ id:'b_selfhostdeep', r:'ops', c:['self-hosting-solutions'], deep:true, near:['b_platform','b_panels','b_srvmgmt'],
+  q:'Look past the two NAS operating systems everyone starts with?',
+  h:'Twenty-five ways to turn hardware into a self-hosting appliance — from a slim Pi image to a full app store.' },
+
+{ id:'b_idedeep', r:'dev', c:['software-development-ide-tools'], deep:true, near:['b_editors','b_terminal','b_baas'],
+  q:'Move your development environment onto the server?',
+  h:'Full IDE in the browser, notebooks and per-project workspaces, so any machine becomes your machine.' },
+
+/* ============================ GAMES ============================ */
+{ id:'b_gamesdeep', r:'games', c:'games', near:['b_tourney','b_vtt','b_retro'],
+  q:'Games that live on a server, not in a launcher?',
+  h:'Open source games you host for friends: factory builders, voxel worlds, chess servers, party games in a browser.' },
+
+{ id:'b_tourney', r:'games', c:'tournaments', near:['b_gamesdeep','b_vtt','b_forms'],
+  q:'Run a tournament bracket for your friends?',
+  h:'Signups, seeding, rounds and the table on a page everyone can refresh instead of a photo of a whiteboard.' },
+
+{ id:'b_retro', r:'games', c:['games-administrative-utilities-control-panels'], deep:true, near:['b_gamesdeep','b_vtt'],
+  q:'Play your ROM collection from the sofa, over the network?',
+  h:'Library management, in-browser emulation and low-latency streaming from the desktop upstairs.' },
+
+/* ============================ LEARN ============================ */
+{ id:'b_csa', r:'learn', c:'community-supported-agriculture-csa', near:['b_garden','b_recipedeep','b_shopdeep'],
+  q:'Software for a food co-op or a veg box scheme?',
+  h:'Shares, rotas, deliveries and member accounts. A whole shelf of software written for exactly this and nothing else.' },
+
+{ id:'b_lang', r:'learn', c:'language', near:['b_l10n','b_transcribe','b_coursedeep'],
+  q:'Learn a language, or translate, without sending the text abroad?',
+  h:'A reader that teaches you from real texts, and a translation engine that runs beside it on the same box.' },
+
+{ id:'b_ils', r:'learn', c:['document-management-integrated-library-systems-ils'], deep:true, near:['b_digrepo','b_bookaudio'],
+  q:'Run an actual library, with a catalogue and loans?',
+  h:'What real libraries use, and what a school, a club or a very serious collection can use just as well.' },
+
+{ id:'b_coursedeep', r:'learn', c:['learning-and-courses'], deep:true, near:['b_lang','b_ils','b_conference'],
+  q:'Teach something, or keep the whole internet offline for when you need it?',
+  h:'Course platforms, flashcards and a compressed copy of Wikipedia that fits on a stick and needs no connection.' },
+
+{ id:'b_conference', r:'learn', c:['conference-management'], deep:true, near:['b_forms','b_booking','b_coursedeep'],
+  q:'Organise an event bigger than a dinner?',
+  h:'Call for papers, schedule, voting and minutes. Used by conferences and by very organised local councils.' },
+
+{ id:'b_genea', r:'learn', c:['genealogy'], deep:true, near:['b_digrepo','b_ils','b_photodeep'],
+  q:'Put the family tree somewhere the whole family can edit?',
+  h:'Sources, photos and dates in a proper genealogy database rather than one relative\'s hard drive.' },
+
+/* ============================ MISC ============================ */
+{ id:'b_misc', r:'misc', c:'miscellaneous', near:['b_convert','b_qr','b_slides'],
+  q:'The drawer of small tools that do one thing?',
+  h:'Eighty-three of them: encoders, formatters, generators, calculators. The page you will bookmark and use weekly.' },
+
+{ id:'b_slides', r:'misc', c:['miscellaneous'], deep:true, near:['b_misc','b_resume','b_signage'],
+  q:'Make slides out of plain text?',
+  h:'A deck that lives in git, diffs properly and renders in a browser. No more emailing a 40 MB file around.' },
+
+{ id:'b_resume', r:'misc', c:['miscellaneous'], deep:true, near:['b_links','b_misc'],
+  q:'Build a CV that is not a Word file?',
+  h:'Structured data in, a clean PDF and a shareable page out, versioned for each application.' },
+
+{ id:'b_themes', r:'misc', c:'theme', near:['b_frontends','b_dashdeep'],
+  q:'Reskin the tools you already run?',
+  h:'Drop-in themes for the interfaces you stare at every day and have quietly resented for months.' },
+
+{ id:'b_a11y', r:'misc', c:'accessibility', near:['b_transcribe','b_signage'],
+  q:'Live captions for a room, without a cloud service?',
+  h:'Speech to text on a screen, in real time, for a talk, a class or someone who needs it at the dinner table.' },
+
+{ id:'b_browser', r:'misc', c:'web-browser', near:['b_watchparty','b_webdesktop','b_rdp'],
+  q:'Run a browser on the server and drive it from a tab?',
+  h:'Isolated, shareable, and it keeps whatever it downloads on the other side of the network from your laptop.' },
+
+{ id:'b_mobileapps', r:'misc', c:['android','ios'], near:['b_localsend','b_track'],
+  q:'Phone apps that talk only to your server?',
+  h:'The small client side of self-hosting — apps whose only backend is the one you are already running.' },
+
+{ id:'b_localsend', r:'misc', c:['file-transfer-single-click-drag-n-drop-upload'], deep:true, near:['b_clipboard','b_shots','b_mobileapps'],
+  q:'Send a file to the laptop across the table?',
+  h:'No cable, no cloud round trip, no account. It finds the other device on the wifi and sends it directly.' },
+
+{ id:'b_icons', r:'misc', c:'icons', near:['b_themes','b_dashdeep'],
+  q:'Wondering where all these logos come from?',
+  h:'The icon set this site is built on. Handy the moment you build a dashboard of your own.' },
+
+{ id:'b_photodeep', r:'files', c:['photo-galleries'], deep:true, near:['b_archive','b_travel','b_genea'],
+  q:'Look past the three photo apps everyone compares?',
+  h:'Forty more: pretty public galleries, heavy metadata catalogues, encrypted vaults and image processing servers.' },
+
+{ id:'b_disks', r:'ops', c:['sysadmin-monitoring-status-pages','server-management'], deep:true, near:['b_backupdeep','b_dfs','b_srvmgmt'],
+  q:'Notice a dying disk before it takes the data with it?',
+  h:'SMART values, temperatures and scrub results, watched automatically. Disks nearly always warn you first.' },
+
+{ id:'b_bi', r:'ops', c:['visualization','analytics'], deep:true, near:['b_datasette','b_dbdeep','b_metrics'],
+  q:'Point a business intelligence tool at your own database?',
+  h:'Questions in a UI, charts, scheduled reports — over the data you already have and have never really looked at.' },
+
+{ id:'b_datasette', r:'life', c:['tracking','visualization'], deep:true, near:['b_bi','b_track','b_km'],
+  q:'Publish a spreadsheet as a browsable, queryable site?',
+  h:'Point it at a CSV or a SQLite file and get a searchable website with an API. Astonishingly useful for a small thing.' },
+
+];
+
+/* Extra entry points that are not questions.
+   Categories the deck skips because a burrow there would only frustrate. */
+const RH_SKIP_CATS = ['interface'];
+
+</script>
+<script>
 /* Selfhosted Compass - application logic
    Data comes from data/apps.json (built by scripts/build_data.py).
    The single file build in dist/ inlines the same data as window.__DATA__. */
@@ -994,8 +1835,11 @@ const arr = x => Array.isArray(x) ? x : [x];
 const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const kfmt = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n || 0);
+const hash = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
 
 let DB = null, APPS = [], CATS = {}, REALMS = [], BY_ID = {}, BY_NAME = {}, BY_CAT = {};
+let NAMED = new Set();       // every project the questionnaire can name - the rabbit hole avoids these
+let BUR = {};                // burrow id -> burrow
 
 /* ------------------------------------------------------------------ state */
 const PROFILE = [
@@ -1009,11 +1853,32 @@ const PROFILE = [
     o:[['lan','LAN only'],['vpn','Through a VPN'],['public','Public with a domain']], d:'lan' },
 ];
 
-let S = { prof:{}, ans:{}, pick:{}, owned:[], list:[], seenResults:false };
+const BLANK = () => ({
+  prof:{}, taste:{}, areas:[], ans:{}, pick:{}, owned:[], list:[],
+  qmode:'deck', pos:{}, seenResults:false,
+  rh:{ ans:{}, path:[], seen:[], last:null },
+});
+let S = BLANK();
 PROFILE.forEach(p => S.prof[p.id] = p.d);
+TASTE.forEach(t => S.taste[t.id] = t.d);
 
-const save = () => { try { localStorage.setItem('shc2', JSON.stringify(S)); } catch (e) {} };
-const load = () => { try { return JSON.parse(localStorage.getItem('shc2')); } catch (e) { return null; } };
+const KEY_STORE = 'shc3';
+const save = () => { try { localStorage.setItem(KEY_STORE, JSON.stringify(S)); } catch (e) {} };
+function load() {
+  try {
+    const cur = JSON.parse(localStorage.getItem(KEY_STORE));
+    if (cur) return cur;
+    const old = JSON.parse(localStorage.getItem('shc2'));   // carry over an earlier run
+    if (old) return { prof:old.prof, ans:old.ans, pick:old.pick, owned:old.owned, list:old.list };
+  } catch (e) {}
+  return null;
+}
+
+/* answers: y = yes, p = yes and this is why I am here, n = no, h = already got it */
+const isYes = id => S.ans[id] === 'y' || S.ans[id] === 'p';
+const activeGroups = () => S.areas && S.areas.length ? GROUPS.filter(g => S.areas.includes(g.id)) : GROUPS;
+const activeNeeds = () => { const ids = activeGroups().map(g => g.id); return NEEDS.filter(n => ids.includes(n.g)); };
+const groupNeeds = gid => NEEDS.filter(n => n.g === gid);
 
 /* ------------------------------------------------------------------ images */
 function srcs(p) {
@@ -1064,6 +1929,8 @@ const ICONS = {
   web:'<circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8"/><path d="M12 3.6c2.4 2.5 2.4 14.3 0 16.8-2.4-2.5-2.4-14.3 0-16.8z"/>',
   learn:'<path d="M5 5.4A1.9 1.9 0 0 1 6.9 3.5H19v14H6.9A1.9 1.9 0 0 0 5 19.4z"/><path d="M5 19.4v1.1h14"/><path d="M9 7.5h6"/>',
   ops:'<rect x="3.6" y="4.4" width="16.8" height="6" rx="1.6"/><rect x="3.6" y="13.6" width="16.8" height="6" rx="1.6"/><path d="M7 7.4h.01M7 16.6h.01"/>',
+  games:'<rect x="2.8" y="7.2" width="18.4" height="9.6" rx="4.2"/><path d="M7 10.6v2.8M5.6 12h2.8"/><path d="M15.6 11.4h.01M18 13.2h.01"/>',
+  misc:'<circle cx="12" cy="12" r="1.4"/><circle cx="5.4" cy="12" r="1.4"/><circle cx="18.6" cy="12" r="1.4"/>',
   compass:'<circle cx="12" cy="12" r="8.4"/><path d="M15.6 8.4 13.7 13.7 8.4 15.6 10.3 10.3z"/>',
   folder:'<path d="M3 7.5A2 2 0 0 1 5 5.5h3.6l1.9 2H19a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
   search:'<circle cx="11" cy="11" r="6.4"/><path d="m19.8 19.8-4.2-4.2"/>',
@@ -1074,6 +1941,10 @@ const ICONS = {
   plus:'<path d="M12 5.5v13M5.5 12h13"/>',
   close:'<path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/>',
   down:'<path d="M12 5v13"/><path d="m6.5 12.5 5.5 5.5 5.5-5.5"/>',
+  back:'<path d="M19 12H5"/><path d="m11.5 5.5-6 6.5 6 6.5"/>',
+  dice:'<rect x="4.2" y="4.2" width="15.6" height="15.6" rx="3.4"/><path d="M9 9h.01M15 15h.01M12 12h.01"/>',
+  layers:'<path d="m12 3.6 8.4 4.2-8.4 4.2L3.6 7.8z"/><path d="m3.6 12 8.4 4.2 8.4-4.2"/><path d="m3.6 16.2 8.4 4.2 8.4-4.2"/>',
+  bolt:'<path d="M13.4 3.2 5.8 13.4h5.2l-.4 7.4 7.6-10.2h-5.2z"/>',
 };
 function svg(name, size) {
   const d = ICONS[name] || ICONS.folder;
@@ -1109,24 +1980,67 @@ function pool(tagNames, skip) {
   return out.sort((a, b) => score(b) - score(a));
 }
 
+/* --------------------------------------------------------------- taste fit
+   Every alternative may carry t:'suite unix polish lean new proven'.
+   Where a tag is missing the data itself stands in: language for weight,
+   stars for how proven something is, a multi-project answer for shape. */
+const OPPOSITE = { suite:'unix', unix:'suite', polish:'lean', lean:'polish', new:'proven', proven:'new' };
+function wanted() { return [S.taste.shape || 'unix', S.taste.weight || 'polish', S.taste.age || 'proven']; }
+function tasteFit(alt) {
+  if (alt.nx) return -1e6;      // a deliberately narrower answer - offered, never auto-picked
+  const tags = (alt.t || '').split(' ').filter(Boolean), want = wanted();
+  let s = 0;
+  tags.forEach(t => { if (want.includes(t)) s += 10; else if (want.includes(OPPOSITE[t])) s -= 8; });
+  const p = arr(alt.i).map(P).filter(Boolean)[0];
+  if (!p) return s;
+  if (!tags.includes('lean') && !tags.includes('polish')) {
+    const lang = (p.p || []).join(' ').toLowerCase();
+    if (/\b(go|rust|c\+\+|zig)\b/.test(lang)) s += S.taste.weight === 'lean' ? 5 : -2;
+    if (/(java|scala|clojure|ruby|elixir)/.test(lang)) s += S.taste.weight === 'polish' ? 3 : -5;
+  }
+  if (!tags.includes('new') && !tags.includes('proven')) {
+    // popularity stands in for "proven" - capped so it can never outweigh a real tag
+    const pop = Math.min(6, Math.log2((p.st || 0) + 2) / 2.5);
+    s += S.taste.age === 'proven' ? pop : -pop / 2;
+  }
+  if (!tags.includes('suite') && !tags.includes('unix') && arr(alt.i).length > 2)
+    s += S.taste.shape === 'unix' ? 4 : -4;
+  return s;
+}
+function autoPick(n) {
+  const alts = n.alts || [];
+  if (alts.length < 2) return 0;
+  if (n.fx) return 0;          // this follow-up asks what you want, not how - taste stays out
+  // alts[0] is the editorial default; taste has to disagree properly before it moves
+  let best = 0, bs = -1e9;
+  alts.forEach((a, i) => { const s = tasteFit(a) + (i === 0 ? 6 : 0); if (s > bs) { bs = s; best = i; } });
+  return best;
+}
+/* questions where the follow-up is a real fork in the road */
+const decisions = () => activeNeeds().filter(n => isYes(n.id) && (n.alts || []).length > 1);
+
 /* ------------------------------------------------------------------ routing */
-const ROUTES = () => ['#/', '#/setup', ...GROUPS.map(g => '#/q/' + g.id), '#/results'];
+const ROUTES = () => ['#/', '#/setup', '#/areas', ...activeGroups().map(g => '#/q/' + g.id), '#/decide', '#/results'];
+let KEYS = null;                       // views that want the keyboard set this
 function route() {
   const h = location.hash || '#/';
   const [, sec, arg] = h.split('/');
-  closeDrawer();
+  closeDrawer(); KEYS = null;
   if (h.startsWith('#/q/')) return viewQuestions(arg);
   if (h.startsWith('#/c/')) return viewCategory(arg);
   if (h.startsWith('#/search')) return viewSearch(decodeURIComponent(arg || ''));
   switch ('#/' + (sec || '')) {
     case '#/setup': return viewSetup();
+    case '#/areas': return viewAreas();
+    case '#/decide': return viewDecide();
     case '#/results': return viewResults();
+    case '#/rabbit': return viewRabbit();
     case '#/explore': return viewExplore();
     case '#/list': return viewList();
     default: return viewIntro();
   }
 }
-function goto(h) { location.hash = h; }
+function goto(h) { if (location.hash === h) route(); else location.hash = h; }
 function nextRoute(step) {
   const r = ROUTES(), i = r.indexOf(location.hash || '#/');
   goto(r[Math.max(0, Math.min(r.length - 1, (i < 0 ? 0 : i) + step))]);
@@ -1138,18 +2052,20 @@ function render(html) {
   chrome();
 }
 function chrome() {
-  const answered = NEEDS.filter(n => S.ans[n.id]).length;
+  const answered = activeNeeds().filter(n => S.ans[n.id]).length;
   const h = location.hash || '#/';
+  const opened = Object.values(S.rh.ans).filter(a => a === 'y').length;
   const tabs = [
     ['#/', 'Start', 0],
-    ['#/q/' + GROUPS[0].id, 'Questionnaire', 0],
+    ['#/areas', 'Questionnaire', 0],
     ['#/results', 'Results', 0],
+    ['#/rabbit', 'Rabbit hole', opened],
     ['#/explore', 'Explore', 0],
     ['#/list', 'My list', S.list.length],
   ];
   $('#tabs').innerHTML = tabs.map(([href, label, n]) => {
     const on = href === '#/' ? h === '#/'
-      : href.startsWith('#/q/') ? h.startsWith('#/q/') || h === '#/setup'
+      : href === '#/areas' ? (h.startsWith('#/q/') || h === '#/setup' || h === '#/areas' || h === '#/decide')
       : href === '#/explore' ? (h.startsWith('#/explore') || h.startsWith('#/c/') || h.startsWith('#/search'))
       : h.startsWith(href);
     return `<button class="tab${on ? ' on' : ''}" onclick="goto('${href}')">${label}${
@@ -1166,28 +2082,29 @@ function chrome() {
 /* ------------------------------------------------------------------ intro */
 function viewIntro() {
   const saved = Object.keys(S.ans).length;
+  const fresh = APPS.length - NAMED.size;
   render(`
   <section class="hero">
     <h1>Find <span>your</span> self-hosted stack.</h1>
-    <p class="lead">Instead of reading through ${APPS.length.toLocaleString('en-US')} projects: answer a few questions about
-      what you actually want to run. You get around 20 matching projects, the must-haves that hold a stack together,
-      and a rabbit hole to climb down whenever something looks interesting.</p>
+    <p class="lead">Instead of reading through ${APPS.length.toLocaleString('en-US')} projects: pick the corners you care about,
+      answer a short run of questions, and get a stack — then climb down the rabbit hole into the
+      ${fresh.toLocaleString('en-US')} projects the questions never mention.</p>
     <div class="cta">
       <button class="btn" onclick="goto('#/setup')">${saved ? 'Continue' : 'Start the questionnaire'} →</button>
-      <button class="btn ghost" onclick="goto('#/explore')">Just let me browse</button>
+      <button class="btn ghost" onclick="goto('#/rabbit')">${svg('layers',14)} Straight to the rabbit hole</button>
       ${saved ? `<button class="btn ghost" onclick="resetAll()">Start over</button>` : ''}
     </div>
     <div class="stats">
       <div class="stat"><b>${APPS.length.toLocaleString('en-US')}</b><span>free projects</span></div>
       <div class="stat"><b>${NEEDS.length}</b><span>questions</span></div>
+      <div class="stat"><b>${BURROWS.length}</b><span>rabbit holes</span></div>
       <div class="stat"><b>${Object.keys(CATS).length}</b><span>categories</span></div>
-      <div class="stat"><b>${DB.counts.withIcon.toLocaleString('en-US')}</b><span>official logos</span></div>
     </div>
     <div class="howto">
-      <div class="s"><i>1</i><b>Say what you want to do</b><p>Every question is yes / no / “already got it”. Skipping counts as no.</p></div>
-      <div class="s"><i>2</i><b>Pick a flavour</b><p>Where several good options exist you get a follow-up question with the trade-offs spelled out.</p></div>
-      <div class="s"><i>3</i><b>Get a stack, not a list</b><p>Results include the glue: reverse proxy, backups, monitoring, updates.</p></div>
-      <div class="s"><i>4</i><b>Fall down the rabbit hole</b><p>Every result links into its category so you can browse all ${APPS.length.toLocaleString('en-US')} projects.</p></div>
+      <div class="s"><i>1</i><b>Pick your corners</b><p>Twelve areas. Skip the ones you do not care about and their questions never appear.</p></div>
+      <div class="s"><i>2</i><b>Run the deck</b><p>One question at a time, or the whole section as a list. Yes, no, already got it — or "this is why I am here".</p></div>
+      <div class="s"><i>3</i><b>Decide once, at the end</b><p>Three questions about taste pre-pick every "which one?" for you. You only overrule what you disagree with.</p></div>
+      <div class="s"><i>4</i><b>Then go down</b><p>The rabbit hole deals cards from the ${fresh.toLocaleString('en-US')} projects you have not met. Saying yes takes you deeper, not onwards.</p></div>
     </div>
   </section>`);
 }
@@ -1198,13 +2115,13 @@ function viewSetup() {
   <div class="ghead"><div class="ic">${svg('sliders',22)}</div><div><h2>Your setup</h2>
     <p>So the recommendations match your hardware and your patience. Defaults are already sensible.</p></div></div>
   <div class="pgrid">${PROFILE.map(q => `
-    <div class="pc"><h3>${q.t}</h3><p>${q.h}</p><div class="opts">${
-      q.o.map(o => `<button class="opt${S.prof[q.id] === o[0] ? ' a' : ''}" data-p="${q.id}" data-v="${o[0]}">${o[1]}</button>`).join('')
+    <div class="pc"><h3>${esc(q.t)}</h3><p>${esc(q.h)}</p><div class="opts">${
+      q.o.map(o => `<button class="opt${S.prof[q.id] === o[0] ? ' a' : ''}" data-p="${q.id}" data-v="${o[0]}">${esc(o[1])}</button>`).join('')
     }</div></div>`).join('')}</div>
   <div class="nav">
     <button class="btn ghost" onclick="goto('#/')">← Back</button>
-    <div class="navr"><span class="hint">${NEEDS.length} questions in ${GROUPS.length} sections — about 4 minutes.</span>
-      <button class="btn" onclick="nextRoute(1)">Start →</button></div>
+    <div class="navr"><span class="hint">Four settings, then you choose which areas to answer at all.</span>
+      <button class="btn" onclick="goto('#/areas')">Next →</button></div>
   </div>`);
   $('.pgrid').onclick = e => {
     const b = e.target.closest('[data-p]'); if (!b) return;
@@ -1213,65 +2130,281 @@ function viewSetup() {
   };
 }
 
+/* ------------------------------------------------------- areas (the gate)
+   The single biggest saving in the questionnaire: skip a whole area and its
+   questions never get asked. */
+function areaPreview(g) {
+  const seen = new Set(), out = [];
+  groupNeeds(g.id).forEach(n => (n.alts || []).forEach(a => arr(a.i).forEach(x => {
+    const p = P(x); if (p && !seen.has(p.id)) { seen.add(p.id); out.push(p); }
+  })));
+  return out.sort((a, b) => (b.st || 0) - (a.st || 0)).slice(0, 6);
+}
+function viewAreas() {
+  const chosen = S.areas && S.areas.length ? S.areas : GROUPS.map(g => g.id);
+  const total = NEEDS.filter(n => chosen.includes(n.g)).length;
+  render(`
+  <div class="ghead"><div class="ic">${svg('compass',22)}</div><div><h2>Which corners are you here for?</h2>
+    <p>Everything is on to start with. Switch off what you do not care about — those questions are then never asked.</p></div></div>
+  <div class="areas" id="areas">${GROUPS.map(g => {
+    const on = chosen.includes(g.id), qs = groupNeeds(g.id).length;
+    return `<button class="area${on ? ' on' : ''}" data-g="${g.id}">
+      <div class="ah"><span class="ic">${svg(g.ic,18)}</span><b>${esc(g.t)}</b>
+        <span class="mark">${on ? svg('check',13) : svg('plus',13)}</span></div>
+      <p>${esc(g.s)}</p>
+      <div class="afoot"><div class="logos">${areaPreview(g).map(p => icon(p, 'sm')).join('')}</div>
+        <span class="cnt">${qs} questions</span></div></button>`;
+  }).join('')}</div>
+  <div class="nav">
+    <div class="navl">
+      <button class="btn ghost sm" onclick="setAreas('all')">Select all</button>
+      <button class="btn ghost sm" onclick="setAreas('none')">Clear</button>
+      <label class="modeswitch" title="How the questions are presented">
+        <button class="opt${S.qmode === 'deck' ? ' a' : ''}" onclick="setMode('deck')">Card deck</button>
+        <button class="opt${S.qmode === 'list' ? ' a' : ''}" onclick="setMode('list')">List</button>
+      </label>
+    </div>
+    <div class="navr"><span class="hint" id="acount">${total} question${total === 1 ? '' : 's'} · roughly ${
+        Math.max(1, Math.round(total / 12))} minute${Math.max(1, Math.round(total / 12)) === 1 ? '' : 's'}</span>
+      <button class="btn" onclick="startQuestions()">Start →</button></div>
+  </div>`);
+  $('#areas').onclick = e => {
+    const b = e.target.closest('[data-g]'); if (!b) return;
+    const g = b.dataset.g, cur = S.areas && S.areas.length ? S.areas.slice() : GROUPS.map(x => x.id);
+    const i = cur.indexOf(g);
+    if (i < 0) cur.push(g); else cur.splice(i, 1);
+    S.areas = cur; save(); viewAreas();
+  };
+}
+function setAreas(what) {
+  S.areas = what === 'all' ? GROUPS.map(g => g.id) : [];
+  if (what === 'none') S.areas = ['__none__'];       // an explicit empty choice
+  save(); viewAreas();
+}
+function setMode(m) { S.qmode = m; save(); route(); }
+function startQuestions() {
+  const gs = activeGroups();
+  if (!gs.length) return toast('Pick at least one area first');
+  goto('#/q/' + gs[0].id);
+}
+
 /* ------------------------------------------------------------------ questions */
+function previewOf(n, k) {
+  const out = [], seen = new Set();
+  (n.alts || []).forEach(a => arr(a.i).forEach(x => {
+    const p = P(x); if (p && !seen.has(p.id)) { seen.add(p.id); out.push(p); }
+  }));
+  if (out.length < 3 && n.tag) pool(n.tag).slice(0, 3).forEach(p => { if (!seen.has(p.id)) { seen.add(p.id); out.push(p); } });
+  return out.slice(0, k || 4);
+}
+function answerRow(n) {
+  const a = S.ans[n.id] || '';
+  return `<div class="opts ans">
+    <button class="opt${a === 'y' ? ' a' : ''}" data-n="${n.id}" data-a="y"><kbd>1</kbd>Yes</button>
+    <button class="opt pri${a === 'p' ? ' a' : ''}" data-n="${n.id}" data-a="p"><kbd>2</kbd>${svg('bolt',12)} Top priority</button>
+    <button class="opt${a === 'n' ? ' a n' : ''}" data-n="${n.id}" data-a="n"><kbd>3</kbd>No</button>
+    <button class="opt${a === 'h' ? ' a h' : ''}" data-n="${n.id}" data-a="h"><kbd>4</kbd>Already got it</button>
+  </div>`;
+}
 function qHTML(n) {
   const a = S.ans[n.id] || '';
-  const st = a === 'y' ? 'yes' : a === 'h' ? 'have' : a === 'n' ? 'no' : '';
-  const alts = n.alts || [];
+  const st = a === 'p' ? 'pri' : a === 'y' ? 'yes' : a === 'h' ? 'have' : a === 'n' ? 'no' : '';
   return `<div class="q ${st}" id="q-${n.id}">
     <div class="qh">
       <div class="qt"><b>${esc(n.q)}</b><small>${esc(n.h || '')}</small></div>
-      <div class="opts">
-        <button class="opt${a === 'y' ? ' a' : ''}" data-n="${n.id}" data-a="y">Yes</button>
-        <button class="opt${a === 'n' ? ' a n' : ''}" data-n="${n.id}" data-a="n">No</button>
-        <button class="opt${a === 'h' ? ' a h' : ''}" data-n="${n.id}" data-a="h">Already got it</button>
-      </div>
+      ${answerRow(n)}
     </div>
-    ${alts.length > 1 ? `<div class="vars${a === 'y' ? ' has' : ''}">
-      <div class="vq">${esc(n.aq || 'Which one fits better?')}</div>
-      <div class="vgrid">
-        ${alts.map((v, i) => { const pr = P(arr(v.i)[0]);
-          return `<button class="v${S.pick[n.id] === i ? ' a' : ''}" data-n="${n.id}" data-v="${i}">
-            ${pr ? icon(pr) : '<span class="ph">?</span>'}
-            <div><b>${esc(v.l)}</b><small>${esc(v.w || '')}</small></div></button>`; }).join('')}
-        <button class="v${S.pick[n.id] == null ? ' a' : ''}" data-n="${n.id}" data-v="auto">
-          <span class="ph">?</span><div><b>No preference</b><small>Give me the default pick</small></div></button>
-      </div></div>` : ''}
+    <div class="qlogos">${previewOf(n).map(p => icon(p, 'sm')).join('')}
+      ${(n.alts || []).length > 1 ? `<span class="hint">${n.alts.length} options — you pick at the end</span>` : ''}</div>
   </div>`;
 }
+function stackBar(last) {
+  const yes = activeNeeds().filter(n => isYes(n.id)).length;
+  const pri = activeNeeds().filter(n => S.ans[n.id] === 'p').length;
+  return `<div class="stackbar"><b>${yes}</b> in your stack${pri ? ` · <b>${pri}</b> core` : ''}
+    ${last ? `<span class="added">${svg('plus',11)} ${esc(last)}</span>` : ''}</div>`;
+}
 function viewQuestions(gid) {
-  const gi = GROUPS.findIndex(g => g.id === gid);
-  if (gi < 0) return goto('#/q/' + GROUPS[0].id);
-  const g = GROUPS[gi], qs = NEEDS.filter(n => n.g === g.id);
+  const gs = activeGroups();
+  const gi = gs.findIndex(g => g.id === gid);
+  if (gi < 0) return goto(gs.length ? '#/q/' + gs[0].id : '#/areas');
+  return S.qmode === 'deck' ? viewDeck(gi) : viewQList(gi);
+}
+function sectionSteps(gs, gi) {
+  return `<div class="steps">${gs.map((x, i) => {
+    const done = groupNeeds(x.id).filter(n => S.ans[n.id]).length, all = groupNeeds(x.id).length;
+    return `<div class="step ${i === gi ? 'cur' : done >= all ? 'done' : done ? 'part' : ''}"
+      title="${esc(x.t)} — ${done}/${all}" onclick="goto('#/q/${x.id}')"></div>`;
+  }).join('')}</div>`;
+}
+
+/* ---- deck: one question at a time, keyboard driven --------------------- */
+function deckAt(gi) {
+  const gs = activeGroups(), g = gs[gi], qs = groupNeeds(g.id);
+  let i = S.pos[g.id] || 0;
+  if (i >= qs.length) i = qs.length - 1;
+  return { gs, g, qs, i };
+}
+function viewDeck(gi, lastAdded) {
+  const { gs, g, qs, i } = deckAt(gi);
+  const n = qs[i];
+  const doneAll = activeNeeds().filter(x => S.ans[x.id]).length;
+  const totalAll = activeNeeds().length;
   render(`
-  <div class="ghead"><div class="ic">${svg(g.ic,22)}</div><div><h2>${g.t}</h2><p>${g.s}</p></div></div>
-  <div class="steps">${GROUPS.map((x, i) =>
-    `<div class="step ${i === gi ? 'cur' : i < gi ? 'done' : ''}" title="${esc(x.t)}"
-      onclick="goto('#/q/${x.id}')"></div>`).join('')}</div>
+  <div class="ghead"><div class="ic">${svg(g.ic,22)}</div><div><h2>${esc(g.t)}</h2><p>${esc(g.s)}</p></div>
+    <button class="btn ghost sm" onclick="setMode('list')">Show as list</button></div>
+  ${sectionSteps(gs, gi)}
+  ${stackBar(lastAdded)}
+  <div class="deck" id="deck">
+    <div class="dcount">Question ${doneAll + (S.ans[n.id] ? 0 : 1)} of ${totalAll}
+      <span class="dsec">${esc(g.t)} · ${i + 1}/${qs.length}</span></div>
+    <div class="dcard" id="q-${n.id}">
+      <h3>${esc(n.q)}</h3>
+      <p>${esc(n.h || '')}</p>
+      <div class="dlogos">${previewOf(n, 5).map(p =>
+        `<span class="dl" onclick="openApp('${p.id}')" title="${esc(p.n)}">${icon(p)}<i>${esc(p.n)}</i></span>`).join('')}</div>
+      ${answerRow(n)}
+      ${(n.alts || []).length > 1 ? `<div class="dnote">${n.alts.length} ways to do this — you choose once, at the end.</div>` : ''}
+    </div>
+    <div class="dnav">
+      <button class="btn ghost sm" onclick="deckStep(-1)">${svg('back',13)} Back</button>
+      <span class="hint">Keys 1–4 to answer, ← and → to move, S to skip the section</span>
+      <button class="btn ghost sm" onclick="deckStep(1)">Skip →</button>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn ghost" onclick="goto('#/areas')">← Areas</button>
+    <div class="navr"><span class="hint">Unanswered counts as no</span>
+      <button class="btn" onclick="goto('#/decide')">Skip to the decisions →</button></div>
+  </div>`);
+  $('#deck').onclick = e => {
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    setAns(b.dataset.n, b.dataset.a);
+  };
+  KEYS = e => {
+    const k = e.key.toLowerCase();
+    if ('1234'.includes(k)) { e.preventDefault(); setAns(n.id, ({ 1:'y', 2:'p', 3:'n', 4:'h' })[k]); return; }
+    if (k === 'arrowright') { e.preventDefault(); deckStep(1); }
+    if (k === 'arrowleft') { e.preventDefault(); deckStep(-1); }
+    if (k === 's') { e.preventDefault(); deckSection(1); }
+  };
+}
+function setAns(id, a) {
+  S.ans[id] = a; save();
+  const n = NEEDS.find(x => x.id === id);
+  let added = '';
+  if (a === 'y' || a === 'p') { const { ids } = pickFor(n); if (ids.length) added = ids.map(p => p.n).join(' + '); }
+  if (S.qmode === 'list') { refreshQ(id); return; }
+  deckStep(1, added);
+}
+function deckStep(dir, added) {
+  const gs = activeGroups();
+  const gi = gs.findIndex(g => g.id === (location.hash.split('/')[2]));
+  if (gi < 0) return;
+  const g = gs[gi], qs = groupNeeds(g.id);
+  const i = (S.pos[g.id] || 0) + dir;
+  if (i >= qs.length) {
+    if (gi + 1 < gs.length) { S.pos[g.id] = qs.length - 1; save(); return goto('#/q/' + gs[gi + 1].id); }
+    S.pos[g.id] = qs.length - 1; save(); return goto('#/decide');
+  }
+  if (i < 0) {
+    if (gi > 0) { const pg = gs[gi - 1]; S.pos[pg.id] = groupNeeds(pg.id).length - 1; save(); return goto('#/q/' + pg.id); }
+    return;
+  }
+  S.pos[g.id] = i; save();
+  viewDeck(gi, added);
+}
+function deckSection(dir) {
+  const gs = activeGroups(), gi = gs.findIndex(g => g.id === (location.hash.split('/')[2]));
+  if (gi < 0) return;
+  if (gi + dir < 0) return;
+  if (gi + dir >= gs.length) return goto('#/decide');
+  goto('#/q/' + gs[gi + dir].id);
+}
+
+/* ---- list: the whole section at once ---------------------------------- */
+function viewQList(gi) {
+  const gs = activeGroups(), g = gs[gi], qs = groupNeeds(g.id);
+  render(`
+  <div class="ghead"><div class="ic">${svg(g.ic,22)}</div><div><h2>${esc(g.t)}</h2><p>${esc(g.s)}</p></div>
+    <button class="btn ghost sm" onclick="setMode('deck')">Show as a deck</button></div>
+  ${sectionSteps(gs, gi)}
+  ${stackBar()}
   <div id="qs">${qs.map(qHTML).join('')}</div>
   <div class="nav">
-    <button class="btn ghost" onclick="nextRoute(-1)">← Back</button>
+    <button class="btn ghost" onclick="${gi ? `goto('#/q/${gs[gi - 1].id}')` : `goto('#/areas')`}">← Back</button>
     <div class="navr">
-      <span class="hint">Section ${gi + 1} of ${GROUPS.length} · unanswered counts as no</span>
-      <button class="btn" onclick="nextRoute(1)">${gi === GROUPS.length - 1 ? 'See results' : 'Next'} →</button>
+      <span class="hint">Section ${gi + 1} of ${gs.length} · unanswered counts as no</span>
+      <button class="btn" onclick="${gi + 1 < gs.length ? `goto('#/q/${gs[gi + 1].id}')` : `goto('#/decide')`}">${
+        gi + 1 < gs.length ? 'Next' : 'To the decisions'} →</button>
     </div>
   </div>`);
   $('#qs').onclick = e => {
-    const b = e.target.closest('[data-a]'), v = e.target.closest('button.v');
-    if (b) { S.ans[b.dataset.n] = b.dataset.a; save(); refreshQ(b.dataset.n); return; }
-    if (v) {
-      const n = v.dataset.n;
-      S.pick[n] = v.dataset.v === 'auto' ? null : +v.dataset.v;
-      if (S.ans[n] !== 'y') S.ans[n] = 'y';
-      save(); refreshQ(n);
-    }
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    S.ans[b.dataset.n] = b.dataset.a; save(); refreshQ(b.dataset.n);
   };
 }
 function refreshQ(id) {
   const n = NEEDS.find(x => x.id === id), el = $('#q-' + id);
   if (el) el.outerHTML = qHTML(n);
+  const sb = $('.stackbar'); if (sb) sb.outerHTML = stackBar();
   chrome();
 }
+
+/* ---------------------------------------------------------- the decisions
+   Every "which one?" in one place, each already answered by your taste. */
+function viewDecide() {
+  const ds = decisions();
+  render(`
+  <div class="ghead"><div class="ic">${svg('sliders',22)}</div><div><h2>Three questions, then you are done</h2>
+    <p>These decide the ${ds.length} follow-up${ds.length === 1 ? '' : 's'} below for you. Change one and every suggestion moves with it.</p></div></div>
+  <div class="tgrid" id="taste">${TASTE.map(t => `
+    <div class="pc"><h3>${esc(t.t)}</h3><p>${esc(t.h)}</p>
+      <div class="opts col">${t.o.map(o => `
+        <button class="opt wide${S.taste[t.id] === o[0] ? ' a' : ''}" data-t="${t.id}" data-v="${o[0]}">
+          <b>${esc(o[1])}</b><small>${esc(o[2])}</small></button>`).join('')}</div></div>`).join('')}</div>
+  ${ds.length ? `<div class="band"><h3>Your picks</h3><div class="ln"></div>
+      <button class="btn tiny ghost" onclick="clearPicks()">Reset all to the suggestion</button></div>
+    <div id="picks">${ds.map(pickRow).join('')}</div>`
+    : `<div class="empty"><b>Nothing to decide yet</b>
+        Answer a few questions with yes and the forks in the road show up here.</div>`}
+  <div class="nav">
+    <button class="btn ghost" onclick="backToQuestions()">← Back to the questions</button>
+    <div class="navr"><span class="hint">Suggestions follow your taste — overrule any of them</span>
+      <button class="btn" onclick="goto('#/results')">See the result →</button></div>
+  </div>`);
+  $('#taste').onclick = e => {
+    const b = e.target.closest('[data-t]'); if (!b) return;
+    S.taste[b.dataset.t] = b.dataset.v; save(); viewDecide();
+  };
+  const pk = $('#picks');
+  if (pk) pk.onclick = e => {
+    const b = e.target.closest('[data-n]'); if (!b) return;
+    S.pick[b.dataset.n] = b.dataset.v === 'auto' ? null : +b.dataset.v;
+    save();
+    const row = $('#pick-' + b.dataset.n);
+    if (row) row.outerHTML = pickRow(NEEDS.find(n => n.id === b.dataset.n));
+  };
+}
+function pickRow(n) {
+  const auto = autoPick(n), cur = S.pick[n.id];
+  return `<div class="pickrow" id="pick-${n.id}">
+    <div class="ph2"><b>${esc(n.aq || n.q)}</b>
+      <small>${esc(n.q.replace(/\?$/, ''))} · ${n.fx ? 'this one is about what you want, so it is your call'
+        : cur == null ? 'following your taste' : 'your choice'}</small></div>
+    <div class="pgrid2">
+      ${n.alts.map((a, i) => { const pr = arr(a.i).map(P).filter(Boolean)[0];
+        const on = cur == null ? i === auto : cur === i;
+        return `<button class="v${on ? ' a' : ''}${i === auto ? ' sug' : ''}" data-n="${n.id}" data-v="${i}">
+          ${pr ? icon(pr) : '<span class="ph">?</span>'}
+          <div><b>${esc(a.l)}</b><small>${esc(a.w || '')}</small></div>
+          ${i === auto ? `<i class="sg">${n.fx ? 'our default' : 'suggested'}</i>` : ''}</button>`; }).join('')}
+      ${cur != null ? `<button class="v auto" data-n="${n.id}" data-v="auto">
+        <span class="ph">${svg('back',13)}</span><div><b>Back to the suggestion</b><small>Let my taste decide again</small></div></button>` : ''}
+    </div></div>`;
+}
+function clearPicks() { S.pick = {}; save(); viewDecide(); }
+function backToQuestions() { const gs = activeGroups(); goto(gs.length ? '#/q/' + gs[gs.length - 1].id : '#/areas'); }
 
 /* ------------------------------------------------------------------ results */
 function ownedSet() {
@@ -1285,7 +2418,8 @@ function ownedSet() {
 }
 function pickFor(n) {
   const alts = n.alts || [];
-  let chosen = (S.pick[n.id] != null && alts[S.pick[n.id]]) ? alts[S.pick[n.id]] : null;
+  const idx = S.pick[n.id] != null ? S.pick[n.id] : autoPick(n);
+  let chosen = alts[idx] || null;
   let ids = chosen ? arr(chosen.i).map(P).filter(Boolean) : [];
   if (!ids.length && alts.length) {
     const first = alts.map(a => ({ a, p: arr(a.i).map(P).filter(Boolean) })).filter(x => x.p.length)[0];
@@ -1295,8 +2429,8 @@ function pickFor(n) {
   return { ids, chosen };
 }
 function buildResult() {
-  const own = ownedSet(), res = [], seen = new Set();
-  NEEDS.filter(n => S.ans[n.id] === 'y').forEach(n => {
+  const own = ownedSet(), core = [], also = [], seen = new Set();
+  activeNeeds().filter(n => isYes(n.id)).forEach(n => {
     const { ids, chosen } = pickFor(n);
     let list = ids.filter(p => !own.has(p.id));
     if (!list.length) {
@@ -1308,31 +2442,33 @@ function buildResult() {
     list.forEach(p => {
       if (seen.has(p.id)) return;
       seen.add(p.id);
-      res.push({ p, need: n, why: (chosen && chosen.w ? chosen.w + ' — ' : '') + 'matches: ' + n.q.replace(/\?$/, '') });
+      const row = { p, need: n, why: (chosen && chosen.w ? chosen.w + ' — ' : '') + 'matches: ' + n.q.replace(/\?$/, '') };
+      (S.ans[n.id] === 'p' ? core : also).push(row);
     });
   });
+  const res = [...core, ...also];
   const ctx = {
     total: res.length,
     docker: S.prof.plat === 'docker',
     exposure: S.prof.exposure,
     dockerCount: res.filter(r => (r.p.p || []).join(' ').toLowerCase().includes('docker')).length,
     webCount: res.filter(r => !/^sysadmin-(backups|software-containers|virtualization)$/.test(r.p.c[0] || '')).length,
-    has: id => S.ans[id] === 'y',
+    has: id => isYes(id),
   };
   const musts = [];
   MUSTS.forEach(m => {
     const p = P(m.i); if (!p || seen.has(p.id) || own.has(p.id)) return;
-    if (m.need && (S.ans[m.need] === 'h' || S.ans[m.need] === 'y')) return;
+    if (m.need && (S.ans[m.need] === 'h' || isYes(m.need))) return;
     if (!m.c(ctx)) return;
     seen.add(p.id);
     musts.push({ p, why: m.why, need: NEEDS.find(n => n.id === m.need) });
   });
-  return { res, musts, own };
+  return { core, also, res, musts, own };
 }
 function altList(r, skip) {
   const out = [];
   if (r.need && r.need.alts) r.need.alts.forEach(a => {
-    const p = P(arr(a.i)[0]);
+    const p = arr(a.i).map(P).filter(Boolean)[0];
     if (p && !skip.has(p.id)) { skip.add(p.id); out.push({ p, w: a.w }); }
   });
   if (r.need && r.need.tag) pool(r.need.tag, skip).slice(0, 4).forEach(p => {
@@ -1340,17 +2476,18 @@ function altList(r, skip) {
   });
   return out.slice(0, 6);
 }
-function card(r, i, must) {
+function card(r, i, kind) {
   const p = r.p;
   const dk = (p.p || []).some(x => /docker|k8s/i.test(x));
   const alts = r.need ? altList(r, new Set([p.id])) : [];
   const cat = CATS[p.c[0]];
   const inList = S.list.includes(p.id);
-  return `<div class="card${must ? ' must' : ''}">
+  const badge = kind === 'must' ? 'must-have' : kind === 'core' ? 'core' : '#' + i;
+  return `<div class="card${kind === 'must' ? ' must' : ''}${kind === 'core' ? ' core' : ''}">
     <div class="ch" onclick="openApp('${p.id}')" style="cursor:pointer">
       ${icon(p)}
       <div class="t"><b>${esc(p.n)}</b><small>${esc(cat ? cat.name : '')}</small></div>
-      <span class="rank">${must ? 'must-have' : '#' + i}</span>
+      <span class="rank">${badge}</span>
     </div>
     <p class="desc">${esc(p.d)}</p>
     ${r.why ? `<div class="why">${esc(r.why)}</div>` : ''}
@@ -1367,7 +2504,7 @@ function card(r, i, must) {
       ${alts.length ? `<button class="btn sm ghost" onclick="this.closest('.card').querySelector('.alts').classList.toggle('on')">Alternatives (${alts.length})</button>` : ''}
       ${cat ? `<button class="btn sm ghost" onclick="goto('#/c/${cat.id}')">${svg('down',13)} Dig deeper</button>` : ''}
       <button class="btn sm ${inList ? 'on' : 'ghost'}" onclick="toggleList('${p.id}')">${inList ? svg('check',13) + ' On my list' : svg('plus',13) + ' My list'}</button>
-      ${must || r.need ? `<button class="btn sm ghost" onclick="markOwned('${p.id}')">Already got it</button>` : ''}
+      ${kind === 'must' || r.need ? `<button class="btn sm ghost" onclick="markOwned('${p.id}')">Already got it</button>` : ''}
     </div>
     ${alts.length ? `<div class="alts">${alts.map(a =>
       `<div class="alt" onclick="openApp('${a.p.id}')">${icon(a.p)}
@@ -1375,36 +2512,40 @@ function card(r, i, must) {
   </div>`;
 }
 function viewResults() {
-  const { res, musts, own } = buildResult();
+  const { core, also, res, musts, own } = buildResult();
   const ownList = [...own].map(id => BY_ID[id]).filter(Boolean);
-  const answered = NEEDS.filter(n => S.ans[n.id]).length;
+  const answered = activeNeeds().filter(n => S.ans[n.id]).length;
   if (!answered) {
     return render(`<div class="empty"><b>Nothing answered yet</b>
       Run through the questionnaire and your recommendations appear here.
       <div class="cta" style="margin-top:18px"><button class="btn" onclick="goto('#/setup')">Start →</button></div></div>`);
   }
+  const fresh = APPS.length - NAMED.size;
   render(`
   <div class="hero" style="padding:44px 0 6px">
     <h1 style="font-size:clamp(26px,4vw,40px)">${res.length} projects for you${musts.length ? ` + ${musts.length} must-haves` : ''}</h1>
-    <p class="lead" style="font-size:16px">Picked out of ${APPS.length.toLocaleString('en-US')} free projects
-      from ${answered} answered questions. Every card carries alternatives from the same category.</p>
+    <p class="lead" style="font-size:16px">Out of ${APPS.length.toLocaleString('en-US')} free projects, from ${answered} answers.
+      ${core.length ? `${core.length} of them come from the questions you marked as the reason you are here.` : ''}</p>
     <div class="cta">
       <button class="btn sm" onclick="addAllToList()">Add everything to my list</button>
       <button class="btn sm ghost" onclick="copyMd()">Copy as Markdown</button>
       <button class="btn sm ghost" onclick="window.print()">Print / PDF</button>
-      <button class="btn sm ghost" onclick="goto('#/q/${GROUPS[0].id}')">Change answers</button>
+      <button class="btn sm ghost" onclick="goto('#/decide')">Change the picks</button>
+      <button class="btn sm ghost" onclick="goto('#/areas')">Change answers</button>
     </div>
   </div>
-  ${res.length ? `<div class="band"><h3>Your recommendations</h3><div class="ln"></div><span class="cnt">${res.length}</span></div>
-    <div class="grid">${res.map((r, i) => card(r, i + 1, false)).join('')}</div>` : ''}
+  ${core.length ? `<div class="band"><h3>${svg('bolt',14)} Your core stack</h3><div class="ln"></div><span class="cnt">${core.length}</span></div>
+    <div class="grid">${core.map(r => card(r, 0, 'core')).join('')}</div>` : ''}
+  ${also.length ? `<div class="band"><h3>${core.length ? 'Also a good fit' : 'Your recommendations'}</h3><div class="ln"></div><span class="cnt">${also.length}</span></div>
+    <div class="grid">${also.map((r, i) => card(r, i + 1, '')).join('')}</div>` : ''}
   ${musts.length ? `<div class="band"><h3>Must-haves for this setup</h3><div class="ln"></div><span class="cnt">${musts.length}</span></div>
-    <div class="grid">${musts.map(r => card(r, 0, true)).join('')}</div>` : ''}
+    <div class="grid">${musts.map(r => card(r, 0, 'must')).join('')}</div>` : ''}
   <div class="rabbit" style="margin-top:38px">
-    <span class="em">${svg('compass',30)}</span>
-    <div><b>Down the rabbit hole</b>
-      <p>The questions only scratch the surface. ${Object.keys(CATS).length} categories are waiting —
-        genealogy, library systems, XMPP servers, energy monitoring, offline Wikipedia.</p></div>
-    <button class="btn" onclick="goto('#/explore')">Explore everything →</button>
+    <span class="em">${svg('layers',30)}</span>
+    <div><b>Now the other ${fresh.toLocaleString('en-US')}</b>
+      <p>The questions above can only name ${NAMED.size} projects. The rabbit hole deals cards from everything else —
+        ${BURROWS.length} corners of the catalogue, and every yes takes you a level deeper instead of moving you on.</p></div>
+    <button class="btn" onclick="goto('#/rabbit')">Go down →</button>
   </div>
   ${ownList.length ? `<div class="band"><h3>You already have</h3><div class="ln"></div><span class="cnt">${ownList.length}</span></div>
     <div class="chips">${ownList.map(p => `<span class="chip">${esc(p.n)}
@@ -1412,14 +2553,258 @@ function viewResults() {
   S.seenResults = true; save();
 }
 
-/* ------------------------------------------------------------------ explore */
+/* ================================================================ RABBIT HOLE
+   Cards drawn only from projects the questionnaire never names. Saying yes
+   opens the burrow and unlocks its neighbours - you descend rather than
+   scroll on. Saying no steers the deck away from that whole realm. */
+function bPool(b, limit) {
+  const own = ownedSet(), seen = new Set(), out = [];
+  arr(b.c).forEach(cid => (BY_CAT[cid] || []).forEach(p => {
+    if (p.x || seen.has(p.id) || own.has(p.id) || NAMED.has(p.id)) return;
+    seen.add(p.id); out.push(p);
+  }));
+  out.sort((x, y) => score(y) - score(x));
+  if (b.pin) b.pin.slice().reverse().forEach(nm => {
+    const p = P(nm), i = out.indexOf(p);
+    if (i > 0) { out.splice(i, 1); out.unshift(p); }
+  });
+  return limit ? out.slice(0, limit) : out;
+}
+function rhAffinity() {
+  const w = {};
+  REALMS.forEach(r => w[r.id] = 0);
+  NEEDS.forEach(n => { if (isYes(n.id) && w[n.g] != null) w[n.g] += S.ans[n.id] === 'p' ? 2 : 1; });
+  BURROWS.forEach(b => {
+    const a = S.rh.ans[b.id];
+    if (w[b.r] == null) return;
+    if (a === 'y') w[b.r] += 3; else if (a === 'n') w[b.r] -= 1.5;
+  });
+  return w;
+}
+function rhUnlocked() {
+  const u = new Set();
+  BURROWS.forEach(b => { if (S.rh.ans[b.id] === 'y') (b.near || []).forEach(x => u.add(x)); });
+  return u;
+}
+function rhQueue() {
+  const w = rhAffinity(), u = rhUnlocked();
+  return BURROWS
+    .filter(b => !'ynh'.includes(S.rh.ans[b.id] || '_') && bPool(b, 1).length)
+    .map(b => ({ b, s: (w[b.r] || 0) * 3 + (u.has(b.id) ? 14 : 0) + (b.deep ? -1 : 1)
+      + (hash(b.id) % 7) - (S.rh.ans[b.id] === 's' ? 60 : 0) }))
+    .sort((x, y) => y.s - x.s)
+    .map(x => x.b);
+}
+function rhStats() {
+  const opened = BURROWS.filter(b => S.rh.ans[b.id] === 'y').length;
+  const fresh = APPS.length - NAMED.size;
+  return { opened, total: BURROWS.length, seen: S.rh.seen.length, fresh };
+}
+function rhMark(list) {
+  let changed = false;
+  list.forEach(p => { if (!S.rh.seen.includes(p.id)) { S.rh.seen.push(p.id); changed = true; } });
+  if (changed) save();
+}
+function rhAnswer(id, a, where) {
+  S.rh.ans[id] = a;
+  if (a === 'y') {
+    if (S.rh.path[S.rh.path.length - 1] !== id) S.rh.path.push(id);
+  } else if (where === 'deck') {
+    S.rh.path = [];
+  }
+  S.rh.last = null;
+  save(); viewRabbit();
+}
+function rhClimb(i) { S.rh.path = S.rh.path.slice(0, i + 1); save(); viewRabbit(); }
+function rhSurface() { S.rh.path = []; S.rh.last = null; save(); viewRabbit(); }
+function rhReopen(id) {
+  S.rh.ans[id] = 'y'; S.rh.path = [id]; S.rh.last = null; save();
+  goto('#/rabbit');                       // may be reached from a category page
+}
+
+function rhHead() {
+  const st = rhStats(), pct = Math.round(st.opened / st.total * 100);
+  return `<div class="ghead rh"><div class="ic">${svg('layers',22)}</div>
+    <div><h2>The rabbit hole</h2>
+      <p>${st.fresh.toLocaleString('en-US')} projects the questionnaire never mentions, in ${st.total} corners.
+        ${st.opened ? `You have opened ${st.opened} corner${st.opened === 1 ? '' : 's'} and met ${st.seen} project${st.seen === 1 ? '' : 's'} down here.`
+          : 'Nothing opened yet — say yes to a card and it takes you down instead of on.'}</p>
+      <div class="cover"><i style="width:${Math.max(1.5, pct)}%"></i></div></div>
+    <button class="btn ghost sm" onclick="surprise()">${svg('dice',13)} Surprise me</button></div>`;
+}
+function rhAnsRow(id, where) {
+  return `<div class="opts ans">
+    <button class="opt" onclick="rhAnswer('${id}','y','${where}')"><kbd>1</kbd>Show me${where === 'deck' ? ' — go deeper' : ''}</button>
+    <button class="opt" onclick="rhAnswer('${id}','n','${where}')"><kbd>2</kbd>Not for me</button>
+    <button class="opt" onclick="rhAnswer('${id}','h','${where}')"><kbd>3</kbd>Already got it</button>
+  </div>`;
+}
+function rhTaste() {
+  const w = rhAffinity();
+  const top = REALMS.map(r => [r, w[r.id] || 0]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  if (!top.length) return '';
+  return `<div class="lean">Leaning towards <b>${top.map(x => esc(x[0].name)).join('</b>, <b>')}</b> — the deck follows that.</div>`;
+}
+function rhBurrowCard(b) {
+  const ps = bPool(b, 4), cat = CATS[arr(b.c)[0]];
+  return `<div class="dcard rhcard">
+    <span class="realm">${svg(b.r,12)} ${esc((REALMS.find(r => r.id === b.r) || {}).name || '')}${b.deep ? ' · the part nobody names' : ''}</span>
+    <h3>${esc(b.q)}</h3>
+    <p>${esc(b.h)}</p>
+    <div class="dlogos">${ps.map(p =>
+      `<span class="dl" onclick="openApp('${p.id}')" title="${esc(p.n)}">${icon(p)}<i>${esc(p.n)}</i></span>`).join('')}</div>
+    ${rhAnsRow(b.id, 'deck')}
+    <div class="dnote">${bPool(b).length} project${bPool(b).length === 1 ? '' : 's'} waiting in ${esc(cat ? cat.name : 'this corner')}${
+      (b.near || []).length ? ` · opens ${b.near.length} more question${b.near.length === 1 ? '' : 's'}` : ''}</div>
+  </div>`;
+}
+function rhNeighbour(id) {
+  const b = BUR[id]; if (!b) return '';
+  const a = S.rh.ans[id];
+  const n = bPool(b, 3);
+  if (!n.length) return '';
+  return `<div class="nb${a ? ' done' : ''}">
+    <div class="nbh"><b>${esc(b.q)}</b><small>${esc(b.h)}</small></div>
+    <div class="nblogos">${n.map(p => icon(p, 'sm')).join('')}</div>
+    ${a === 'y' ? `<button class="btn tiny ghost" onclick="rhReopen('${id}')">Open again</button>`
+      : a ? `<span class="hint">${a === 'h' ? 'you have this' : 'skipped'}</span>`
+      : `<div class="opts ans tiny">
+          <button class="opt" onclick="rhAnswer('${id}','y','near')">Go deeper</button>
+          <button class="opt" onclick="rhAnswer('${id}','n','near')">No</button>
+          <button class="opt" onclick="rhAnswer('${id}','h','near')">Got it</button></div>`}
+  </div>`;
+}
+function viewRabbit() {
+  const path = S.rh.path.filter(id => BUR[id]);
+  S.rh.path = path;
+  if (S.rh.last) return viewSurprise();
+  if (!path.length) {
+    const q = rhQueue();
+    if (!q.length) {
+      return render(`${rhHead()}
+        <div class="empty"><b>You have been through every corner</b>
+          ${BURROWS.length} rabbit holes answered. What is left is the explore view and the search box.
+          <div class="cta" style="margin-top:16px">
+            <button class="btn" onclick="goto('#/explore')">Explore the categories</button>
+            <button class="btn ghost" onclick="rhReset()">Clear the rabbit hole and start again</button></div></div>`);
+    }
+    const b = q[0];
+    rhMark(bPool(b, 4));
+    render(`${rhHead()}
+      ${rhTaste()}
+      <div class="deck">
+        <div class="dcount">Card ${BURROWS.filter(x => S.rh.ans[x.id]).length + 1} · ${q.length} corners left
+          <span class="dsec">say yes and you go down, not on</span></div>
+        ${rhBurrowCard(b)}
+        <div class="dnav">
+          <button class="btn ghost sm" onclick="rhSkip()">Deal another card</button>
+          <span class="hint">Keys 1–3 to answer</span>
+          <button class="btn ghost sm" onclick="goto('#/explore')">Browse categories instead</button>
+        </div>
+      </div>`);
+    KEYS = e => {
+      const k = e.key;
+      if ('123'.includes(k)) { e.preventDefault(); rhAnswer(b.id, ({ 1:'y', 2:'n', 3:'h' })[k], 'deck'); }
+    };
+    return;
+  }
+
+  /* --- you are down a hole --- */
+  const b = BUR[path[path.length - 1]];
+  const ps = bPool(b, 12);
+  rhMark(ps);
+  const near = (b.near || []).filter(id => BUR[id] && bPool(BUR[id], 1).length);
+  const cats = arr(b.c).map(c => CATS[c]).filter(Boolean);
+  render(`${rhHead()}
+  <div class="crumbs deep">
+    <a onclick="rhSurface()">Surface</a>
+    ${path.map((id, i) => ` › ${i === path.length - 1
+      ? `<b>${esc(BUR[id].q.replace(/\?$/, ''))}</b>`
+      : `<a onclick="rhClimb(${i})">${esc(BUR[id].q.replace(/\?$/, ''))}</a>`}`).join('')}
+    <span class="depth">${svg('layers',12)} ${path.length} level${path.length === 1 ? '' : 's'} down</span>
+  </div>
+  <div class="burrow">
+    <h2>${esc(b.q)}</h2>
+    <p class="lead" style="font-size:15.5px">${esc(b.h)}</p>
+    <div class="chips">${cats.map(c => `<span class="chip" onclick="goto('#/c/${c.id}')">${esc(c.name)}<i>${c.n}</i></span>`).join('')}</div>
+  </div>
+  ${ps.length ? `<div class="band"><h3>Down here</h3><div class="ln"></div><span class="cnt">${bPool(b).length}</span></div>
+    <div class="grid tight">${ps.map(miniCard).join('')}</div>` : ''}
+  ${near.length ? `<div class="band"><h3>Where this leads</h3><div class="ln"></div><span class="cnt">${near.length}</span></div>
+    <div class="nbs">${near.map(rhNeighbour).join('')}</div>` : ''}
+  <div class="nav">
+    <button class="btn ghost" onclick="${path.length > 1 ? `rhClimb(${path.length - 2})` : `rhSurface()`}">${svg('back',13)} ${path.length > 1 ? 'One level up' : 'Back to the surface'}</button>
+    <div class="navr">
+      ${bPool(b).length > 12 ? `<button class="btn ghost sm" onclick="goto('#/c/${arr(b.c)[0]}')">All ${bPool(b).length} in this category</button>` : ''}
+      <button class="btn" onclick="rhSurface()">Deal a new card →</button></div>
+  </div>`);
+}
+function rhSkip() {
+  const q = rhQueue();
+  if (q.length) { S.rh.ans[q[0].id] = 's'; save(); }   // s = shown and passed over, may come back later
+  viewRabbit();
+}
+function rhReset() {
+  if (!confirm('Forget every rabbit hole answer and start the descent again?')) return;
+  S.rh = { ans:{}, path:[], seen:[], last:null }; save(); viewRabbit();
+}
+function surprise() {
+  const own = ownedSet();
+  const cand = APPS.filter(p => !p.x && !NAMED.has(p.id) && !own.has(p.id) && !S.list.includes(p.id)
+    && p.d && p.c.length && (p.st || 0) > 40 && p.h !== 'R');
+  if (!cand.length) return toast('Nothing left to surprise you with');
+  S.rh.last = cand[Math.floor(Math.random() * cand.length)].id;
+  save(); viewSurprise();
+}
+function viewSurprise() {
+  const p = BY_ID[S.rh.last];
+  if (!p) { S.rh.last = null; return viewRabbit(); }
+  rhMark([p]);
+  const cat = CATS[p.c[0]];
+  const home = BURROWS.find(b => arr(b.c).includes(p.c[0]));
+  const why = [];
+  if (p.alt && p.alt.length) why.push(`It replaces ${esc(p.alt.slice(0, 3).join(', '))}.`);
+  if (cat) why.push(`Nobody asked you about ${esc(cat.name)} — there are ${cat.n} projects in there.`);
+  if ((p.st || 0) > 3000) why.push(`${kfmt(p.st)} people starred it and you had never heard of it.`);
+  render(`${rhHead()}
+  <div class="deck">
+    <div class="dcount">A random one from the ${rhStats().fresh.toLocaleString('en-US')} you have not met</div>
+    <div class="dcard rhcard surprise">
+      <span class="realm">${svg('dice',12)} ${esc(cat ? cat.name : 'somewhere in the catalogue')}</span>
+      <div class="sh">${icon(p)}<h3>${esc(p.n)}</h3></div>
+      <p>${esc(p.d)}</p>
+      <div class="tags">
+        ${p.st ? `<span class="tg st">${svg('star',11)} ${kfmt(p.st)}</span>` : ''}
+        ${p.lic && p.lic[0] ? `<span class="tg li">${esc(p.lic[0])}</span>` : ''}
+        ${p.up ? `<span class="tg">active ${esc(p.up.slice(0, 7))}</span>` : ''}
+      </div>
+      <div class="why">${why.join(' ')}</div>
+      <div class="acts">
+        <button class="btn sm" onclick="toggleList('${p.id}')">${S.list.includes(p.id) ? svg('check',13) + ' On my list' : svg('plus',13) + ' Add to my list'}</button>
+        <button class="btn sm ghost" onclick="openApp('${p.id}')">Details</button>
+        <a class="btn sm ghost" href="${esc(p.u || p.s)}" target="_blank" rel="noopener">Website</a>
+        ${home ? `<button class="btn sm ghost" onclick="rhReopen('${home.id}')">${svg('down',13)} Open that corner</button>` : ''}
+      </div>
+    </div>
+    <div class="dnav">
+      <button class="btn ghost sm" onclick="rhSurface()">${svg('back',13)} Back to the deck</button>
+      <span class="hint">Press R for another one</span>
+      <button class="btn ghost sm" onclick="surprise()">${svg('dice',13)} Another</button>
+    </div>
+  </div>`);
+  KEYS = e => { if (e.key.toLowerCase() === 'r') { e.preventDefault(); surprise(); } };
+}
+
+/* ------------------------------------------------------------------ explore
+   Unchanged: the full category tree stays exactly where it was. */
 function viewExplore() {
   const byRealm = {};
   Object.values(CATS).forEach(c => (byRealm[c.realm] = byRealm[c.realm] || []).push(c));
   render(`
   <div class="ghead"><div class="ic">${svg('compass',22)}</div><div><h2>Explore everything</h2>
     <p>All ${APPS.length.toLocaleString('en-US')} free projects, grouped into ${Object.keys(CATS).length} categories.
-      Pick a corner and climb down.</p></div></div>
+      If you would rather be asked than browse, the <a onclick="goto('#/rabbit')">rabbit hole</a> deals the same
+      catalogue out one question at a time.</p></div></div>
   <div class="toolbar">
     <input id="catfilter" placeholder="Filter categories… (try: genealogy, dns, comics)" style="flex:1;min-width:220px">
     <select id="sortcats">
@@ -1453,10 +2838,12 @@ function viewCategory(id) {
   const apps = (BY_CAT[id] || []).slice().sort((a, b) => score(b) - score(a));
   const siblings = Object.values(CATS).filter(x => x.realm === c.realm && x.id !== id)
     .sort((a, b) => b.n - a.n).slice(0, 12);
+  const home = BURROWS.find(b => arr(b.c).includes(id));
   render(`
   <div class="crumbs"><a onclick="goto('#/explore')">Explore</a> › <a onclick="goto('#/explore')">${esc(realm.name)}</a> › <b>${esc(c.name)}</b></div>
   <div class="ghead"><div class="ic">${svg('folder',22)}</div><div><h2>${esc(c.name)}</h2>
-    <p>${apps.length} free projects in this category, ranked by popularity and activity.</p></div></div>
+    <p>${apps.length} free projects in this category, ranked by popularity and activity.</p></div>
+    ${home ? `<button class="btn ghost sm" onclick="rhReopen('${home.id}')">${svg('layers',13)} Down the rabbit hole here</button>` : ''}</div>
   <div class="toolbar">
     <input id="inCat" placeholder="Filter in this category…" style="flex:1;min-width:200px">
     <select id="sortApps">
@@ -1538,10 +2925,10 @@ function viewList() {
   const items = S.list.map(id => BY_ID[id]).filter(Boolean);
   if (!items.length) {
     return render(`<div class="empty"><b>Your list is empty</b>
-      Add projects from the results or while exploring — the list survives a reload and exports to Markdown or JSON.
+      Add projects from the results or while you are down the rabbit hole — the list survives a reload and exports to Markdown or JSON.
       <div class="cta" style="margin-top:18px">
         <button class="btn" onclick="goto('#/results')">Go to results</button>
-        <button class="btn ghost" onclick="goto('#/explore')">Explore</button></div></div>`);
+        <button class="btn ghost" onclick="goto('#/rabbit')">Rabbit hole</button></div></div>`);
   }
   const byRealm = {};
   items.forEach(p => {
@@ -1577,8 +2964,9 @@ function clearList() { if (confirm('Remove everything from your list?')) { S.lis
 function markOwned(id) { if (!S.owned.includes(id)) S.owned.push(id); save(); toast(`${esc(BY_ID[id].n)} marked as already running`); route(); }
 function unown(id) { S.owned = S.owned.filter(x => x !== id); save(); route(); }
 function resetAll() {
-  if (!confirm('Discard all answers, your list and everything marked as owned?')) return;
-  localStorage.removeItem('shc2'); location.hash = '#/'; location.reload();
+  if (!confirm('Discard all answers, your list, the rabbit hole and everything marked as owned?')) return;
+  localStorage.removeItem(KEY_STORE); localStorage.removeItem('shc2');
+  location.hash = '#/'; location.reload();
 }
 
 /* ------------------------------------------------------------------ drawer */
@@ -1627,9 +3015,16 @@ function clip(text, msg) {
   navigator.clipboard.writeText(text).then(() => toast(msg), () => toast('Clipboard blocked by the browser'));
 }
 function copyMd() {
-  const { res, musts } = buildResult();
-  let m = '# My self-hosting shortlist\n\n## Recommendations\n';
-  res.forEach((r, i) => m += `${i + 1}. **${r.p.n}** — ${r.p.d} <${r.p.u || r.p.s}> (${r.p.st} stars)\n`);
+  const { core, also, musts } = buildResult();
+  let m = '# My self-hosting shortlist\n';
+  if (core.length) {
+    m += '\n## Core stack\n';
+    core.forEach((r, i) => m += `${i + 1}. **${r.p.n}** — ${r.p.d} <${r.p.u || r.p.s}> (${r.p.st} stars)\n`);
+  }
+  if (also.length) {
+    m += '\n## Also a good fit\n';
+    also.forEach((r, i) => m += `${i + 1}. **${r.p.n}** — ${r.p.d} <${r.p.u || r.p.s}> (${r.p.st} stars)\n`);
+  }
   if (musts.length) {
     m += '\n## Must-haves\n';
     musts.forEach(r => m += `- **${r.p.n}** — ${r.why} <${r.p.u || r.p.s}>\n`);
@@ -1656,19 +3051,37 @@ function index(db) {
     [p.n, ...(p.aka || [])].forEach(n => { const k = nrm(n); if (!BY_NAME[k]) BY_NAME[k] = p; });
     p.c.forEach(c => (BY_CAT[c] = BY_CAT[c] || []).push(p));
   });
-  // sanity check in the console - keeps the question catalogue honest
-  const missing = [];
+  BUR = {}; BURROWS.forEach(b => BUR[b.id] = b);
+  // everything the questionnaire can put in front of you - the rabbit hole starts after this
+  NAMED = new Set();
+  NEEDS.forEach(n => (n.alts || []).forEach(a => arr(a.i).forEach(x => { const p = P(x); if (p) NAMED.add(p.id); })));
+  MUSTS.forEach(m => { const p = P(m.i); if (p) NAMED.add(p.id); });
+
+  // sanity check in the console - keeps both catalogues honest
+  const missing = [], empty = [];
   NEEDS.forEach(n => {
     (n.alts || []).forEach(a => arr(a.i).forEach(x => { if (!P(x)) missing.push(x); }));
     if (n.tag && !CATS[catId(n.tag)]) missing.push('category: ' + n.tag);
   });
   MUSTS.forEach(m => { if (!P(m.i)) missing.push(m.i); });
+  BURROWS.forEach(b => {
+    arr(b.c).forEach(c => { if (!CATS[c]) missing.push('burrow category: ' + c); });
+    (b.near || []).forEach(x => { if (!BUR[x]) missing.push('burrow neighbour: ' + x); });
+    (b.pin || []).forEach(x => { if (!P(x)) missing.push('burrow pin: ' + x); });
+    if (!bPool(b, 1).length) empty.push(b.id);
+  });
   if (missing.length) console.warn('[compass] unresolved references:', [...new Set(missing)]);
+  if (empty.length) console.warn('[compass] burrows with no fresh projects left:', empty);
 }
 function boot(db) {
   index(db);
   const saved = load();
-  if (saved) S = Object.assign(S, saved, { prof: Object.assign({}, S.prof, saved.prof || {}) });
+  if (saved) S = Object.assign(S, saved, {
+    prof: Object.assign({}, S.prof, saved.prof || {}),
+    taste: Object.assign({}, S.taste, saved.taste || {}),
+    rh: Object.assign({ ans:{}, path:[], seen:[], last:null }, saved.rh || {}),
+    pos: saved.pos || {},
+  });
   addEventListener('hashchange', route);
   const qi = $('#q');
   let deb;
@@ -1683,6 +3096,10 @@ function boot(db) {
   addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeDrawer(); if (document.activeElement === qi) qi.blur(); }
     if (e.key === '/' && document.activeElement !== qi) { e.preventDefault(); qi.focus(); }
+    const tag = (document.activeElement || {}).tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (KEYS) KEYS(e);
   });
   route();
 }

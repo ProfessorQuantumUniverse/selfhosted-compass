@@ -18,9 +18,12 @@ html = html.replace(
     '<link rel="stylesheet" href="assets/style.css">',
     '<style>\n' + read('assets', 'style.css') + '\n</style>')
 html = html.replace(
-    '<script src="assets/questions.js"></script>\n<script src="assets/app.js"></script>',
+    '<script src="assets/questions.js"></script>\n'
+    '<script src="assets/burrows.js"></script>\n'
+    '<script src="assets/app.js"></script>',
     '<script>window.__DATA__=' + data + ';</script>\n'
     '<script>\n' + read('assets', 'questions.js') + '\n</script>\n'
+    '<script>\n' + read('assets', 'burrows.js') + '\n</script>\n'
     '<script>\n' + read('assets', 'app.js') + '\n</script>')
 html = html.replace('<title>Selfhosted Compass',
                     '<title>Selfhosted Compass (offline)', 1)
