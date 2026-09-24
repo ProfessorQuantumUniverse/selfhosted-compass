@@ -4,7 +4,14 @@
 Pick the corners you care about, answer a short deck of questions, get a stack — then climb down the
 rabbit hole into the 1,900 projects the questions never mention.
 
-**[Live version](https://<your-user>.github.io/selfhosted-compass/)** · [single-file offline build](dist/selfhosted-compass.html)
+<!-- INSTALL BUTTONS START -->
+<p align="center">
+  <a href="https://professorquantumuniverse.github.io/selfhosted-compass/"><img src="https://img.shields.io/badge/Open-Live%20Version-16A34A?style=for-the-badge&logo=pwa&logoColor=white" alt="Open the live version" height="40"></a>
+  <a href="https://github.com/ProfessorQuantumUniverse/selfhosted-compass/raw/main/dist/selfhosted-compass.html"><img src="https://img.shields.io/badge/Download-offline%20build-555555?style=for-the-badge&logo=html5&logoColor=white" alt="Download the single-file offline build" height="40"></a>
+</p>
+<!-- INSTALL BUTTONS END -->
+
+**[Live version](https://professorquantumuniverse.github.io/selfhosted-compass/)** · [single-file offline build](dist/selfhosted-compass.html)
 
 ---
 
