@@ -306,7 +306,6 @@ const NEEDS = [
   { i:'Memos', l:'Memos', t:'lean new', w:'Fast micro notes, like a private Twitter' },
   { i:'TriliumNext Notes', l:'Trilium', t:'suite proven', w:'Huge interlinked knowledge trees' },
   { i:'SiYuan', l:'SiYuan', t:'polish new', w:'Block based like Notion, offline first' },
-  { i:'AFFiNE Community Edition', l:'AFFiNE', t:'polish new', w:'Documents and whiteboard in one' },
   { i:'SilverBullet', l:'SilverBullet', t:'lean new', w:'Markdown notebook you can program' }]},
 
 { g:'prod', id:'p_wiki', q:'Write documentation that lasts?', h:'Guides, runbooks, team knowledge — BookStack, Outline, Wiki.js', tag:'Wikis',
